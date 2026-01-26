@@ -13,7 +13,7 @@ export default function BrandStorySection() {
                         initial={{ opacity: 0, x: -40 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                        transition={{ duration: 0.8 }}
                         className="relative"
                     >
                         <div className="aspect-[4/5] bg-[var(--ivory)] relative overflow-hidden">
@@ -47,7 +47,7 @@ export default function BrandStorySection() {
                         initial={{ opacity: 0, x: 40 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                        transition={{ duration: 0.8 }}
                         className="lg:pl-8"
                     >
                         {/* Accent */}
