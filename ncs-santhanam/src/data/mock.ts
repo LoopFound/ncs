@@ -14,7 +14,7 @@ export const products = [
             "Occasion: Wedding & Bridal",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/collections/wedding.png"],
+        images: ["/images/products/p1.png"],
         tags: ["Bridal", "Heavy Work", "Traditional"]
     },
     {
@@ -31,7 +31,7 @@ export const products = [
             "Occasion: Festivals",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/collections/kanchipuram.png"],
+        images: ["/images/products/p2.png"],
         tags: ["Festive", "Classic", "Bestseller"]
     },
     {
@@ -99,7 +99,7 @@ export const products = [
             "Occasion: Muhurtham",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/collections/wedding.png"],
+        images: ["/images/hero/hero-main.png"],
         tags: ["Bridal Red", "Premium", "Heavy"]
     }
 ];

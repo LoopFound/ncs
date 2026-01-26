@@ -31,15 +31,15 @@ export default function AboutPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                    className="aspect-[16/9] bg-[var(--greige)] relative overflow-hidden"
+                    transition={{ duration: 1 }}
+                    className="aspect-[16/9] relative overflow-hidden"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/10 to-[var(--bronze)]/10" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-[var(--charcoal-muted)] text-sm tracking-widest uppercase">
-                            Brand Heritage Image
-                        </span>
-                    </div>
+                    <img
+                        src="/images/collections/kanchipuram.png"
+                        alt="Traditional Weaving"
+                        className="w-full h-full object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-black/10" />
                 </motion.div>
             </section>
 
