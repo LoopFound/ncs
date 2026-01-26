@@ -14,7 +14,7 @@ export const products = [
             "Occasion: Wedding & Bridal",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/products/product-1.jpg"],
+        images: ["/images/collections/wedding.png"],
         tags: ["Bridal", "Heavy Work", "Traditional"]
     },
     {
@@ -31,7 +31,7 @@ export const products = [
             "Occasion: Festivals",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/products/product-2.jpg"],
+        images: ["/images/collections/kanchipuram.png"],
         tags: ["Festive", "Classic", "Bestseller"]
     },
     {
@@ -48,7 +48,7 @@ export const products = [
             "Occasion: Party Wear",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/products/product-3.jpg"],
+        images: ["/images/collections/soft-silk.png"],
         tags: ["Modern", "Lightweight", "Pastel"]
     },
     {
@@ -65,7 +65,7 @@ export const products = [
             "Occasion: Grand Weddings",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/products/product-4.jpg"],
+        images: ["/images/collections/wedding.png"],
         tags: ["Grand", "Temple Border", "Exclusive"]
     },
     {
@@ -82,7 +82,7 @@ export const products = [
             "Occasion: Traditional Events",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/products/product-5.jpg"],
+        images: ["/images/collections/kanchipuram.png"],
         tags: ["Vintage", "Handloom", "Elegant"]
     },
     {
@@ -99,7 +99,7 @@ export const products = [
             "Occasion: Muhurtham",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/products/product-6.jpg"],
+        images: ["/images/collections/wedding.png"],
         tags: ["Bridal Red", "Premium", "Heavy"]
     }
 ];
@@ -109,28 +109,28 @@ export const collections = [
         id: "c1",
         title: "Wedding Silks",
         slug: "wedding",
-        image: "/images/collections/wedding.jpg",
+        image: "/images/collections/wedding.png",
         description: "Handwoven masterpieces for the bride and her entourage."
     },
     {
         id: "c2",
         title: "Kanchipuram Classics",
         slug: "kanchipuram",
-        image: "/images/collections/kanchipuram.jpg",
+        image: "/images/collections/kanchipuram.png",
         description: "The authentic weave of Kanchipuram, preserved in its purest form."
     },
     {
         id: "c3",
         title: "Soft Silks",
         slug: "soft-silk",
-        image: "/images/collections/soft-silk.jpg",
+        image: "/images/collections/soft-silk.png",
         description: "Contemporary lightweight silks for effortless elegance."
     },
     {
         id: "c4",
         title: "Gift Collections",
         slug: "gifts",
-        image: "/images/collections/gifts.jpg",
+        image: "/images/collections/wedding.png",
         description: "Thoughtful tokens of tradition for your loved ones."
     }
 ];

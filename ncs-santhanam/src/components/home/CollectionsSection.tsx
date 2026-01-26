@@ -8,22 +8,22 @@ const collections = [
         id: 1,
         title: "Wedding Silks",
         subtitle: "Bridal Collection",
-        href: "/collections/wedding",
-        image: "/images/collections/wedding.jpg",
+        href: "/shop?category=wedding",
+        image: "/images/collections/wedding.png",
     },
     {
         id: 2,
         title: "Kanchipuram Classics",
         subtitle: "Heritage Weaves",
-        href: "/collections/kanchipuram",
-        image: "/images/collections/kanchipuram.jpg",
+        href: "/shop?category=kanchipuram",
+        image: "/images/collections/kanchipuram.png",
     },
     {
         id: 3,
         title: "Soft Silks",
         subtitle: "Everyday Elegance",
-        href: "/collections/soft-silk",
-        image: "/images/collections/soft-silk.jpg",
+        href: "/shop?category=soft-silk",
+        image: "/images/collections/soft-silk.png",
     },
 ];
 
@@ -81,8 +81,12 @@ export default function CollectionsSection() {
                         <motion.div key={collection.id} variants={itemVariants}>
                             <Link href={collection.href} className="group block">
                                 <div className="relative aspect-[3/4] overflow-hidden bg-[var(--greige)]">
-                                    {/* Image placeholder - replace with actual images */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/5 to-[var(--bronze)]/10 group-hover:scale-105 transition-transform duration-700 ease-out" />
+                                    {/* Collection Image */}
+                                    <img
+                                        src={collection.image}
+                                        alt={collection.title}
+                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                                    />
 
                                     {/* Overlay */}
                                     <div className="absolute inset-0 bg-[var(--charcoal)]/0 group-hover:bg-[var(--charcoal)]/20 transition-colors duration-500" />

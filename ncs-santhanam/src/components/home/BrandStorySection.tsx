@@ -17,13 +17,12 @@ export default function BrandStorySection() {
                         className="relative"
                     >
                         <div className="aspect-[4/5] bg-[var(--ivory)] relative overflow-hidden">
-                            {/* Image placeholder - replace with heritage image */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/10 to-[var(--bronze)]/15" />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-[var(--charcoal-muted)] text-sm tracking-widest uppercase">
-                                    Heritage Image
-                                </span>
-                            </div>
+                            {/* Heritage Image */}
+                            <img
+                                src="/images/collections/kanchipuram.png"
+                                alt="Heritage Handloom"
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
                         </div>
 
                         {/* Decorative frame */}

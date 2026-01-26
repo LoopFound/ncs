@@ -9,10 +9,13 @@ export default function HeroSection() {
             {/* Background Image */}
             <div className="absolute inset-0">
                 <div
-                    className="absolute inset-0 bg-gradient-to-r from-[var(--ivory)]/90 via-[var(--ivory)]/60 to-transparent z-10"
+                    className="absolute inset-0 bg-gradient-to-r from-[var(--ivory)]/80 via-[var(--ivory)]/40 to-transparent z-10"
                 />
-                {/* Placeholder for hero image - replace with actual image */}
-                <div className="absolute inset-0 bg-[var(--greige)]" />
+                <img
+                    src="/images/hero/hero-main.png"
+                    alt="Luxury Kanchipuram Silk Saree"
+                    className="w-full h-full object-cover object-center"
+                />
             </div>
 
             <div className="container mx-auto px-6 lg:px-12 relative z-20">
