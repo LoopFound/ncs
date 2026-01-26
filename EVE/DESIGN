@@ -1,0 +1,335 @@
+🎨 WEBSITE DESIGN DOCUMENT
+
+Project: NCS Santhanam – Premium Silk Boutique Website
+Design Inspiration: Modern Luxury Fashion Editorial
+Reference Style: Minimal, high-end, calm, confident (as per shared image)
+
+1️⃣ DESIGN VISION & STATEMENT
+
+“A digital silk showroom that feels timeless, elegant, and expensive.”
+
+The website should:
+
+Feel like a luxury fashion magazine
+
+Communicate heritage without heaviness
+
+Use silence, space, and confidence instead of noise
+
+Let products breathe and speak
+
+This is not a discount-driven ecommerce site.
+This is a brand-first luxury experience.
+
+2️⃣ OVERALL LOOK & FEEL
+Keywords (very important for alignment)
+
+Timeless
+
+Editorial
+
+Calm
+
+Sophisticated
+
+Premium
+
+Minimal
+
+Heritage × Modern
+
+❌ Avoid:
+
+Loud colors
+
+Multiple banners
+
+Flashy animations
+
+Cluttered sections
+
+Cheap gradients
+
+3️⃣ COLOR SYSTEM (FROM REFERENCE IMAGE)
+Primary Palette
+
+Warm Ivory / Off-white → Main background
+
+Soft Greige / Light Beige → Secondary background
+
+Charcoal Black → Headings & body text
+
+Muted Gold / Bronze → Accent (lines, icons, hover)
+
+🎯 Rule:
+
+Backgrounds must always feel soft, never pure white.
+
+4️⃣ TYPOGRAPHY SYSTEM
+Heading Font (Luxury Serif)
+
+Used for:
+
+Hero headline
+
+Section titles
+
+Collection names
+
+Style characteristics:
+
+Thin strokes
+
+High contrast
+
+Elegant letter spacing
+
+(Example style: Playfair / Canela / Cormorant-style)
+
+Body Font (Clean Sans-serif)
+
+Used for:
+
+Descriptions
+
+Product details
+
+Buttons
+
+Navigation
+
+Style characteristics:
+
+Simple
+
+Neutral
+
+Highly readable
+
+🎯 Rule:
+
+Serif = Emotion
+Sans = Clarity
+
+5️⃣ LAYOUT PRINCIPLES (CRITICAL)
+
+Inspired directly by the shared image:
+
+✔ White Space is a Feature
+
+Large margins
+
+Generous padding
+
+Fewer sections per page
+
+✔ Asymmetry
+
+Image on one side, text on the other
+
+Not everything centered
+
+Editorial magazine feel
+
+✔ Large Typography
+
+Headlines must feel bold through size, not weight
+
+6️⃣ HEADER & NAVIGATION DESIGN
+Header Style
+
+Transparent or soft background
+
+Minimal height
+
+No heavy borders
+
+Navigation Items
+
+What’s New
+
+Shop
+
+Collections
+
+Our Story
+
+Contact
+
+🧠 Rule:
+
+Fewer menu items = higher class
+
+7️⃣ HOMEPAGE DESIGN STRUCTURE
+🔝 Hero Section (MOST IMPORTANT)
+
+Design:
+
+Full-width
+
+One powerful lifestyle image
+
+Model wearing premium attire OR silk close-up
+
+Calm neutral background
+
+Text Style (like reference):
+
+Large serif headline
+
+One short supporting line
+
+Two subtle buttons
+
+Buttons:
+
+Primary: Solid dark
+
+Secondary: Outline / ghost
+
+❌ No sliders
+❌ No multiple banners
+
+🧵 Collections Section
+
+Design:
+
+Grid of large image cards
+
+2 or 3 columns max
+
+Minimal text overlay
+
+Example:
+
+Wedding Silks
+
+Kanchipuram Classics
+
+Soft Silks
+
+Gift Collections
+
+Hover effect:
+
+Slight zoom
+
+Soft fade text
+
+🏛 Brand Story Section
+
+Purpose: Trust + Legacy
+
+Design:
+
+One heritage image (store / loom / silk texture)
+
+Serif heading
+
+Short emotional paragraph
+
+Tone:
+
+“Crafted with care. Rooted in tradition. Designed for generations.”
+
+🛍 Featured Products
+
+Design:
+
+Clean grid
+
+No borders
+
+Large images
+
+Price in subtle font
+
+Hover:
+
+Image zoom
+
+“View Details” fade-in
+
+8️⃣ PRODUCT PAGE DESIGN
+Image Area
+
+Takes 60–70% width
+
+Zoom-on-hover
+
+Multiple angles
+
+Content Area
+
+Product name (serif)
+
+Price (calm, confident)
+
+Short refined description
+
+Fabric / Occasion / Care
+
+Buttons
+
+Add to Cart → Dark, solid
+
+Buy Now → Outline
+
+❌ No blinking offers
+❌ No aggressive badges
+
+Luxury does not shout.
+
+9️⃣ INTERACTIONS & ANIMATIONS
+Animation Style
+
+Slow
+
+Smooth
+
+Fade + slide
+
+Ease-in-out
+
+Examples:
+
+Section fade-in on scroll
+
+Button hover soft glow
+
+Image zoom 1–2%
+
+❌ Bounce animations
+❌ Fast transitions
+
+🔟 MOBILE DESIGN PHILOSOPHY
+
+Mobile should feel:
+
+Like a luxury fashion app
+
+Thumb-friendly
+
+Scroll-focused
+
+Rules:
+
+Sticky bottom “Add to Cart”
+
+Large tappable areas
+
+No overcrowding
+
+1️⃣1️⃣ IMAGERY GUIDELINES
+Photography Style
+
+Natural lighting
+
+Neutral backgrounds
+
+Lifestyle + fabric close-ups
+
+Editorial poses
+
+❌ Over-saturated images
+❌ Studio white backgrounds only
