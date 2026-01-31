@@ -44,12 +44,12 @@ export default function Footer() {
                                 <h2 className="font-[var(--font-serif)] text-4xl lg:text-5xl font-light tracking-wide text-white group-hover:text-[var(--gold)] transition-colors duration-500">
                                     NCS Santhanam
                                 </h2>
-                                <span className="block text-[10px] tracking-[0.4em] uppercase text-[var(--gold)] mt-3 ml-1 opacity-90">
+                                <span className="block text-[10px] tracking-[0.4em] uppercase text-[#C5A059] mt-3 ml-1">
                                     Est. 1975 • Kanchipuram
                                 </span>
                             </Link>
 
-                            <p className="mt-8 text-white/90 text-base leading-relaxed max-w-sm font-light">
+                            <p className="mt-8 text-[#F5F1E8] text-base leading-relaxed max-w-sm font-light">
                                 Weaving the threads of tradition into timeless masterpieces.
                                 Each saree is a testament to the artistry of Kanchipuram's
                                 finest weavers, crafted for generations to come.
@@ -57,7 +57,7 @@ export default function Footer() {
                         </div>
 
                         <div className="mt-12 lg:mt-0">
-                            <p className="text-xs uppercase tracking-[0.2em] text-[var(--gold)] mb-4">Connect</p>
+                            <p className="text-xs uppercase tracking-[0.2em] text-[#C5A059] mb-4">Connect</p>
                             <div className="flex gap-6">
                                 {[
                                     { name: 'Instagram', url: '#' },
@@ -67,7 +67,7 @@ export default function Footer() {
                                     <a
                                         key={social.name}
                                         href={social.url}
-                                        className="text-sm text-white/90 hover:text-[var(--gold)] transition-colors duration-300 border-b border-transparent hover:border-[var(--gold)] pb-0.5"
+                                        className="text-sm text-[#F5F1E8] hover:text-[var(--gold)] transition-colors duration-300 border-b border-transparent hover:border-[var(--gold)] pb-0.5"
                                     >
                                         {social.name}
                                     </a>
@@ -85,7 +85,7 @@ export default function Footer() {
                                     <li key={link.label}>
                                         <Link
                                             href={link.href}
-                                            className="text-sm text-white/80 hover:text-[var(--gold)] hover:translate-x-1 transition-all duration-300 inline-block"
+                                            className="text-sm text-[#F5F1E8] hover:text-[var(--gold)] hover:translate-x-1 transition-all duration-300 inline-block"
                                         >
                                             {link.label}
                                         </Link>
@@ -101,7 +101,7 @@ export default function Footer() {
                                     <li key={link.label}>
                                         <Link
                                             href={link.href}
-                                            className="text-sm text-white/80 hover:text-[var(--gold)] hover:translate-x-1 transition-all duration-300 inline-block"
+                                            className="text-sm text-[#F5F1E8] hover:text-[var(--gold)] hover:translate-x-1 transition-all duration-300 inline-block"
                                         >
                                             {link.label}
                                         </Link>
@@ -120,7 +120,7 @@ export default function Footer() {
                             <h4 className="font-[var(--font-serif)] text-2xl text-white mb-4 relative z-10">
                                 The Silk Circle
                             </h4>
-                            <p className="text-sm text-white/80 mb-6 leading-relaxed relative z-10">
+                            <p className="text-sm text-[#F5F1E8] mb-6 leading-relaxed relative z-10">
                                 Join our exclusive list for early access to new weaves and private exhibitions.
                             </p>
 
@@ -129,7 +129,7 @@ export default function Footer() {
                                     <input
                                         type="email"
                                         placeholder="Email Address"
-                                        className="w-full bg-transparent border-b border-white/30 py-3 text-sm text-white placeholder:text-white/50 focus:outline-none focus:border-[var(--gold)] transition-colors"
+                                        className="w-full bg-transparent border-b border-white/30 py-3 text-sm text-[#F5F1E8] placeholder:text-white/50 focus:outline-none focus:border-[var(--gold)] transition-colors"
                                     />
                                 </div>
                                 <button
@@ -146,7 +146,7 @@ export default function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-end gap-6">
-                    <div className="text-white/70 text-[10px] uppercase tracking-[0.1em] space-y-2">
+                    <div className="text-[#F5F1E8] opacity-60 text-[10px] uppercase tracking-[0.1em] space-y-2">
                         <p>© {new Date().getFullYear()} NCS Santhanam Silks. All Rights Reserved.</p>
                         <p>Designed with care in Kanchipuram.</p>
                     </div>
