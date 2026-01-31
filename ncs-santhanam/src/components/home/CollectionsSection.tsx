@@ -50,7 +50,7 @@ const itemVariants = {
 
 export default function CollectionsSection() {
     return (
-        <section className="py-24 lg:py-32 bg-[var(--ivory)]">
+        <section className="py-24 lg:py-32 bg-[var(--cream)]">
             <div className="container mx-auto px-6 lg:px-12">
                 {/* Section Header */}
                 <motion.div
@@ -60,11 +60,11 @@ export default function CollectionsSection() {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-16 lg:mb-20"
                 >
-                    <div className="w-10 h-[1px] bg-[var(--gold)] mx-auto mb-6" />
-                    <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--charcoal)] mb-4">
+                    <div className="w-10 h-[2px] bg-[var(--gold)] mx-auto mb-6" />
+                    <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-4">
                         Our Collections
                     </h2>
-                    <p className="text-[var(--charcoal-muted)] max-w-md mx-auto">
+                    <p className="text-[var(--text-muted)] max-w-md mx-auto">
                         Explore our carefully curated collections, each telling a story of heritage and elegance.
                     </p>
                 </motion.div>
@@ -80,35 +80,42 @@ export default function CollectionsSection() {
                     {collections.map((collection) => (
                         <motion.div key={collection.id} variants={itemVariants}>
                             <Link href={collection.href} className="group block">
-                                <div className="relative aspect-[3/4] overflow-hidden bg-[var(--greige)]">
+                                <div className="relative aspect-[3/4] overflow-hidden bg-[var(--white)] border border-[var(--grey-light)]">
                                     {/* Collection Image */}
                                     <img
                                         src={collection.image}
                                         alt={collection.title}
-                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
                                     />
 
-                                    {/* Overlay */}
-                                    <div className="absolute inset-0 bg-[var(--charcoal)]/0 group-hover:bg-[var(--charcoal)]/20 transition-colors duration-500" />
+                                    {/* Texture Overlay (Reveal on Hover) */}
+                                    <div
+                                        className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-700 bg-[size:200px]"
+                                        style={{
+                                            backgroundImage: "url('/images/patterns/gold-zari.png')",
+                                            backgroundBlendMode: "overlay"
+                                        }}
+                                    >
+                                        <div className="absolute inset-0 animate-slow-pan" />
+                                    </div>
 
-                                    {/* Content */}
-                                    <div className="absolute inset-0 flex flex-col justify-end p-8">
-                                        <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--charcoal-muted)] mb-2 group-hover:text-[var(--gold)] transition-colors duration-300">
+                                    {/* Overlay Gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)]/90 via-[var(--navy)]/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
+
+                                    {/* Content (Slide Up) */}
+                                    <div className="absolute inset-0 flex flex-col justify-end p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                        <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] mb-2 group-hover:text-white transition-colors duration-300">
                                             {collection.subtitle}
                                         </span>
-                                        <h3 className="font-[var(--font-serif)] text-2xl lg:text-3xl text-[var(--charcoal)] group-hover:text-[var(--charcoal)] transition-colors duration-300">
+                                        <h3 className="font-[var(--font-serif)] text-2xl lg:text-3xl text-white group-hover:text-[var(--gold)] transition-colors duration-300">
                                             {collection.title}
                                         </h3>
 
-                                        {/* Arrow */}
-                                        <div className="mt-4 overflow-hidden">
-                                            <motion.div
-                                                className="flex items-center gap-2 text-sm tracking-wider uppercase text-[var(--charcoal-muted)]"
-                                                initial={{ x: 0 }}
-                                                whileHover={{ x: 10 }}
-                                            >
-                                                <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                    Explore
+                                        {/* Arrow & Button */}
+                                        <div className="mt-6 overflow-hidden">
+                                            <div className="flex items-center gap-3 text-sm tracking-wider uppercase text-white/90">
+                                                <span className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 delay-75">
+                                                    Explore Collection
                                                 </span>
                                                 <svg
                                                     width="20"
@@ -121,7 +128,7 @@ export default function CollectionsSection() {
                                                 >
                                                     <path d="M5 12h14M12 5l7 7-7 7" />
                                                 </svg>
-                                            </motion.div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +147,7 @@ export default function CollectionsSection() {
                 >
                     <Link
                         href="/collections"
-                        className="inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase text-[var(--charcoal-muted)] hover:text-[var(--gold)] transition-colors duration-300"
+                        className="inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase text-[var(--text-muted)] hover:text-[var(--gold)] transition-colors duration-300"
                     >
                         View All Collections
                         <svg

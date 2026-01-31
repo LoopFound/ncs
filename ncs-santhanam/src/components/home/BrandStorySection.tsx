@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function BrandStorySection() {
     return (
-        <section className="py-24 lg:py-32 bg-[var(--greige)]">
+        <section className="py-24 lg:py-32 bg-[var(--cream)]">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                     {/* Image */}
@@ -16,7 +16,7 @@ export default function BrandStorySection() {
                         transition={{ duration: 0.8 }}
                         className="relative"
                     >
-                        <div className="aspect-[4/5] bg-[var(--ivory)] relative overflow-hidden">
+                        <div className="aspect-[4/5] bg-[var(--white)] relative overflow-hidden border border-[var(--grey-light)]">
                             {/* Heritage Image */}
                             <img
                                 src="/images/collections/kanchipuram.png"
@@ -34,7 +34,7 @@ export default function BrandStorySection() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.4 }}
-                            className="absolute -bottom-6 -left-6 lg:-bottom-8 lg:-left-8 w-28 h-28 lg:w-36 lg:h-36 bg-[var(--charcoal)] flex flex-col items-center justify-center"
+                            className="absolute -bottom-6 -left-6 lg:-bottom-8 lg:-left-8 w-28 h-28 lg:w-36 lg:h-36 bg-[var(--navy)] flex flex-col items-center justify-center shadow-xl"
                         >
                             <span className="text-[var(--gold)] text-xs tracking-[0.2em] uppercase mb-1">Since</span>
                             <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-white">1975</span>
@@ -50,28 +50,28 @@ export default function BrandStorySection() {
                         className="lg:pl-8"
                     >
                         {/* Accent */}
-                        <div className="w-10 h-[1px] bg-[var(--gold)] mb-8" />
+                        <div className="w-10 h-[2px] bg-[var(--gold)] mb-8" />
 
                         {/* Subtitle */}
-                        <p className="text-xs tracking-[0.3em] uppercase text-[var(--charcoal-muted)] mb-4">
+                        <p className="text-xs tracking-[0.3em] uppercase text-[var(--maroon)] mb-4 font-medium">
                             Our Heritage
                         </p>
 
                         {/* Title */}
-                        <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--charcoal)] mb-6 leading-tight">
+                        <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-6 leading-tight">
                             Crafted with Care.
                             <br />
-                            <span className="italic">Rooted in Tradition.</span>
+                            <span className="italic text-[var(--gold)]">Rooted in Tradition.</span>
                         </h2>
 
                         {/* Description */}
                         <div className="space-y-4 mb-8">
-                            <p className="text-[var(--charcoal-light)] leading-relaxed">
+                            <p className="text-[var(--text-body)] leading-relaxed">
                                 For nearly five decades, NCS Santhanam has been weaving stories of elegance
                                 in the heart of Kanchipuram. Our journey began with a simple belief:
                                 that true luxury lies in the perfection of craft.
                             </p>
-                            <p className="text-[var(--charcoal-light)] leading-relaxed">
+                            <p className="text-[var(--text-body)] leading-relaxed">
                                 Each saree that leaves our loom carries the legacy of generations—the
                                 delicate art passed down from master to apprentice, the careful selection
                                 of the finest silk, and the patience of artisans who see their work as worship.
@@ -81,23 +81,23 @@ export default function BrandStorySection() {
                         {/* Stats */}
                         <div className="grid grid-cols-3 gap-6 mb-10 py-8 border-t border-b border-[var(--border)]">
                             <div className="text-center">
-                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--charcoal)] block mb-1">50+</span>
-                                <span className="text-xs tracking-wider uppercase text-[var(--charcoal-muted)]">Years</span>
+                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--navy)] block mb-1">50+</span>
+                                <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Years</span>
                             </div>
                             <div className="text-center">
-                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--charcoal)] block mb-1">100+</span>
-                                <span className="text-xs tracking-wider uppercase text-[var(--charcoal-muted)]">Artisans</span>
+                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--navy)] block mb-1">100+</span>
+                                <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Artisans</span>
                             </div>
                             <div className="text-center">
-                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--charcoal)] block mb-1">25K+</span>
-                                <span className="text-xs tracking-wider uppercase text-[var(--charcoal-muted)]">Sarees</span>
+                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--navy)] block mb-1">25K+</span>
+                                <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Sarees</span>
                             </div>
                         </div>
 
                         {/* CTA */}
                         <Link
                             href="/about"
-                            className="inline-flex items-center gap-3 text-sm tracking-[0.15em] uppercase text-[var(--charcoal)] hover:text-[var(--gold)] transition-colors duration-300 group"
+                            className="inline-flex items-center gap-3 text-sm tracking-[0.15em] uppercase text-[var(--navy)] hover:text-[var(--gold)] transition-colors duration-300 group font-medium"
                         >
                             Discover Our Story
                             <svg

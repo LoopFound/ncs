@@ -99,7 +99,7 @@ export const products = [
             "Occasion: Muhurtham",
             "Care: Dry Clean Only"
         ],
-        images: ["/images/hero/hero-main.png"],
+        images: ["/images/hero/hero-model.png"],
         tags: ["Bridal Red", "Premium", "Heavy"]
     }
 ];

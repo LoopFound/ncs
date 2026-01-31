@@ -49,7 +49,7 @@ const itemVariants = {
 
 export default function TestimonialsSection() {
     return (
-        <section className="py-24 lg:py-32 bg-[var(--greige)]">
+        <section className="py-24 lg:py-32 bg-[var(--cream)]">
             <div className="container mx-auto px-6 lg:px-12">
                 {/* Section Header */}
                 <motion.div
@@ -59,11 +59,11 @@ export default function TestimonialsSection() {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-16 lg:mb-20"
                 >
-                    <div className="w-10 h-[1px] bg-[var(--gold)] mx-auto mb-6" />
-                    <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--charcoal)] mb-4">
+                    <div className="w-10 h-[2px] bg-[var(--gold)] mx-auto mb-6" />
+                    <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-4">
                         What Our Customers Say
                     </h2>
-                    <p className="text-[var(--charcoal-muted)] max-w-md mx-auto">
+                    <p className="text-[var(--text-muted)] max-w-md mx-auto">
                         Trusted by families across generations for life's most precious moments.
                     </p>
                 </motion.div>
@@ -80,7 +80,7 @@ export default function TestimonialsSection() {
                         <motion.div
                             key={testimonial.id}
                             variants={itemVariants}
-                            className="bg-[var(--ivory)] p-8 lg:p-10 relative"
+                            className="bg-[var(--white)] p-8 lg:p-10 relative border border-[var(--grey-light)] shadow-sm hover:shadow-lg transition-shadow duration-300"
                         >
                             {/* Quote mark */}
                             <div className="absolute top-6 right-6 font-[var(--font-serif)] text-6xl text-[var(--gold)]/20 leading-none">
@@ -103,16 +103,16 @@ export default function TestimonialsSection() {
                             </div>
 
                             {/* Text */}
-                            <p className="text-[var(--charcoal-light)] leading-relaxed mb-6 relative z-10">
+                            <p className="text-[var(--text-body)] leading-relaxed mb-6 relative z-10 italic">
                                 "{testimonial.text}"
                             </p>
 
                             {/* Author */}
-                            <div className="pt-6 border-t border-[var(--border)]">
-                                <h4 className="font-[var(--font-serif)] text-lg text-[var(--charcoal)]">
+                            <div className="pt-6 border-t border-[var(--grey-light)]">
+                                <h4 className="font-[var(--font-serif)] text-lg text-[var(--navy)]">
                                     {testimonial.name}
                                 </h4>
-                                <p className="text-xs tracking-wider uppercase text-[var(--charcoal-muted)] mt-1">
+                                <p className="text-xs tracking-wider uppercase text-[var(--text-muted)] mt-1">
                                     {testimonial.location}
                                 </p>
                             </div>

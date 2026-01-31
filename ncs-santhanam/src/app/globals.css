@@ -5,37 +5,42 @@
    ================================ */
 
 :root {
-  /* === Color Palette (Luxury Silk Theme) === */
+  /* === Color Palette (Luxury Ethnic Theme) === */
 
-  /* Primary Backgrounds */
-  --ivory: #FAF8F5;
-  /* Main background - warm off-white */
-  --greige: #F3EFE9;
-  /* Secondary background - soft beige */
-  --cream: #FDF9F3;
-  /* Card backgrounds */
+  /* Main Colors */
+  --navy: #0B1B4D;
+  /* Deep royal navy blue */
+  --maroon: #8B1E2D;
+  /* Rich silk red / maroon */
+  --gold: #C9A227;
+  /* Soft gold accents */
+  --cream: #F5F1E8;
+  /* Warm ivory / cream */
+  --grey-light: #E5E5E5;
+  /* Light neutral grey */
+
+  /* Semantic Mapping */
+  --background: var(--cream);
+  --foreground: var(--navy);
+  --primary: var(--navy);
+  --secondary: var(--maroon);
+  --accent: var(--gold);
 
   /* Text Colors */
-  --charcoal: #2C2C2C;
-  /* Primary text - deep charcoal */
-  --charcoal-light: #4A4A4A;
-  /* Secondary text */
-  --charcoal-muted: #6B6B6B;
-  /* Muted text */
-
-  /* Accent Colors */
-  --gold: #B8860B;
-  /* Primary accent - muted gold */
-  --gold-light: #D4A84B;
-  /* Light gold for hovers */
-  --bronze: #8B7355;
-  /* Bronze accent */
+  --text-main: #0B1B4D;
+  /* Navy for headings/important text */
+  --text-body: #333333;
+  /* Dark grey for better readability on cream */
+  --text-light: #E5E5E5;
+  /* Light grey for text on dark backgrounds */
+  --text-muted: #666666;
 
   /* Utility */
   --white: #FFFFFF;
-  --black: #1A1A1A;
-  --border: rgba(44, 44, 44, 0.1);
-  --shadow: rgba(44, 44, 44, 0.08);
+  --black: #000000;
+  --border: rgba(11, 27, 77, 0.1);
+  /* Navy with low opacity */
+  --shadow: rgba(11, 27, 77, 0.08);
 
   /* Typography */
   --font-serif: var(--font-cormorant), Georgia, serif;
@@ -57,8 +62,14 @@
 }
 
 @theme inline {
-  --color-background: var(--ivory);
-  --color-foreground: var(--charcoal);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-navy: var(--navy);
+  --color-maroon: var(--maroon);
+  --color-gold: var(--gold);
+  --color-cream: var(--cream);
+  --color-grey-light: var(--grey-light);
+
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
 }
@@ -75,8 +86,8 @@ html {
 }
 
 body {
-  background: var(--ivory);
-  color: var(--charcoal);
+  background: var(--background);
+  color: var(--text-body);
   font-family: var(--font-sans);
   font-weight: 400;
   line-height: 1.6;
@@ -94,34 +105,36 @@ h6 {
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: 0.02em;
-  color: var(--charcoal);
+  color: var(--text-main);
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  /* Slightly larger for luxury feel */
   font-weight: 300;
 }
 
 h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 400;
 }
 
 h3 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 400;
 }
 
 h4 {
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
   font-weight: 500;
 }
 
 p {
   font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--charcoal-light);
+  font-size: 1.05rem;
+  /* Slightly larger readability */
+  line-height: 1.8;
+  color: var(--text-body);
 }
 
 /* === Links === */
@@ -140,51 +153,65 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.875rem 2rem;
+  padding: 1rem 2.5rem;
+  /* Larger padding for premium feel */
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
   transition: all var(--transition-medium);
+  position: relative;
+  overflow: hidden;
 }
 
+/* Primary Button: Navy or Black -> Gold hover */
 .btn-primary {
-  background: var(--charcoal);
+  background: var(--navy);
   color: var(--white);
+  border: 1px solid var(--navy);
 }
 
 .btn-primary:hover {
-  background: var(--black);
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--navy);
+  /* High contrast on gold */
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3);
 }
 
+/* Secondary/Outline Button */
 .btn-outline {
   background: transparent;
-  color: var(--charcoal);
-  border: 1px solid var(--charcoal);
+  color: var(--navy);
+  border: 1px solid var(--navy);
 }
 
 .btn-outline:hover {
-  background: var(--charcoal);
+  background: var(--navy);
   color: var(--white);
 }
 
+/* Gold Button */
 .btn-gold {
   background: var(--gold);
-  color: var(--white);
+  color: var(--navy);
 }
 
 .btn-gold:hover {
-  background: var(--gold-light);
+  background: var(--white);
+  color: var(--gold);
+  box-shadow: 0 4px 15px rgba(201, 162, 39, 0.4);
 }
 
 /* === Container === */
 .container {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1440px;
+  /* Slightly wider */
   margin: 0 auto;
   padding: 0 var(--space-lg);
 }
@@ -194,7 +221,7 @@ a:hover {
 }
 
 .container-wide {
-  max-width: 1600px;
+  max-width: 1800px;
 }
 
 /* === Section Spacing === */
@@ -204,6 +231,11 @@ a:hover {
 
 .section-tight {
   padding: var(--space-xl) 0;
+}
+
+/* Separation with light grey */
+.section-divider {
+  border-top: 1px solid var(--grey-light);
 }
 
 /* === Image Styles === */
@@ -218,28 +250,41 @@ a:hover {
 }
 
 .img-zoom:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 /* === Card Styles === */
 .card {
-  background: var(--cream);
-  border: 1px solid var(--border);
+  background: var(--white);
+  border: 1px solid var(--grey-light);
+  /* Minimal border */
   transition: all var(--transition-medium);
 }
 
 .card:hover {
-  box-shadow: 0 8px 30px var(--shadow);
-  transform: translateY(-4px);
+  box-shadow: 0 10px 40px var(--shadow);
+  border-color: var(--gold);
+  /* Gold border on hover */
+  transform: translateY(-5px);
+}
+
+/* === Highlights / Marquee === */
+.text-highlight {
+  color: var(--maroon);
+}
+
+.bg-maroon {
+  background-color: var(--maroon);
+  color: var(--white);
 }
 
 /* === Gold Accent Line === */
 .gold-accent {
   display: inline-block;
-  width: 40px;
-  height: 1px;
+  width: 60px;
+  height: 2px;
   background: var(--gold);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
 }
 
 /* === Text Utilities === */
@@ -247,8 +292,16 @@ a:hover {
   color: var(--gold);
 }
 
+.text-navy {
+  color: var(--navy);
+}
+
+.text-maroon {
+  color: var(--maroon);
+}
+
 .text-muted {
-  color: var(--charcoal-muted);
+  color: var(--text-muted);
 }
 
 .text-serif {
@@ -325,23 +378,42 @@ a:hover {
 /* === Selection === */
 ::selection {
   background: var(--gold);
-  color: var(--white);
+  color: var(--navy);
 }
 
-/* === Scrollbar (subtle) === */
+/* === Scrollbar === */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--ivory);
+  background: var(--cream);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--charcoal-muted);
-  border-radius: 4px;
+  background: var(--navy);
+  border: 2px solid var(--cream);
+  border-radius: 5px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--charcoal);
+
+/* === New Animations === */
+@layer utilities {
+  .animate-slow-pan {
+    animation: slowPan 20s linear infinite;
+  }
+}
+
+@keyframes slowPan {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+
+  50% {
+    transform: translateY(-5%) translateX(-5%);
+  }
+
+  100% {
+    transform: translateY(0) translateX(0);
+  }
 }

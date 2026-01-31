@@ -62,7 +62,7 @@ const itemVariants = {
 
 export default function FeaturedProducts() {
     return (
-        <section className="py-24 lg:py-32 bg-[var(--ivory)]">
+        <section className="py-24 lg:py-32 bg-[var(--cream)]">
             <div className="container mx-auto px-6 lg:px-12">
                 {/* Section Header */}
                 <motion.div
@@ -73,17 +73,17 @@ export default function FeaturedProducts() {
                     className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 lg:mb-16"
                 >
                     <div>
-                        <div className="w-10 h-[1px] bg-[var(--gold)] mb-6" />
-                        <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--charcoal)] mb-3">
+                        <div className="w-10 h-[2px] bg-[var(--gold)] mb-6" />
+                        <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-3">
                             Featured Pieces
                         </h2>
-                        <p className="text-[var(--charcoal-muted)] max-w-md">
+                        <p className="text-[var(--text-muted)] max-w-md">
                             Handpicked selections from our most cherished collections.
                         </p>
                     </div>
                     <Link
                         href="/shop"
-                        className="hidden md:inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase text-[var(--charcoal-muted)] hover:text-[var(--gold)] transition-colors duration-300 mt-6 md:mt-0"
+                        className="hidden md:inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase text-[var(--text-muted)] hover:text-[var(--gold)] transition-colors duration-300 mt-6 md:mt-0"
                     >
                         View All
                         <svg
@@ -111,12 +111,12 @@ export default function FeaturedProducts() {
                         <motion.div key={product.id} variants={itemVariants}>
                             <Link href={product.href} className="group block">
                                 {/* Image */}
-                                <div className="relative aspect-[3/4] overflow-hidden bg-[var(--greige)] mb-4">
+                                <div className="relative aspect-[3/4] overflow-hidden bg-[var(--white)] mb-4 border border-[var(--grey-light)]">
                                     {/* Image placeholder */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/5 to-[var(--bronze)]/10 group-hover:scale-105 transition-transform duration-700 ease-out" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/5 to-[var(--maroon)]/5 group-hover:scale-105 transition-transform duration-700 ease-out" />
 
                                     {/* Quick View Overlay */}
-                                    <div className="absolute inset-0 bg-[var(--charcoal)]/0 group-hover:bg-[var(--charcoal)]/20 transition-colors duration-300 flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-[var(--navy)]/0 group-hover:bg-[var(--navy)]/20 transition-colors duration-300 flex items-center justify-center">
                                         <motion.span
                                             initial={{ opacity: 0, y: 10 }}
                                             whileHover={{ opacity: 1, y: 0 }}
@@ -129,18 +129,18 @@ export default function FeaturedProducts() {
 
                                 {/* Product Info */}
                                 <div className="text-center">
-                                    <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--charcoal-muted)] mb-2">
+                                    <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--text-muted)] mb-2">
                                         {product.category}
                                     </p>
-                                    <h3 className="font-[var(--font-serif)] text-lg text-[var(--charcoal)] mb-2 group-hover:text-[var(--gold)] transition-colors duration-300">
+                                    <h3 className="font-[var(--font-serif)] text-lg text-[var(--navy)] mb-2 group-hover:text-[var(--gold)] transition-colors duration-300">
                                         {product.name}
                                     </h3>
                                     <div className="flex items-center justify-center gap-2">
-                                        <span className="text-sm text-[var(--charcoal)]">
+                                        <span className="text-sm text-[var(--navy)] font-medium">
                                             {product.price}
                                         </span>
                                         {product.originalPrice && (
-                                            <span className="text-sm text-[var(--charcoal-muted)] line-through">
+                                            <span className="text-sm text-[var(--text-muted)] line-through">
                                                 {product.originalPrice}
                                             </span>
                                         )}
@@ -161,7 +161,7 @@ export default function FeaturedProducts() {
                 >
                     <Link
                         href="/shop"
-                        className="inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase text-[var(--charcoal-muted)] hover:text-[var(--gold)] transition-colors duration-300"
+                        className="inline-flex items-center gap-2 text-sm tracking-[0.15em] uppercase text-[var(--text-muted)] hover:text-[var(--gold)] transition-colors duration-300"
                     >
                         View All Products
                         <svg

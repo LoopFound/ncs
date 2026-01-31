@@ -16,8 +16,11 @@ export default function NewsletterSection() {
     };
 
     return (
-        <section className="py-24 lg:py-32 bg-[var(--charcoal)]">
-            <div className="container mx-auto px-6 lg:px-12">
+        <section className="py-24 lg:py-32 bg-[var(--navy)] relative overflow-hidden">
+            {/* Decorative Top Border */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--navy)] via-[var(--gold)] to-[var(--navy)] opacity-30" />
+
+            <div className="container mx-auto px-6 lg:px-12 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -46,7 +49,7 @@ export default function NewsletterSection() {
                     </h2>
 
                     {/* Description */}
-                    <p className="text-white/60 mb-8 max-w-md mx-auto">
+                    <p className="text-white/70 mb-8 max-w-md mx-auto">
                         Be the first to discover new collections, exclusive offers,
                         and stories from the world of handcrafted silk.
                     </p>
@@ -68,7 +71,7 @@ export default function NewsletterSection() {
                         />
                         <button
                             type="submit"
-                            className="px-8 py-4 bg-[var(--gold)] text-white text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold-light)] transition-colors"
+                            className="px-8 py-4 bg-[var(--gold)] text-[var(--navy)] text-sm tracking-[0.15em] uppercase hover:bg-white hover:text-[var(--gold)] transition-colors font-medium border border-[var(--gold)]"
                         >
                             {isSubmitted ? "Subscribed!" : "Subscribe"}
                         </button>
@@ -88,26 +91,26 @@ export default function NewsletterSection() {
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="flex flex-wrap justify-center gap-8 lg:gap-12 mt-16 pt-16 border-t border-white/10"
                 >
-                    <div className="flex items-center gap-3 text-white/50">
+                    <div className="flex items-center gap-3 text-white/50 hover:text-white transition-colors">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <rect x="1" y="4" width="22" height="16" rx="2" />
                             <line x1="1" y1="10" x2="23" y2="10" />
                         </svg>
                         <span className="text-xs tracking-wider uppercase">Secure Payments</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white/50">
+                    <div className="flex items-center gap-3 text-white/50 hover:text-white transition-colors">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
                         <span className="text-xs tracking-wider uppercase">Authentic Silk</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white/50">
+                    <div className="flex items-center gap-3 text-white/50 hover:text-white transition-colors">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
                         </svg>
                         <span className="text-xs tracking-wider uppercase">Free Shipping*</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white/50">
+                    <div className="flex items-center gap-3 text-white/50 hover:text-white transition-colors">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <polyline points="23 4 23 10 17 10" />
                             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
@@ -116,6 +119,8 @@ export default function NewsletterSection() {
                     </div>
                 </motion.div>
             </div>
+            {/* Background Texture - optional reuse from Footer */}
+            <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('/grain.png')] mix-blend-overlay" />
         </section>
     );
 }

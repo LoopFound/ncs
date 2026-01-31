@@ -3,10 +3,10 @@
 import { Suspense } from "react";
 import ProductListing from "@/components/shop/ProductListing";
 
-export default function ShopPage() {
+export default function TraditionalKanchipuramPage() {
     return (
         <Suspense fallback={<div className="min-h-screen bg-[var(--ivory)]" />}>
-            <ProductListing />
+            <ProductListing initialCategory="Traditional" />
         </Suspense>
     );
 }

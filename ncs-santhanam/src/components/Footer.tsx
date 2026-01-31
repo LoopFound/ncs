@@ -29,9 +29,9 @@ export default function Footer() {
     };
 
     return (
-        <footer className="bg-[#121212] text-white relative overflow-hidden">
+        <footer className="bg-[var(--navy)] text-white relative overflow-hidden">
             {/* Decorative Top Border */}
-            <div className="w-full h-1 bg-gradient-to-r from-[#121212] via-[var(--gold)] to-[#121212] opacity-30" />
+            <div className="w-full h-1 bg-gradient-to-r from-[var(--navy)] via-[var(--gold)] to-[var(--navy)] opacity-40" />
 
             {/* Main Footer Content */}
             <div className="container mx-auto px-6 lg:px-12 pt-24 pb-12">
@@ -44,12 +44,12 @@ export default function Footer() {
                                 <h2 className="font-[var(--font-serif)] text-4xl lg:text-5xl font-light tracking-wide text-white group-hover:text-[var(--gold)] transition-colors duration-500">
                                     NCS Santhanam
                                 </h2>
-                                <span className="block text-[10px] tracking-[0.4em] uppercase text-[var(--gold)] mt-3 ml-1 opacity-80">
+                                <span className="block text-[10px] tracking-[0.4em] uppercase text-[var(--gold)] mt-3 ml-1 opacity-90">
                                     Est. 1975 • Kanchipuram
                                 </span>
                             </Link>
 
-                            <p className="mt-8 text-white/50 text-base leading-relaxed max-w-sm font-light">
+                            <p className="mt-8 text-white/70 text-base leading-relaxed max-w-sm font-light">
                                 Weaving the threads of tradition into timeless masterpieces.
                                 Each saree is a testament to the artistry of Kanchipuram's
                                 finest weavers, crafted for generations to come.
@@ -57,7 +57,7 @@ export default function Footer() {
                         </div>
 
                         <div className="mt-12 lg:mt-0">
-                            <p className="text-xs uppercase tracking-[0.2em] text-white/30 mb-4">Connect</p>
+                            <p className="text-xs uppercase tracking-[0.2em] text-[var(--gold)] mb-4">Connect</p>
                             <div className="flex gap-6">
                                 {[
                                     { name: 'Instagram', url: '#' },
@@ -67,7 +67,7 @@ export default function Footer() {
                                     <a
                                         key={social.name}
                                         href={social.url}
-                                        className="text-sm text-white/60 hover:text-[var(--gold)] transition-colors duration-300 border-b border-transparent hover:border-[var(--gold)] pb-0.5"
+                                        className="text-sm text-white/70 hover:text-[var(--gold)] transition-colors duration-300 border-b border-transparent hover:border-[var(--gold)] pb-0.5"
                                     >
                                         {social.name}
                                     </a>
@@ -85,7 +85,7 @@ export default function Footer() {
                                     <li key={link.label}>
                                         <Link
                                             href={link.href}
-                                            className="text-sm text-white/50 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block"
+                                            className="text-sm text-white/60 hover:text-[var(--gold)] hover:translate-x-1 transition-all duration-300 inline-block"
                                         >
                                             {link.label}
                                         </Link>
@@ -101,7 +101,7 @@ export default function Footer() {
                                     <li key={link.label}>
                                         <Link
                                             href={link.href}
-                                            className="text-sm text-white/50 hover:text-white hover:translate-x-1 transition-all duration-300 inline-block"
+                                            className="text-sm text-white/60 hover:text-[var(--gold)] hover:translate-x-1 transition-all duration-300 inline-block"
                                         >
                                             {link.label}
                                         </Link>
@@ -115,12 +115,12 @@ export default function Footer() {
                     <div className="lg:col-span-3">
                         <div className="bg-white/5 p-8 border border-white/10 relative overflow-hidden group">
                             {/* Decorative sheen */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--gold)]/5 rounded-full blur-2xl -mr-16 -mt-16 transition-all duration-1000 group-hover:bg-[var(--gold)]/10" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--gold)]/10 rounded-full blur-2xl -mr-16 -mt-16 transition-all duration-1000 group-hover:bg-[var(--gold)]/20" />
 
                             <h4 className="font-[var(--font-serif)] text-2xl text-white mb-4 relative z-10">
                                 The Silk Circle
                             </h4>
-                            <p className="text-sm text-white/50 mb-6 leading-relaxed relative z-10">
+                            <p className="text-sm text-white/60 mb-6 leading-relaxed relative z-10">
                                 Join our exclusive list for early access to new weaves and private exhibitions.
                             </p>
 
@@ -129,12 +129,12 @@ export default function Footer() {
                                     <input
                                         type="email"
                                         placeholder="Email Address"
-                                        className="w-full bg-transparent border-b border-white/20 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[var(--gold)] transition-colors"
+                                        className="w-full bg-transparent border-b border-white/20 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--gold)] transition-colors"
                                     />
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full bg-[var(--gold)] text-white py-3 text-xs tracking-[0.2em] uppercase hover:bg-[#D4A84B] transition-colors duration-300 mt-4"
+                                    className="w-full bg-[var(--gold)] text-[var(--navy)] font-medium py-3 text-xs tracking-[0.2em] uppercase hover:bg-white transition-colors duration-300 mt-4"
                                 >
                                     Subscribe
                                 </button>
@@ -145,8 +145,8 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-end gap-6">
-                    <div className="text-white/20 text-[10px] uppercase tracking-[0.1em] space-y-2">
+                <div className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-end gap-6">
+                    <div className="text-white/30 text-[10px] uppercase tracking-[0.1em] space-y-2">
                         <p>© {new Date().getFullYear()} NCS Santhanam Silks. All Rights Reserved.</p>
                         <p>Designed with care in Kanchipuram.</p>
                     </div>

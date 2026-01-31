@@ -5,9 +5,11 @@ import Link from "next/link";
 import { products } from "@/data/mock";
 import { useParams, notFound } from "next/navigation";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 export default function ProductDetailPage() {
     const params = useParams();
+    const { addToCart } = useCart();
     const product = products.find((p) => p.id === params.id);
     const [activeImage, setActiveImage] = useState(0);
 
@@ -16,34 +18,48 @@ export default function ProductDetailPage() {
     }
 
     return (
-        <div className="pt-24 lg:pt-32 pb-24">
+        <div className="pt-24 lg:pt-32 pb-24 bg-[var(--cream)]">
             <div className="container mx-auto px-6 lg:px-12">
                 {/* Breadcrumb */}
-                <div className="text-xs uppercase tracking-wider text-[var(--charcoal-muted)] mb-8">
-                    <Link href="/" className="hover:text-[var(--gold)]">Home</Link> /
-                    <Link href="/shop" className="hover:text-[var(--gold)] mx-2">Shop</Link> /
-                    <span className="text-[var(--charcoal)] ml-2">{product.name}</span>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--navy)]/60 mb-12">
+                    <Link href="/" className="hover:text-[var(--gold)] transition-colors">Home</Link>
+                    <span className="mx-3 opacity-30">/</span>
+                    <Link href="/shop" className="hover:text-[var(--gold)] transition-colors">Shop</Link>
+                    <span className="mx-3 opacity-30">/</span>
+                    <span className="text-[var(--navy)]">{product.name}</span>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
                     {/* Image Gallery */}
-                    <div className="space-y-4">
-                        <div className="aspect-[3/4] bg-[var(--greige)] relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/5 to-[var(--bronze)]/10" />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-[var(--charcoal-muted)] text-xs tracking-widest uppercase opacity-50">
-                                    Product Image {activeImage + 1}
-                                </span>
-                            </div>
-                        </div>
+                    <div className="space-y-6">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="aspect-[3/4] bg-white relative overflow-hidden shadow-sm"
+                        >
+                            {product.images[activeImage] ? (
+                                <img
+                                    src={product.images[activeImage]}
+                                    alt={product.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div className="absolute inset-0 flex items-center justify-center bg-[var(--greige)]">
+                                    <span className="text-[var(--navy)]/30 text-xs tracking-widest uppercase italic">
+                                        Ethereal Silk Masterpiece
+                                    </span>
+                                </div>
+                            )}
+                        </motion.div>
+
                         <div className="grid grid-cols-4 gap-4">
-                            {[0, 1, 2, 3].map((idx) => (
+                            {product.images.map((img, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => setActiveImage(idx)}
-                                    className={`aspect-square bg-[var(--greige)] relative overflow-hidden border ${activeImage === idx ? 'border-[var(--gold)]' : 'border-transparent'}`}
+                                    className={`aspect-[3/4] bg-white relative overflow-hidden border-2 transition-all ${activeImage === idx ? 'border-[var(--gold)]' : 'border-transparent opacity-60 hover:opacity-100'}`}
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/5 to-[var(--bronze)]/10" />
+                                    <img src={img} alt={`${product.name} view ${idx}`} className="w-full h-full object-cover" />
                                 </button>
                             ))}
                         </div>
@@ -51,60 +67,83 @@ export default function ProductDetailPage() {
 
                     {/* Product Info */}
                     <div className="lg:sticky lg:top-32 h-fit">
-                        <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl text-[var(--charcoal)] mb-4 leading-tight">
-                            {product.name}
-                        </h1>
-
-                        <div className="flex items-center gap-4 mb-6">
-                            <span className="text-2xl text-[var(--charcoal)]">₹{product.price.toLocaleString('en-IN')}</span>
-                            {product.originalPrice && (
-                                <span className="text-lg text-[var(--charcoal-muted)] line-through decoration-[var(--border)]">
-                                    ₹{product.originalPrice.toLocaleString('en-IN')}
-                                </span>
-                            )}
+                        <div className="mb-8">
+                            <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)] font-bold mb-3 block">
+                                {product.category}
+                            </span>
+                            <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl text-[var(--navy)] mb-6 leading-[1.1]">
+                                {product.name}
+                            </h1>
+                            <div className="flex items-center gap-6">
+                                <span className="text-3xl text-[var(--navy)] font-light">₹{product.price.toLocaleString('en-IN')}</span>
+                                {product.originalPrice && (
+                                    <span className="text-xl text-[var(--navy)]/30 line-through font-light">
+                                        ₹{product.originalPrice.toLocaleString('en-IN')}
+                                    </span>
+                                )}
+                            </div>
                         </div>
 
-                        <div className="w-full h-[1px] bg-[var(--border)] mb-8" />
+                        <div className="w-full h-[1px] bg-[var(--border)] mb-10" />
 
-                        <p className="text-[var(--charcoal-light)] leading-relaxed mb-8">
-                            {product.description}
-                        </p>
+                        <div className="prose prose-sm mb-12">
+                            <p className="text-[var(--text-body)] leading-relaxed italic opacity-80">
+                                {product.description}
+                            </p>
+                        </div>
 
-                        <div className="space-y-6 mb-10">
-                            <h4 className="text-xs uppercase tracking-widest font-bold text-[var(--charcoal)]">Product Details</h4>
-                            <ul className="space-y-3 text-sm text-[var(--charcoal-light)]">
-                                {product.details.map((detail, i) => (
-                                    <li key={i} className="flex gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--gold)] mt-1.5 shrink-0" />
-                                        {detail}
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="space-y-8 mb-12">
+                            <div>
+                                <h4 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--navy)] mb-4">The Craftsmanship</h4>
+                                <ul className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-8 text-sm text-[var(--text-body)]/80">
+                                    {product.details.map((detail, i) => (
+                                        <li key={i} className="flex gap-3 items-center">
+                                            <span className="w-1.5 h-[1px] bg-[var(--gold)] shrink-0" />
+                                            {detail}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
 
                         {/* Actions */}
-                        <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                            <button className="flex-1 bg-[var(--charcoal)] text-white py-4 text-sm tracking-[0.15em] uppercase hover:bg-black transition-colors">
-                                Add to Cart
+                        <div className="flex flex-col gap-4 mb-12">
+                            <button
+                                onClick={() => addToCart({
+                                    id: product.id,
+                                    name: product.name,
+                                    price: product.price,
+                                    image: product.images[0] || '',
+                                    category: product.category
+                                })}
+                                className="w-full bg-[var(--navy)] text-white py-5 text-xs tracking-[0.2em] uppercase font-bold hover:bg-[var(--gold)] hover:text-[var(--navy)] transition-all duration-300 shadow-xl shadow-blue-900/10"
+                            >
+                                Add to Bag
                             </button>
-                            <button className="flex-1 border border-[var(--charcoal)] text-[var(--charcoal)] py-4 text-sm tracking-[0.15em] uppercase hover:bg-[var(--charcoal)] hover:text-white transition-colors">
-                                Buy Now
+                            <button className="w-full border border-[var(--navy)] text-[var(--navy)] py-5 text-xs tracking-[0.2em] uppercase font-bold hover:bg-[var(--navy)] hover:text-white transition-all duration-300">
+                                Reserve Collection
                             </button>
                         </div>
 
-                        <div className="flex gap-6 text-xs uppercase tracking-wider text-[var(--charcoal-muted)] justify-center">
-                            <span className="flex items-center gap-2">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 6L9 17l-5-5" /></svg>
-                                Authentic Silk
-                            </span>
-                            <span className="flex items-center gap-2">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /></svg>
-                                Handwoven
-                            </span>
-                            <span className="flex items-center gap-2">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-                                Free Shipping
-                            </span>
+                        <div className="grid grid-cols-3 gap-4 border-t border-[var(--border)] pt-8">
+                            <div className="flex flex-col items-center gap-2 text-center">
+                                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[var(--gold)]">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 6L9 17l-5-5" /></svg>
+                                </div>
+                                <span className="text-[9px] uppercase tracking-widest text-[var(--navy)]/60 font-medium">100% Authentic Silk</span>
+                            </div>
+                            <div className="flex flex-col items-center gap-2 text-center">
+                                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[var(--gold)]">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                                </div>
+                                <span className="text-[9px] uppercase tracking-widest text-[var(--navy)]/60 font-medium">Secured Payment</span>
+                            </div>
+                            <div className="flex flex-col items-center gap-2 text-center">
+                                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[var(--gold)]">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /></svg>
+                                </div>
+                                <span className="text-[9px] uppercase tracking-widest text-[var(--navy)]/60 font-medium">Global Delivery</span>
+                            </div>
                         </div>
                     </div>
                 </div>
