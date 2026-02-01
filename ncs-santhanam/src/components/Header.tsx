@@ -62,7 +62,7 @@ export default function Header() {
                             className="flex items-center"
                         >
                             <Image
-                                src="/logo1.webp"
+                                src="/logo1.jpg"
                                 alt="NCS Santhanam"
                                 width={120}
                                 height={40}

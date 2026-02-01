@@ -79,7 +79,7 @@ export default function HeroSection() {
                         >
                             <Link
                                 href="/collections"
-                                className="inline-flex items-center justify-center px-8 py-4 bg-[var(--navy)] text-white text-sm tracking-[0.15em] uppercase hover:bg-[var(--gold)] hover:text-[var(--navy)] transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[var(--navy)]/20"
+                                className="inline-flex items-center justify-center px-8 py-4 bg-[var(--gold)] text-[var(--navy)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--navy)] hover:text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[var(--gold)]/20 font-bold"
                             >
                                 Explore Collection
                             </Link>
