@@ -44,18 +44,18 @@ export default function NewsletterSection() {
                     </div>
 
                     {/* Title */}
-                    <h2 className="font-[var(--font-serif)] text-3xl md:text-4xl font-light text-white mb-4">
+                    <h2 className="font-[var(--font-serif)] text-3xl md:text-4xl font-light text-[#C9A227] mb-4">
                         Join Our World
                     </h2>
 
                     {/* Description */}
-                    <p className="text-white/70 mb-8 max-w-md mx-auto">
+                    <p className="text-[#C9A227]/80 mb-8 max-w-md mx-auto">
                         Be the first to discover new collections, exclusive offers,
                         and stories from the world of handcrafted silk.
                     </p>
 
                     {/* Incentive */}
-                    <p className="text-[var(--gold)] text-sm tracking-wider uppercase mb-8">
+                    <p className="text-[#C9A227] text-sm tracking-wider uppercase mb-8">
                         Get 10% off your first order
                     </p>
 
@@ -67,7 +67,7 @@ export default function NewsletterSection() {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
                             required
-                            className="flex-1 bg-transparent border border-white/20 px-6 py-4 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-[var(--gold)] transition-colors"
+                            className="flex-1 bg-transparent border border-[#C9A227]/30 px-6 py-4 text-[#C9A227] text-sm placeholder:text-[#C9A227]/50 focus:outline-none focus:border-[var(--gold)] transition-colors"
                         />
                         <button
                             type="submit"
@@ -78,7 +78,7 @@ export default function NewsletterSection() {
                     </form>
 
                     {/* Trust note */}
-                    <p className="text-white/40 text-xs mt-6">
+                    <p className="text-[#C9A227]/60 text-xs mt-6">
                         We respect your privacy. Unsubscribe anytime.
                     </p>
                 </motion.div>
@@ -89,28 +89,28 @@ export default function NewsletterSection() {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.3 }}
-                    className="flex flex-wrap justify-center gap-8 lg:gap-12 mt-16 pt-16 border-t border-white/10"
+                    className="flex flex-wrap justify-center gap-8 lg:gap-12 mt-16 pt-16 border-t border-[#C9A227]/10"
                 >
-                    <div className="flex items-center gap-3 text-white/50 hover:text-white transition-colors">
+                    <div className="flex items-center gap-3 text-[#C9A227]/70 hover:text-[#C9A227] transition-colors">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <rect x="1" y="4" width="22" height="16" rx="2" />
                             <line x1="1" y1="10" x2="23" y2="10" />
                         </svg>
                         <span className="text-xs tracking-wider uppercase">Secure Payments</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white/50 hover:text-white transition-colors">
+                    <div className="flex items-center gap-3 text-[#C9A227]/70 hover:text-[#C9A227] transition-colors">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
                         <span className="text-xs tracking-wider uppercase">Authentic Silk</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white/50 hover:text-white transition-colors">
+                    <div className="flex items-center gap-3 text-[#C9A227]/70 hover:text-[#C9A227] transition-colors">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
                         </svg>
                         <span className="text-xs tracking-wider uppercase">Free Shipping*</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white/50 hover:text-white transition-colors">
+                    <div className="flex items-center gap-3 text-[#C9A227]/70 hover:text-[#C9A227] transition-colors">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <polyline points="23 4 23 10 17 10" />
                             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />

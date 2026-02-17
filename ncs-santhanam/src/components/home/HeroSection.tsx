@@ -2,134 +2,126 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HeroSection() {
     return (
-        <section className="relative min-h-screen flex items-center bg-[var(--cream)] overflow-hidden">
-            {/* Background Image */}
-            <div className="absolute inset-0">
-                <div
-                    className="absolute inset-0 bg-gradient-to-r from-[var(--cream)]/90 via-[var(--cream)]/50 to-transparent z-10"
-                />
-                <img
-                    src="/images/hero/hero-model.png"
-                    alt="Luxury Kanchipuram Silk Saree"
-                    className="w-full h-full object-cover object-center scale-110 blur-sm brightness-75"
-                />
-            </div>
+        <section className="relative min-h-screen flex items-center bg-[#2E1A47] overflow-hidden">
+            {/* Background Pattern */}
+            <div
+                className="absolute inset-0 opacity-10 pointer-events-none"
+                style={{
+                    backgroundImage: `
+                        linear-gradient(30deg, #4B2C7A 12%, transparent 12.5%, transparent 87%, #4B2C7A 87.5%, #4B2C7A),
+                        linear-gradient(150deg, #4B2C7A 12%, transparent 12.5%, transparent 87%, #4B2C7A 87.5%, #4B2C7A),
+                        linear-gradient(30deg, #4B2C7A 12%, transparent 12.5%, transparent 87%, #4B2C7A 87.5%, #4B2C7A),
+                        linear-gradient(150deg, #4B2C7A 12%, transparent 12.5%, transparent 87%, #4B2C7A 87.5%, #4B2C7A),
+                        linear-gradient(60deg, #4B2C7A77 25%, transparent 25.5%, transparent 75%, #4B2C7A77 75%, #4B2C7A77),
+                        linear-gradient(60deg, #4B2C7A77 25%, transparent 25.5%, transparent 75%, #4B2C7A77 75%, #4B2C7A77)
+                    `,
+                    backgroundSize: '80px 140px',
+                    backgroundPosition: '0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px'
+                }}
+            />
 
-            <div className="container mx-auto px-6 lg:px-12 relative z-20">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    {/* Content */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="max-w-xl"
-                    >
-                        {/* Accent Line */}
+            <div className="container mx-auto px-6 lg:px-12 relative z-20 pt-20">
+                <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+                    {/* Content Left */}
+                    <div className="flex flex-col items-start relative z-10 w-full">
+                        {/* Connecting Line & Text */}
                         <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: 60 }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
-                            className="h-[2px] bg-[var(--maroon)] mb-8"
-                        />
-
-                        {/* Tagline */}
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
-                            className="text-xs tracking-[0.3em] uppercase text-[var(--maroon)] mb-4 font-medium"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="relative mb-8 group w-full"
                         >
-                            Handcrafted in Kanchipuram
-                        </motion.p>
+                            <div className="flex items-center relative w-fit gap-3">
+                                <span className="text-white text-sm md:text-base tracking-[0.1em] font-medium whitespace-nowrap z-20 relative">
+                                    Handcrafted in Kanchipuram
+                                </span>
 
-                        {/* Headline */}
+                                {/* Start Dot */}
+                                <div className="w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] relative z-20" />
+
+                                {/* SVG Line connecting to image */}
+                                <div className="hidden lg:block absolute left-[calc(100%+8px)] top-1/2 -translate-y-1/2 w-[800px] h-[500px] pointer-events-none z-10">
+                                    <svg width="100%" height="100%" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+                                        {/* Horizontal line then angled down to point at the saree */}
+                                        <path d="M0 0 H350 L580 280" stroke="white" strokeOpacity="0.7" strokeWidth="1.5" />
+                                        {/* End Dot on the saree */}
+                                        <circle cx="580" cy="280" r="4" fill="white" className="drop-shadow-[0_0_8px_rgba(255,255,255,1)]" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Main Heading */}
                         <motion.h1
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.5 }}
-                            className="font-[var(--font-serif)] text-5xl md:text-6xl lg:text-7xl font-light text-[var(--navy)] leading-[1.1] mb-6"
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="font-[var(--font-serif)] text-6xl md:text-8xl lg:text-9xl font-light !text-white leading-none mb-12 tracking-wide"
                         >
                             Timeless
                             <br />
-                            <span className="italic text-[var(--gold)]">Elegance</span>
-                            <br />
-                            in Every Thread
+                            <span className="italic font-light opacity-90">Elegance</span>
                         </motion.h1>
-
-                        {/* Description */}
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6, delay: 0.7 }}
-                            className="text-base text-[var(--text-body)] leading-relaxed mb-10 max-w-md"
-                        >
-                            Discover our exquisite collection of pure silk sarees,
-                            woven with generations of craftsmanship and tradition.
-                        </motion.p>
 
                         {/* Buttons */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.9 }}
-                            className="flex flex-wrap gap-4"
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            className="flex flex-wrap gap-5"
                         >
                             <Link
                                 href="/collections"
-                                className="inline-flex items-center justify-center px-8 py-4 bg-[var(--gold)] text-[var(--navy)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--navy)] hover:text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-[var(--gold)]/20 font-bold"
+                                className="inline-flex items-center justify-center px-10 py-5 bg-[var(--gold)] text-[var(--navy)] text-xs font-bold tracking-[0.2em] uppercase hover:bg-white transition-all duration-300 shadow-xl"
                             >
                                 Explore Collection
                             </Link>
                             <Link
                                 href="/shop"
-                                className="inline-flex items-center justify-center px-8 py-4 border border-[var(--navy)] text-[var(--navy)] text-sm tracking-[0.15em] uppercase hover:bg-[var(--navy)] hover:text-white transition-all duration-300"
+                                className="inline-flex items-center justify-center px-10 py-5 bg-[#0B1B4D] text-white text-xs font-bold tracking-[0.2em] uppercase hover:bg-[#1a2c66] transition-all duration-300 shadow-xl border border-[#0B1B4D]"
                             >
                                 Shop Now
                             </Link>
                         </motion.div>
-                    </motion.div>
+                    </div>
 
-                    {/* Hero Image Placeholder */}
+                    {/* Image Right */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1, delay: 0.3 }}
-                        className="hidden lg:block relative"
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                        className="relative h-full flex justify-center lg:justify-end items-center"
                     >
-                        <div className="aspect-[3/4] bg-[var(--cream)] relative overflow-hidden border border-[var(--gray-light)] shadow-2xl group">
-                            <img
+                        {/* We use mix-blend-mode or relative positioning to make it stand out */}
+                        <div className="relative w-full max-w-lg lg:max-w-xl h-auto z-10">
+                            <Image
                                 src="/images/hero/hero-model.png"
-                                alt="Featured Kanchipuram Collection"
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                alt="Kanchipuram Saree"
+                                width={800}
+                                height={1200}
+                                className="w-full h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                                priority
                             />
-                            <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/10 to-[var(--maroon)]/10 mix-blend-overlay pointer-events-none" />
                         </div>
-
-                        {/* Decorative element */}
-                        <div className="absolute -bottom-6 -left-6 w-32 h-32 border border-[var(--gold)]/40" />
-                        <div className="absolute -top-6 -right-6 w-32 h-32 border border-[var(--maroon)]/20" />
                     </motion.div>
                 </div>
             </div>
 
-            {/* Scroll indicator */}
+            {/* Down Arrow */}
             <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 1.2 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center"
+                animate={{ opacity: 1, y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[var(--gold)]"
             >
-                <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--navy)]/60 mb-3">
-                    Scroll
-                </span>
-                <motion.div
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="w-[1px] h-8 bg-[var(--navy)]/40"
-                />
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="bg-transparent">
+                    <path d="M7 13l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M7 7l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
             </motion.div>
         </section>
     );

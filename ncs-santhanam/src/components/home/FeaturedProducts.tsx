@@ -11,7 +11,7 @@ const products = [
         originalPrice: "₹52,000",
         category: "Wedding Collection",
         href: "/shop/product-1",
-        image: "/images/products/product-1.jpg",
+        image: "/images/collections/Gemini_Generated_Image_a504fwa504fwa504.png",
     },
     {
         id: 2,
@@ -19,7 +19,7 @@ const products = [
         price: "₹38,000",
         category: "Kanchipuram",
         href: "/shop/product-2",
-        image: "/images/products/product-2.jpg",
+        image: "/images/collections/Gemini_Generated_Image_bhmtv9bhmtv9bhmt.png",
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ const products = [
         price: "₹18,500",
         category: "Soft Silk",
         href: "/shop/product-3",
-        image: "/images/products/product-3.jpg",
+        image: "/images/collections/Gemini_Generated_Image_vdqny5vdqny5vdqn.png",
     },
     {
         id: 4,
@@ -35,7 +35,7 @@ const products = [
         price: "₹55,000",
         category: "Wedding Collection",
         href: "/shop/product-4",
-        image: "/images/products/product-4.jpg",
+        image: "/images/collections/Gemini_Generated_Image_vkgvmnvkgvmnvkgv.png",
     },
 ];
 
@@ -112,8 +112,15 @@ export default function FeaturedProducts() {
                             <Link href={product.href} className="group block">
                                 {/* Image */}
                                 <div className="relative aspect-[3/4] overflow-hidden bg-[var(--white)] mb-4 border border-[var(--grey-light)]">
-                                    {/* Image placeholder */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/5 to-[var(--maroon)]/5 group-hover:scale-105 transition-transform duration-700 ease-out" />
+                                    {/* Product Image */}
+                                    <img
+                                        src={product.image}
+                                        alt={product.name}
+                                        className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
+                                    />
+
+                                    {/* Overlay gradient for hover effect */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                                     {/* Quick View Overlay */}
                                     <div className="absolute inset-0 bg-[var(--navy)]/0 group-hover:bg-[var(--navy)]/20 transition-colors duration-300 flex items-center justify-center">
