@@ -90,11 +90,7 @@ export default function CollectionsSection() {
 
                                     {/* Texture Overlay (Reveal on Hover) */}
                                     <div
-                                        className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-700 bg-[size:200px]"
-                                        style={{
-                                            backgroundImage: "url('/images/patterns/gold-zari.png')",
-                                            backgroundBlendMode: "overlay"
-                                        }}
+                                        className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-white/5"
                                     >
                                         <div className="absolute inset-0 animate-slow-pan" />
                                     </div>

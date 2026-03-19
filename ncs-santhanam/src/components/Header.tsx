@@ -21,7 +21,7 @@ const navItems = [
     { label: "Soft silk", href: "/soft-silk" },
     { label: "Gift Sarees", href: "/gift-sarees" },
     { label: "Pavadas", href: "/pavadas" },
-    { label: "Dupattas", href: "/dupaatas" },
+    { label: "Dupattas", href: "/dupattas" },
     { label: "Men's Corner", href: "/mens-corner" },
     { label: "Materials", href: "/materials" },
 ];
@@ -78,7 +78,7 @@ export default function Header() {
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: 0.2 }}
-                            className="bg-[#F5F1E8] rounded-full px-8 py-3 shadow-lg flex items-center gap-6 relative z-10"
+                            className="bg-[#F5F1E8] rounded-full px-6 py-3 shadow-lg flex items-center gap-4 xl:gap-6 relative z-10"
                         >
                             {navItems.map((item, index) => (
                                 <div
@@ -126,7 +126,7 @@ export default function Header() {
 
                                     {/* Separator (except for last item) */}
                                     {index < navItems.length - 1 && (
-                                        <span className="ml-6 text-[var(--navy)]/20">|</span>
+                                        <span className="ml-4 xl:ml-6 text-[var(--navy)]/20">|</span>
                                     )}
                                 </div>
                             ))}
@@ -149,7 +149,7 @@ export default function Header() {
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                     <circle cx="12" cy="7" r="4" />
                                 </svg>
-                                <span className="hidden xl:inline">Log In</span>
+                                <span className="hidden lg:inline">Log In</span>
                             </Link>
                             <Link
                                 href="/cart"
@@ -160,7 +160,7 @@ export default function Header() {
                                     <line x1="3" y1="6" x2="21" y2="6" />
                                     <path d="M16 10a4 4 0 0 1-8 0" />
                                 </svg>
-                                <span className="hidden xl:inline">Cart</span>
+                                <span className="hidden lg:inline">Cart</span>
                                 <span className="absolute -top-1.5 -right-2 w-4 h-4 bg-[var(--gold)] text-[var(--navy)] text-[9px] font-bold flex items-center justify-center rounded-full">{cartCount}</span>
                             </Link>
                         </motion.div>
