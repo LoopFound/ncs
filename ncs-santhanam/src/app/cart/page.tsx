@@ -40,7 +40,7 @@ export default function CartPage() {
                                         <div>
                                             <div className="flex justify-between items-start mb-2">
                                                 <div>
-                                                    <p className="text-[10px] uppercase tracking-widest text-[var(--gold)] mb-1">{item.category}</p>
+                                                    <p className="text-[10px] uppercase tracking-widest text-[var(--gold-text)] mb-1">{item.category}</p>
                                                     <h3 className="font-[var(--font-serif)] text-xl text-[var(--navy)]">{item.name}</h3>
                                                 </div>
                                                 <p className="font-medium">₹{(item.price * item.quantity).toLocaleString('en-IN')}</p>
@@ -101,9 +101,12 @@ export default function CartPage() {
                                     </div>
                                 </div>
 
-                                <button className="w-full py-4 bg-[var(--navy)] text-white text-xs uppercase tracking-[0.2em] font-medium hover:bg-[var(--gold)] hover:text-[var(--navy)] transition-all duration-300">
+                                <Link
+                                    href="/checkout"
+                                    className="block text-center w-full py-4 bg-[var(--navy)] text-white text-xs uppercase tracking-[0.2em] font-medium hover:bg-[var(--gold)] hover:text-[var(--navy)] transition-all duration-300"
+                                >
                                     Proceed to Checkout
-                                </button>
+                                </Link>
 
                                 <div className="mt-8 space-y-4">
                                     <div className="flex items-center gap-3 text-[10px] text-[var(--text-muted)]">

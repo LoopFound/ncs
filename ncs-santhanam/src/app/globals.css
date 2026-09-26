@@ -13,10 +13,17 @@
   --maroon: #8B1E2D;
   /* Rich silk red / maroon */
   --gold: #C9A227;
+  --gold-text: #82600F;
   /* Soft gold accents */
   --cream: #F5F1E8;
   /* Warm ivory / cream */
   --grey-light: #E5E5E5;
+  --ivory: #FAF7F0;
+  --greige: #E9E1D5;
+  --bronze: #8B6A2B;
+  --charcoal: #20242E;
+  --charcoal-light: #4B5563;
+  --charcoal-muted: #5F6673;
   /* Light neutral grey */
 
   /* Semantic Mapping */
@@ -43,8 +50,8 @@
   --shadow: rgba(11, 27, 77, 0.08);
 
   /* Typography */
-  --font-serif: var(--font-cormorant), Georgia, serif;
-  --font-sans: var(--font-inter), sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: Inter, Arial, Helvetica, sans-serif;
 
   /* Spacing Scale */
   --space-xs: 0.5rem;
@@ -67,6 +74,7 @@
   --color-navy: var(--navy);
   --color-maroon: var(--maroon);
   --color-gold: var(--gold);
+  --color-gold-text: var(--gold-text);
   --color-cream: var(--cream);
   --color-grey-light: var(--grey-light);
 
@@ -85,67 +93,89 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  background: var(--background);
-  color: var(--text-body);
-  font-family: var(--font-sans);
-  font-weight: 400;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
-}
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--text-body);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+  }
 
-/* === Typography === */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  color: var(--text-main);
-}
+  /* === Typography === */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    color: var(--text-main);
+  }
 
-h1 {
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  /* Slightly larger for luxury feel */
-  font-weight: 300;
-}
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 300;
+  }
 
-h2 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 400;
-}
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+  }
 
-h3 {
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  font-weight: 400;
-}
+  h3 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 400;
+  }
 
-h4 {
-  font-size: clamp(1.25rem, 2vw, 1.75rem);
-  font-weight: 500;
-}
+  h4 {
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 500;
+  }
 
-p {
-  font-family: var(--font-sans);
-  font-size: 1.05rem;
-  /* Slightly larger readability */
-  line-height: 1.8;
-  color: var(--text-body);
-}
+  p {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-body);
+  }
 
-/* === Links === */
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
+  /* === Links === */
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
 
-a:hover {
-  color: var(--gold);
+  a:hover {
+    color: var(--gold);
+  }
+
+  /* === Footer Light Text Overrides === */
+  footer h1,
+  footer h2,
+  footer h3,
+  footer h4,
+  footer h5,
+  footer h6 {
+    color: #FAF7F0 !important;
+  }
+
+  footer p {
+    color: #E2E8F0 !important;
+  }
+
+  footer a {
+    color: #E2E8F0;
+  }
+
+  footer a:hover {
+    color: #E5C158 !important;
+  }
 }
 
 /* === Buttons === */

@@ -20,7 +20,7 @@ export default function AboutPage() {
                         Weaving Stories for Generations
                     </h1>
                     <p className="text-lg text-[var(--charcoal-light)] leading-relaxed max-w-2xl mx-auto">
-                        Since 1975, NCS Santhanam has stood as a guardian of Kanchipuram's rich weaving legacy, transforming pure silk threads into heirlooms.
+                        Since 1975, NCS Santhanam has stood as a guardian of Kanchipuram&apos;s rich weaving legacy, transforming pure silk threads into heirlooms.
                     </p>
                 </motion.div>
             </section>
@@ -74,19 +74,19 @@ export default function AboutPage() {
                         <div className="border-l border-[var(--gold)] pl-8 lg:pl-12 space-y-16">
                             <div className="relative">
                                 <span className="absolute -left-[41px] lg:-left-[57px] top-2 w-4 h-4 rounded-full bg-[var(--gold)] border-4 border-[var(--greige)]" />
-                                <span className="text-sm font-bold text-[var(--gold)] block mb-2">1975</span>
+                                <span className="text-sm font-bold text-[var(--gold-text)] block mb-2">1975</span>
                                 <h3 className="font-[var(--font-serif)] text-2xl text-[var(--charcoal)] mb-4">The Beginning</h3>
                                 <p className="text-[var(--charcoal-light)]">Founded by N.C. Santhanam with a single loom and a vision to bring quality silk to the community.</p>
                             </div>
                             <div className="relative">
                                 <span className="absolute -left-[41px] lg:-left-[57px] top-2 w-4 h-4 rounded-full bg-[var(--gold)] border-4 border-[var(--greige)]" />
-                                <span className="text-sm font-bold text-[var(--gold)] block mb-2">1995</span>
+                                <span className="text-sm font-bold text-[var(--gold-text)] block mb-2">1995</span>
                                 <h3 className="font-[var(--font-serif)] text-2xl text-[var(--charcoal)] mb-4">Expanding Horizons</h3>
                                 <p className="text-[var(--charcoal-light)]">Expanded to a larger showroom in Kanchipuram, becoming a trusted name for wedding silks.</p>
                             </div>
                             <div className="relative">
                                 <span className="absolute -left-[41px] lg:-left-[57px] top-2 w-4 h-4 rounded-full bg-[var(--gold)] border-4 border-[var(--greige)]" />
-                                <span className="text-sm font-bold text-[var(--gold)] block mb-2">Present Day</span>
+                                <span className="text-sm font-bold text-[var(--gold-text)] block mb-2">Present Day</span>
                                 <h3 className="font-[var(--font-serif)] text-2xl text-[var(--charcoal)] mb-4">A Global Legacy</h3>
                                 <p className="text-[var(--charcoal-light)]">Serving customers worldwide through our online boutique while maintaining our roots in tradition.</p>
                             </div>

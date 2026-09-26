@@ -36,7 +36,7 @@ export default function BrandStorySection() {
                             transition={{ duration: 0.6, delay: 0.4 }}
                             className="absolute -bottom-6 -left-6 lg:-bottom-8 lg:-left-8 w-28 h-28 lg:w-36 lg:h-36 bg-[var(--navy)] flex flex-col items-center justify-center shadow-xl"
                         >
-                            <span className="text-[var(--gold)] text-xs tracking-[0.2em] uppercase mb-1">Since</span>
+                            <span className="text-[var(--gold-text)] text-xs tracking-[0.2em] uppercase mb-1">Since</span>
                             <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-white">1975</span>
                         </motion.div>
                     </motion.div>
@@ -61,7 +61,7 @@ export default function BrandStorySection() {
                         <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-6 leading-tight">
                             Crafted with Care.
                             <br />
-                            <span className="italic text-[var(--gold)]">Rooted in Tradition.</span>
+                            <span className="italic text-[var(--gold-text)]">Rooted in Tradition.</span>
                         </h2>
 
                         {/* Description */}

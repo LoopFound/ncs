@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
 
 export default function LoginPage() {
     const [isLogin, setIsLogin] = useState(true);
@@ -28,7 +27,7 @@ export default function LoginPage() {
                         <div className="absolute inset-0 p-12 flex flex-col justify-end text-white">
                             <h2 className="font-[var(--font-serif)] text-4xl mb-4 leading-tight">Masterpieces <br />Crafted with Passion.</h2>
                             <p className="text-white/70 text-sm leading-relaxed tracking-wide">
-                                Join our exclusive heritage boutique and discover the world's finest handcrafted Kanchipuram silk.
+                                Join our exclusive heritage boutique and discover the world&apos;s finest handcrafted Kanchipuram silk.
                             </p>
                         </div>
                     </div>
@@ -61,7 +60,7 @@ export default function LoginPage() {
                                         <div className="space-y-1">
                                             <div className="flex justify-between items-center">
                                                 <label className="text-[10px] uppercase tracking-widest font-bold text-[var(--navy)]/60">Password</label>
-                                                <a href="#" className="text-[10px] text-[var(--gold)] uppercase tracking-widest hover:underline">Forgot?</a>
+                                                <a href="#" className="text-[10px] text-[var(--gold-text)] uppercase tracking-widest hover:underline">Forgot?</a>
                                             </div>
                                             <input
                                                 type="password"
@@ -77,10 +76,10 @@ export default function LoginPage() {
 
                                     <div className="mt-8 pt-8 border-t border-[var(--border)] text-center">
                                         <p className="text-[var(--text-muted)] text-sm">
-                                            Don't have an account? <br className="md:hidden" />
+                                            Don&apos;t have an account? <br className="md:hidden" />
                                             <button
                                                 onClick={() => setIsLogin(false)}
-                                                className="text-[var(--gold)] font-bold uppercase tracking-widest text-[10px] ml-2 hover:underline"
+                                                className="text-[var(--gold-text)] font-bold uppercase tracking-widest text-[10px] ml-2 hover:underline"
                                             >
                                                 Create Account
                                             </button>
@@ -146,7 +145,7 @@ export default function LoginPage() {
                                             Already have an account? <br className="md:hidden" />
                                             <button
                                                 onClick={() => setIsLogin(true)}
-                                                className="text-[var(--gold)] font-bold uppercase tracking-widest text-[10px] ml-2 hover:underline"
+                                                className="text-[var(--gold-text)] font-bold uppercase tracking-widest text-[10px] ml-2 hover:underline"
                                             >
                                                 Sign In Instead
                                             </button>

@@ -1,27 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-
-const footerLinks = {
-    shop: [
-        { label: "Wedding Silks", href: "/shop?category=wedding" },
-        { label: "Kanchipuram Silk", href: "/shop?category=kanchipuram" },
-        { label: "Soft Silk", href: "/shop?category=soft-silk" },
-        { label: "Gift Sarees", href: "/shop?category=gifts" },
-        { label: "New Arrivals", href: "/new" },
-    ],
-    company: [
-        { label: "Our Story", href: "/about" },
-        { label: "Contact Us", href: "/contact" },
-        { label: "Store Location", href: "/contact#location" },
-    ],
-    support: [
-        { label: "Shipping Policy", href: "/policies/shipping" },
-        { label: "Returns & Exchange", href: "/policies/returns" },
-        { label: "Privacy Policy", href: "/policies/privacy" },
-    ],
-};
 
 export default function Footer() {
     const scrollToTop = () => {
@@ -29,152 +8,162 @@ export default function Footer() {
     };
 
     return (
-        <footer className="bg-[var(--navy)] text-white relative overflow-hidden">
-            {/* Decorative Top Border */}
-            <div className="w-full h-1 bg-gradient-to-r from-[var(--navy)] via-[var(--gold)] to-[var(--navy)] opacity-40" />
+        <footer className="bg-[#071333] text-[#FAF7F0] border-t border-[#D4AF37]/40 mt-auto relative z-20">
+            {/* Top gold hairline accent */}
+            <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-90" />
 
-            {/* Main Footer Content */}
-            <div className="container mx-auto px-6 lg:px-12 pt-24 pb-12 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
+            <div className="container mx-auto px-6 lg:px-12 py-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+                    
+                    {/* Brand & Showroom (Span 5) */}
+                    <div className="lg:col-span-5 space-y-4">
+                        <Link href="/" className="inline-block group">
+                            <h2 className="font-[var(--font-serif)] text-3xl sm:text-4xl !text-[#FAF7F0] tracking-wide group-hover:!text-[#E5C158] transition-colors">
+                                NCS Santhanam
+                            </h2>
+                            <span className="block text-xs tracking-[0.35em] uppercase !text-[#E5C158] font-semibold mt-1">
+                                Est. 1975 • Kanchipuram
+                            </span>
+                        </Link>
 
-                    {/* Brand Column (Span 4) */}
-                    <div className="lg:col-span-5 flex flex-col justify-between h-full">
-                        <div>
-                            <Link href="/" className="inline-block group">
-                                <h2 className="font-[var(--font-serif)] text-4xl lg:text-5xl font-extrabold tracking-wide text-[#E8B931] group-hover:text-white transition-colors duration-500">
-                                    NCS Santhanam
-                                </h2>
-                                <span className="block text-[10px] tracking-[0.4em] uppercase text-[#E8B931] font-extrabold mt-3 ml-1">
-                                    Est. 1975 • Kanchipuram
-                                </span>
-                            </Link>
+                        <p className="text-sm !text-[#E2E8F0] font-light leading-relaxed max-w-sm">
+                            Handcrafting pure Kanchipuram silk sarees with certified Silk Mark authenticity, authentic gold zari, and timeless temple motifs.
+                        </p>
 
-                            <p className="mt-8 text-[#E8B931] font-extrabold text-base leading-relaxed max-w-sm">
-                                Weaving the threads of tradition into timeless masterpieces.
-                                Each saree is a testament to the artistry of Kanchipuram's
-                                finest weavers, crafted for generations to come.
+                        <div className="pt-2 text-xs !text-[#E2E8F0] space-y-2 font-normal">
+                            <p className="!text-[#E2E8F0]">
+                                <span className="!text-[#E5C158] font-semibold">Showroom:</span> 59, Viladadikoil Street, Kancheepuram, Tamil Nadu – 631501
+                            </p>
+                            <p className="!text-[#E2E8F0]">
+                                <span className="!text-[#E5C158] font-semibold">Hours:</span> Mon – Sat: 10:00 AM – 8:00 PM | Sun: 10:00 AM – 2:00 PM
+                            </p>
+                            <p className="!text-[#E2E8F0]">
+                                <span className="!text-[#E5C158] font-semibold">Phone:</span> +91 98765 43210
+                            </p>
+                            <p className="!text-[#E2E8F0]">
+                                <span className="!text-[#E5C158] font-semibold">Email:</span> concierge@ncsanthanam.in
                             </p>
                         </div>
 
-                        <div className="mt-12 lg:mt-0">
-                            <p className="text-xs uppercase tracking-[0.2em] text-[#E8B931] font-extrabold mb-4">Connect</p>
-                            <div className="flex gap-6">
-                                {[
-                                    { name: 'Instagram', url: '#' },
-                                    { name: 'Facebook', url: '#' },
-                                    { name: 'WhatsApp', url: '#' }
-                                ].map((social) => (
-                                    <a
-                                        key={social.name}
-                                        href={social.url}
-                                        className="text-sm text-[#E8B931] font-extrabold hover:text-[var(--gold)] transition-colors duration-300 border-b border-transparent hover:border-[var(--gold)] pb-0.5"
-                                    >
-                                        {social.name}
-                                    </a>
-                                ))}
-                            </div>
+                        {/* WhatsApp Concierge link */}
+                        <div className="pt-3">
+                            <a
+                                href="https://wa.me/919876543210"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[#D4AF37]/50 bg-white/10 text-xs !text-[#FAF7F0] hover:!text-[#E5C158] hover:border-[#E5C158] transition-colors font-medium shadow-xs"
+                            >
+                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0" />
+                                <span>WhatsApp Concierge & Video Shopping</span>
+                            </a>
                         </div>
                     </div>
 
-                    {/* Links Grid (Span 4) */}
-                    <div className="lg:col-span-4 grid grid-cols-2 gap-12">
-                        <div>
-                            <h4 className="font-[var(--font-serif)] text-xl text-[#E8B931] mb-8 italic font-extrabold">Collections</h4>
-                            <ul className="space-y-4">
-                                {footerLinks.shop.map((link) => (
-                                    <li key={link.label}>
-                                        <Link
-                                            href={link.href}
-                                            className="text-sm text-[#E8B931] font-extrabold hover:text-[var(--gold)] hover:translate-x-1 transition-all duration-300 inline-block"
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h4 className="font-[var(--font-serif)] text-xl text-[#E8B931] mb-8 italic font-extrabold">Service</h4>
-                            <ul className="space-y-4">
-                                {[...footerLinks.company, ...footerLinks.support].map((link) => (
-                                    <li key={link.label}>
-                                        <Link
-                                            href={link.href}
-                                            className="text-sm text-[#E8B931] font-extrabold hover:text-[var(--gold)] hover:translate-x-1 transition-all duration-300 inline-block"
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-
-                    {/* Newsletter Column (Span 3) */}
+                    {/* Collections (Span 3) */}
                     <div className="lg:col-span-3">
-                        <div className="bg-white/5 p-8 border border-white/10 relative overflow-hidden group">
-                            {/* Decorative sheen */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--gold)]/10 rounded-full blur-2xl -mr-16 -mt-16 transition-all duration-1000 group-hover:bg-[var(--gold)]/20" />
+                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-5 tracking-wide flex items-center gap-2">
+                            <span>Collections</span>
+                            <span className="h-px w-6 bg-[#D4AF37]" />
+                        </h4>
+                        <ul className="space-y-3 text-sm">
+                            <li>
+                                <Link href="/wedding" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Wedding Silks
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/kanchipuram" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Kanchipuram Classics
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/soft-silk" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Soft Silks
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/gift-sarees" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Gift Sarees
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/new" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    New Arrivals
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/mens-corner" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Men&apos;s Corner & Dhotis
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
 
-                            <h4 className="font-[var(--font-serif)] text-2xl text-[#E8B931] font-extrabold mb-4 relative z-10">
-                                The Silk Circle
-                            </h4>
-                            <p className="text-sm text-[#E8B931] font-extrabold mb-6 leading-relaxed relative z-10">
-                                Join our exclusive list for early access to new weaves and private exhibitions.
-                            </p>
-
-                            <form className="relative z-10 space-y-4">
-                                <div className="relative">
-                                    <input
-                                        type="email"
-                                        placeholder="Email Address"
-                                        className="w-full bg-transparent border-b border-[#E8B931]/50 py-3 text-sm text-[#E8B931] font-extrabold placeholder:text-[#E8B931]/70 focus:outline-none focus:border-[var(--gold)] transition-colors"
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="w-full bg-[var(--gold)] text-[var(--navy)] font-extrabold py-3 text-xs tracking-[0.2em] uppercase hover:bg-white transition-colors duration-300 mt-4"
-                                >
-                                    Subscribe
-                                </button>
-                            </form>
-                        </div>
+                    {/* Client Care & Policies (Span 4) */}
+                    <div className="lg:col-span-4">
+                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-5 tracking-wide flex items-center gap-2">
+                            <span>Client Care</span>
+                            <span className="h-px w-6 bg-[#D4AF37]" />
+                        </h4>
+                        <ul className="space-y-3 text-sm">
+                            <li>
+                                <Link href="/about" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Our Heritage & Story
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/contact" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Visit Kanchipuram Showroom
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/faq" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Care Guide & FAQs
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/policies/shipping" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Shipping & Delivery Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/policies/returns" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Returns & Exchange Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/policies/privacy" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
+                                    Privacy Policy
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
 
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-end gap-6">
-                    <div className="text-[#E8B931] font-extrabold text-[10px] uppercase tracking-[0.1em] space-y-2">
-                        <p>© 2026 NCS Santhanam Silks. All Rights Reserved.</p>
-                        <p>Designed with care in Kanchipuram.</p>
-                    </div>
+                {/* Clean Bottom Bar */}
+                <div className="mt-14 pt-6 border-t border-white/20 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs !text-[#CBD5E1]">
+                    <p className="!text-[#CBD5E1]">© 2026 NCS Santhanam Silks. Kanchipuram, India.</p>
 
                     <button
                         onClick={scrollToTop}
-                        className="group flex items-center gap-2 text-[#E8B931] font-extrabold hover:text-[var(--gold)] transition-colors duration-300"
+                        aria-label="Back to top"
+                        className="flex items-center gap-2 !text-[#E5C158] hover:!text-white transition-colors cursor-pointer"
                     >
-                        <span className="text-[10px] uppercase tracking-widest">Back to Top</span>
-                        <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[var(--gold)] transition-colors">
-                            <svg
-                                width="12"
-                                height="12"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.5"
-                                className="group-hover:-translate-y-0.5 transition-transform duration-300 text-[#E8B931]"
-                            >
-                                <path d="M12 19V5M5 12l7-7 7 7" />
-                            </svg>
-                        </span>
+                        <span className="uppercase tracking-[0.2em] text-[10px] font-semibold">Back to Top</span>
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                        >
+                            <path d="M12 19V5M5 12l7-7 7 7" />
+                        </svg>
                     </button>
                 </div>
             </div>
-
-            {/* Background Texture - simple CSS overlay */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none bg-black/5" />
         </footer>
     );
 }

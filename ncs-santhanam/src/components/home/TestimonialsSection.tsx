@@ -64,7 +64,7 @@ export default function TestimonialsSection() {
                         What Our Customers Say
                     </h2>
                     <p className="text-[var(--text-muted)] max-w-md mx-auto">
-                        Trusted by families across generations for life's most precious moments.
+                        Trusted by families across generations for life&apos;s most precious moments.
                     </p>
                 </motion.div>
 
@@ -84,7 +84,7 @@ export default function TestimonialsSection() {
                         >
                             {/* Quote mark */}
                             <div className="absolute top-6 right-6 font-[var(--font-serif)] text-6xl text-[var(--gold)]/20 leading-none">
-                                "
+                                &ldquo;
                             </div>
 
                             {/* Stars */}
@@ -104,7 +104,7 @@ export default function TestimonialsSection() {
 
                             {/* Text */}
                             <p className="text-[var(--text-body)] leading-relaxed mb-6 relative z-10 italic">
-                                "{testimonial.text}"
+                                &ldquo;{testimonial.text}&rdquo;
                             </p>
 
                             {/* Author */}
