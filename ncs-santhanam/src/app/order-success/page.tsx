@@ -2,16 +2,10 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function OrderSuccessPage() {
-  const [orderNumber, setOrderNumber] = useState("NCS-75821");
-
-  useEffect(() => {
-    // Generate a random luxury order reference
-    const randomId = "NCS-" + Math.floor(10000 + Math.random() * 90000);
-    setOrderNumber(randomId);
-  }, []);
+  const [orderNumber] = useState("NCS-78429");
 
   return (
     <div className="pt-28 lg:pt-36 pb-24 bg-[var(--cream)] min-h-screen flex items-center justify-center">
