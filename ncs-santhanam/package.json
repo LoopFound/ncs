@@ -3,27 +3,65 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "next dev -p 3100",
+    "build": "next build && node scripts/prepare-standalone.mjs",
+    "start": "node .next/standalone/server.js",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "worker:dev": "tsx watch --env-file=.env src/worker/index.ts",
+    "worker:build": "esbuild worker=src/worker/index.ts create-admin=scripts/create-admin.ts seed=prisma/seed.ts --bundle --platform=node --target=node24 --format=esm --out-extension:.js=.mjs --packages=external --outdir=dist --log-level=warning",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:seed": "prisma db seed",
+    "admin:create": "tsx --env-file=.env scripts/create-admin.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "tsx tests/e2e/prepare.ts && playwright test",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^7.3.0",
+    "@aws-sdk/client-s3": "3.1149.0",
+    "@aws-sdk/s3-request-presigner": "3.1149.0",
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "better-auth": "1.7.7",
+    "bullmq": "6.3.12",
+    "dotenv": "18.0.7",
     "framer-motion": "^12.29.0",
-    "next": "16.1.4",
+    "ioredis": "6.0.0",
+    "next": "16.4.0",
+    "nodemailer": "10.1.0",
+    "pdf-lib": "1.17.1",
+    "pg": "8.23.1",
+    "pino": "10.4.0",
+    "razorpay": "2.9.8",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "zod": "4.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.0",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "24.19.2",
+    "@types/nodemailer": "8.0.2",
+    "@types/pg": "8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "0.28.2",
     "eslint": "^9",
-    "eslint-config-next": "16.1.4",
-    "prisma": "^7.3.0",
+    "eslint-config-next": "16.4.0",
+    "prisma": "7.10.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "4.23.15",
+    "typescript": "^5",
+    "vitest": "5.0.3"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "overrides": {
+    "mysql2": "^3.24.5",
+    "deepmerge-ts": "^8.0.2"
   }
 }
