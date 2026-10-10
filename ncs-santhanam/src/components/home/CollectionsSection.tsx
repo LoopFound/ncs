@@ -8,21 +8,21 @@ const collections = [
         id: 1,
         title: "Wedding Silks",
         subtitle: "Bridal Collection",
-        href: "/shop?category=wedding",
+        href: "/wedding",
         image: "/images/collections/wedding.png",
     },
     {
         id: 2,
         title: "Kanchipuram Classics",
         subtitle: "Heritage Weaves",
-        href: "/shop?category=kanchipuram",
+        href: "/kanchipuram",
         image: "/images/collections/kanchipuram.png",
     },
     {
         id: 3,
         title: "Soft Silks",
         subtitle: "Everyday Elegance",
-        href: "/shop?category=soft-silk",
+        href: "/soft-silk",
         image: "/images/collections/soft-silk.png",
     },
 ];
@@ -61,7 +61,7 @@ export default function CollectionsSection() {
                     className="text-center mb-16 lg:mb-20"
                 >
                     <div className="w-10 h-[2px] bg-[var(--gold)] mx-auto mb-6" />
-                    <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-4">
+                    <h2 className="font-serif text-4xl md:text-5xl font-light text-[var(--navy)] mb-4">
                         Our Collections
                     </h2>
                     <p className="text-[var(--text-muted)] max-w-md mx-auto">
@@ -103,7 +103,7 @@ export default function CollectionsSection() {
                                         <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] mb-2 group-hover:text-white transition-colors duration-300">
                                             {collection.subtitle}
                                         </span>
-                                        <h3 className="font-[var(--font-serif)] text-2xl lg:text-3xl text-white group-hover:text-[var(--gold)] transition-colors duration-300">
+                                        <h3 className="font-serif text-2xl lg:text-3xl text-white group-hover:text-[var(--gold)] transition-colors duration-300">
                                             {collection.title}
                                         </h3>
 

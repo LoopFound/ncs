@@ -37,7 +37,7 @@ export default function BrandStorySection() {
                             className="absolute -bottom-6 -left-6 lg:-bottom-8 lg:-left-8 w-28 h-28 lg:w-36 lg:h-36 bg-[var(--navy)] flex flex-col items-center justify-center shadow-xl"
                         >
                             <span className="text-[var(--gold-text)] text-xs tracking-[0.2em] uppercase mb-1">Since</span>
-                            <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-white">1975</span>
+                            <span className="font-serif text-3xl lg:text-4xl text-white">1975</span>
                         </motion.div>
                     </motion.div>
 
@@ -58,7 +58,7 @@ export default function BrandStorySection() {
                         </p>
 
                         {/* Title */}
-                        <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-6 leading-tight">
+                        <h2 className="font-serif text-4xl md:text-5xl font-light text-[var(--navy)] mb-6 leading-tight">
                             Crafted with Care.
                             <br />
                             <span className="italic text-[var(--gold-text)]">Rooted in Tradition.</span>
@@ -81,15 +81,15 @@ export default function BrandStorySection() {
                         {/* Stats */}
                         <div className="grid grid-cols-3 gap-6 mb-10 py-8 border-t border-b border-[var(--border)]">
                             <div className="text-center">
-                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--navy)] block mb-1">50+</span>
+                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">50+</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Years</span>
                             </div>
                             <div className="text-center">
-                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--navy)] block mb-1">100+</span>
+                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">100+</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Artisans</span>
                             </div>
                             <div className="text-center">
-                                <span className="font-[var(--font-serif)] text-3xl lg:text-4xl text-[var(--navy)] block mb-1">25K+</span>
+                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">25K+</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Sarees</span>
                             </div>
                         </div>

@@ -50,8 +50,8 @@
   --shadow: rgba(11, 27, 77, 0.08);
 
   /* Typography */
-  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-sans: Inter, Arial, Helvetica, sans-serif;
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), Inter, Arial, Helvetica, sans-serif;
 
   /* Spacing Scale */
   --space-xs: 0.5rem;

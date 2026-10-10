@@ -1,35 +1,37 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { CartProvider } from "@/context/CartContext";
+
+const serif = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
+const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "NCS Santhanam | Premium Silk Boutique",
-  description: "Discover exquisite handcrafted silk sarees from Kanchipuram. Wedding silks, Kanchipuram classics, and luxury collections crafted with heritage and tradition.",
-  keywords: ["silk sarees", "Kanchipuram sarees", "wedding sarees", "Indian silk", "luxury sarees", "NCS Santhanam"],
-  openGraph: {
-    title: "NCS Santhanam | Premium Silk Boutique",
-    description: "Discover exquisite handcrafted silk sarees from Kanchipuram.",
-    type: "website",
-    locale: "en_IN",
-  },
+  metadataBase: new URL(process.env.APP_URL ?? "http://localhost:3100"),
+  title: { default: "NCS Santhanam | Pure Kanchipuram Silk Sarees", template: "%s | NCS Santhanam" },
+  description:
+    "Handwoven pure silk sarees from Kanchipuram since 1975 — wedding silks, Kanchipuram classics, soft silks, gift sarees, pavadas, dupattas and men's silk veshtis.",
+  keywords: ["silk sarees", "Kanchipuram sarees", "wedding sarees", "Indian silk", "pattu sarees", "NCS Santhanam"],
+  openGraph: { siteName: "NCS Santhanam", type: "website", locale: "en_IN" },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = { themeColor: "#0B1B4D" };
+
+// Every page reads the session, cart or live catalog, so nothing is prerendered at build time
+// (builds run without database access). Data is cached in Redis instead — see src/server/cache.ts.
+export const dynamic = "force-dynamic";
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--text-body)] antialiased">
-        <CartProvider>
-          <Header />
-          <main className="flex-1 flex flex-col">{children}</main>
-          <Footer />
-        </CartProvider>
-      </body>
+    <html lang="en-IN" className={`${serif.variable} ${sans.variable}`}>
+      <body className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--text-body)] antialiased">{children}</body>
     </html>
   );
 }
