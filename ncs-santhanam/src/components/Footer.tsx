@@ -12,11 +12,11 @@ export default function Footer() {
             {/* Top gold hairline accent */}
             <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-90" />
 
-            <div className="container mx-auto px-6 lg:px-12 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+            <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 py-14 lg:py-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] gap-x-10 gap-y-12 lg:gap-x-16 items-start">
                     
                     {/* Brand & Showroom (Span 5) */}
-                    <div className="lg:col-span-5 space-y-4">
+                    <div className="sm:col-span-2 lg:col-span-1 space-y-4">
                         <Link href="/" className="inline-block group">
                             <h2 className="font-[var(--font-serif)] text-3xl sm:text-4xl !text-[#FAF7F0] tracking-wide group-hover:!text-[#E5C158] transition-colors">
                                 NCS Santhanam
@@ -26,21 +26,21 @@ export default function Footer() {
                             </span>
                         </Link>
 
-                        <p className="text-sm !text-[#E2E8F0] font-light leading-relaxed max-w-sm">
+                        <p className="!text-sm !text-[#E2E8F0] font-light !leading-relaxed max-w-md">
                             Handcrafting pure Kanchipuram silk sarees with certified Silk Mark authenticity, authentic gold zari, and timeless temple motifs.
                         </p>
 
-                        <div className="pt-2 text-xs !text-[#E2E8F0] space-y-2 font-normal">
-                            <p className="!text-[#E2E8F0]">
+                        <div className="pt-2 !text-sm !text-[#E2E8F0] space-y-2 font-normal">
+                            <p className="!text-sm !leading-relaxed !text-[#E2E8F0]">
                                 <span className="!text-[#E5C158] font-semibold">Showroom:</span> 59, Viladadikoil Street, Kancheepuram, Tamil Nadu – 631501
                             </p>
-                            <p className="!text-[#E2E8F0]">
+                            <p className="!text-sm !leading-relaxed !text-[#E2E8F0]">
                                 <span className="!text-[#E5C158] font-semibold">Hours:</span> Mon – Sat: 10:00 AM – 8:00 PM | Sun: 10:00 AM – 2:00 PM
                             </p>
-                            <p className="!text-[#E2E8F0]">
+                            <p className="!text-sm !leading-relaxed !text-[#E2E8F0]">
                                 <span className="!text-[#E5C158] font-semibold">Phone:</span> +91 98765 43210
                             </p>
-                            <p className="!text-[#E2E8F0]">
+                            <p className="!text-sm !leading-relaxed !text-[#E2E8F0] break-words">
                                 <span className="!text-[#E5C158] font-semibold">Email:</span> concierge@ncsanthanam.in
                             </p>
                         </div>
@@ -60,7 +60,7 @@ export default function Footer() {
                     </div>
 
                     {/* Collections (Span 3) */}
-                    <div className="lg:col-span-3">
+                    <div>
                         <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-5 tracking-wide flex items-center gap-2">
                             <span>Collections</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
@@ -100,7 +100,7 @@ export default function Footer() {
                     </div>
 
                     {/* Client Care & Policies (Span 4) */}
-                    <div className="lg:col-span-4">
+                    <div>
                         <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-5 tracking-wide flex items-center gap-2">
                             <span>Client Care</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
@@ -142,8 +142,8 @@ export default function Footer() {
                 </div>
 
                 {/* Clean Bottom Bar */}
-                <div className="mt-14 pt-6 border-t border-white/20 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs !text-[#CBD5E1]">
-                    <p className="!text-[#CBD5E1]">© 2026 NCS Santhanam Silks. Kanchipuram, India.</p>
+                <div className="mt-12 pt-6 border-t border-white/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs !text-[#CBD5E1]">
+                    <p className="!text-xs !leading-relaxed !text-[#CBD5E1]">© 2026 NCS Santhanam Silks. Kanchipuram, India.</p>
 
                     <button
                         onClick={scrollToTop}
