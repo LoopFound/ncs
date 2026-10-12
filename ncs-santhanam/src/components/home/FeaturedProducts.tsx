@@ -10,7 +10,7 @@ const products = [
         price: "₹45,000",
         originalPrice: "₹52,000",
         category: "Wedding Collection",
-        href: "/shop/product-1",
+        href: "/shop/product/p1",
         image: "/images/collections/Gemini_Generated_Image_a504fwa504fwa504.png",
     },
     {
@@ -18,7 +18,7 @@ const products = [
         name: "Classic Gold Border Pattu",
         price: "₹38,000",
         category: "Kanchipuram",
-        href: "/shop/product-2",
+        href: "/shop/product/p2",
         image: "/images/collections/Gemini_Generated_Image_bhmtv9bhmtv9bhmt.png",
     },
     {
@@ -26,7 +26,7 @@ const products = [
         name: "Soft Silk Pastel Dreams",
         price: "₹18,500",
         category: "Soft Silk",
-        href: "/shop/product-3",
+        href: "/shop/product/p3",
         image: "/images/collections/Gemini_Generated_Image_vdqny5vdqny5vdqn.png",
     },
     {
@@ -34,7 +34,7 @@ const products = [
         name: "Temple Zari Weave",
         price: "₹55,000",
         category: "Wedding Collection",
-        href: "/shop/product-4",
+        href: "/shop/product/p4",
         image: "/images/collections/Gemini_Generated_Image_vkgvmnvkgvmnvkgv.png",
     },
 ];
