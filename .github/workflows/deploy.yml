@@ -1,6 +1,7 @@
 name: Deploy to AWS
 
 # Requires (repository settings → Secrets and variables → Actions):
+#   vars.DEPLOY_TARGET            "aws" turns this workflow on ("vps" uses deploy-vps.yml instead)
 #   secrets.AWS_DEPLOY_ROLE_ARN   IAM role trusted for GitHub OIDC (ECR push, ECS deploy, iam:PassRole)
 #   vars.AWS_REGION               e.g. ap-south-1
 #   vars.NAME_PREFIX              Terraform "<project>-<environment>", e.g. ncs-prod
@@ -25,7 +26,7 @@ permissions:
 
 jobs:
   deploy:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ vars.DEPLOY_TARGET == 'aws' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
     environment: production
     timeout-minutes: 40

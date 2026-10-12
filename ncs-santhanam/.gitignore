@@ -57,3 +57,6 @@ next-env.d.ts
 
 # worker / scripts bundles (npm run worker:build)
 /dist
+
+# server-side deploy state (infra/vps/deploy.sh)
+/.deploy

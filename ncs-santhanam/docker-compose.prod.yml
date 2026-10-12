@@ -5,6 +5,8 @@
 #   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
 #   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --scale app=4
 #
+# Releases from CI go through infra/vps/deploy.sh (rolling, zero-downtime, auto-rollback).
+#
 # For AWS (managed Postgres/Redis/S3, autoscaling) use infra/terraform/aws instead.
 # ─────────────────────────────────────────────────────────────
 name: ncs-prod
@@ -43,6 +45,7 @@ services:
       replicas: ${APP_REPLICAS:-2}
       resources: { limits: { memory: 768M } }
     expose: ["3000"]
+    stop_grace_period: 30s
     depends_on:
       migrate: { condition: service_completed_successfully }
       pgbouncer: { condition: service_started }
@@ -52,6 +55,8 @@ services:
     <<: *app-env
     image: ${APP_IMAGE:-ncs-santhanam:latest}
     command: ["node", "worker.mjs"]
+    # Lets in-flight jobs (emails, invoices) finish before the container is replaced.
+    stop_grace_period: 60s
     environment:
       NODE_ENV: production
       DATABASE_URL: postgresql://${POSTGRES_USER:-ncs}:${POSTGRES_PASSWORD}@pgbouncer:6432/${POSTGRES_DB:-ncs}
@@ -141,7 +146,7 @@ services:
       - s3data:/data
       - ./infra/seaweedfs/s3.prod.json:/etc/seaweedfs/s3.json:ro
 
-  # Nightly logical backups kept for 14 days (copy /backups off-server, e.g. with rclone).
+  # Nightly logical backups: 14 days on the server, plus off-site copies when BACKUP_S3_* is set.
   backup:
     image: postgres:17.11-alpine
     restart: unless-stopped
@@ -151,6 +156,17 @@ services:
       PGPASSWORD: ${POSTGRES_PASSWORD}
       PGDATABASE: ${POSTGRES_DB:-ncs}
       RETENTION_DAYS: "14"
+      BACKUP_HOUR_UTC: ${BACKUP_HOUR_UTC:-21}
+      BACKUP_PING_URL: ${BACKUP_PING_URL:-}
+      BACKUP_S3_BUCKET: ${BACKUP_S3_BUCKET:-}
+      BACKUP_S3_PREFIX: ${BACKUP_S3_PREFIX:-ncs}
+      BACKUP_S3_RETENTION_DAYS: ${BACKUP_S3_RETENTION_DAYS:-30}
+      RCLONE_CONFIG_OFFSITE_TYPE: s3
+      RCLONE_CONFIG_OFFSITE_PROVIDER: ${BACKUP_S3_PROVIDER:-Other}
+      RCLONE_CONFIG_OFFSITE_ENDPOINT: ${BACKUP_S3_ENDPOINT:-}
+      RCLONE_CONFIG_OFFSITE_REGION: ${BACKUP_S3_REGION:-}
+      RCLONE_CONFIG_OFFSITE_ACCESS_KEY_ID: ${BACKUP_S3_ACCESS_KEY_ID:-}
+      RCLONE_CONFIG_OFFSITE_SECRET_ACCESS_KEY: ${BACKUP_S3_SECRET_ACCESS_KEY:-}
     volumes:
       - ./infra/backup/backup.sh:/backup.sh:ro
       - backups:/backups

@@ -68,25 +68,64 @@ On low-memory machines, `NEXT_BUILD_CPUS=1 npx next build --webpack` builds with
 
 ## Deploying
 
-### Option A — single VPS (Docker Compose)
+### Option A — single VPS (recommended to start)
+
+One 4 vCPU / 8 GB server in India (e.g. a DigitalOcean Droplet in Bangalore) comfortably serves
+~100 concurrent shoppers. GitHub Actions builds the images, pushes them to GitHub Container
+Registry and releases them over SSH with `infra/vps/deploy.sh`.
+
+**1. Prepare the server (once).** Create an Ubuntu 24.04 server, then:
 
 ```bash
-cp .env.production.example .env.production      # fill every REPLACE_ME
-docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
-docker compose -f docker-compose.prod.yml --env-file .env.production run --rm app node create-admin.mjs owner@ncsanthanam.in "Owner" 'long-password'
-docker compose -f docker-compose.prod.yml --env-file .env.production run --rm app node seed.mjs   # first deploy only
+ssh-keygen -t ed25519 -f ncs-deploy -N "" -C ncs-deploy       # key used only by CI
+scp infra/vps/bootstrap.sh root@SERVER:
+ssh root@SERVER "bash bootstrap.sh '$(cat ncs-deploy.pub)'"
+```
+
+The script installs Docker, sets up the firewall (22/80/443), automatic security updates,
+fail2ban, swap and log rotation, turns off SSH password logins and creates the `deploy` user.
+Then, as `deploy`, create `/opt/ncs/.env.production` from `.env.production.example` (fill every
+REPLACE_ME, `chmod 600`), and point the domain's DNS A record at the server.
+
+**2. Connect GitHub (once).** Under *Settings → Secrets and variables → Actions*:
+
+| Name | Kind | Value |
+|---|---|---|
+| `DEPLOY_TARGET` | variable | `vps` |
+| `MEDIA_PUBLIC_URL` | variable | same as `S3_PUBLIC_URL` |
+| `APP_URL` | variable | `https://<domain>` (checked after each release) |
+| `VPS_HOST` | secret | server IP |
+| `VPS_USER` | secret | `deploy` |
+| `VPS_SSH_KEY` | secret | contents of `ncs-deploy` (private key) |
+| `VPS_KNOWN_HOSTS` | secret | host key line printed by `bootstrap.sh` |
+
+**3. Release.** Every green CI run on `main` deploys (or run *Deploy to VPS* by hand). Each
+release takes a pre-deploy backup, runs migrations, starts the new app containers next to the
+old ones and switches over once they are healthy, so there is no downtime. A release that never
+becomes healthy is discarded and the old one keeps serving. To go back one release:
+
+```bash
+ssh deploy@SERVER 'cd /opt/ncs && infra/vps/deploy.sh rollback'
+```
+
+**First release only:**
+
+```bash
+cd /opt/ncs
+docker compose -f docker-compose.prod.yml --env-file .env.production exec app node seed.mjs
+docker compose -f docker-compose.prod.yml --env-file .env.production exec app node create-admin.mjs owner@ncsanthanam.in "Owner" 'long-password'
 ```
 
 - **HTTPS.** Caddy gets certificates automatically and balances across app replicas, health-checking `/api/ready`.
-- **Scaling.** Scale with `APP_REPLICAS` / `WORKER_REPLICAS`, or with `--scale app=4`.
-- **Migrations.** These run automatically (the `migrate` service) before the app starts.
-- **Backups.** A nightly `pg_dump` lands in the `backups` volume with 14-day retention. Copy it off the server, e.g. with rclone to S3.
-- **Media.** Use AWS S3, Cloudflare R2, or the bundled SeaweedFS (`--profile selfhosted-storage`; copy `infra/seaweedfs/s3.prod.example.json` to `s3.prod.json` with new keys).
+- **Scaling.** Set `APP_REPLICAS` / `WORKER_REPLICAS` in `.env.production`; the next release applies them.
+- **Migrations.** These are forward-only, so a rollback keeps the newer schema. Keep migrations backward-compatible: add first, remove in a later release.
+- **Backups.** A nightly `pg_dump` (02:30 IST) is kept for 14 days on the server and, when `BACKUP_S3_*` is set, also uploaded to a private bucket (DigitalOcean Spaces, S3 or R2) for 30 days. Set `BACKUP_PING_URL` to be alerted when a backup fails or is missed.
+- **Media.** Use AWS S3, DigitalOcean Spaces, Cloudflare R2, or the bundled SeaweedFS (`COMPOSE_PROFILES=selfhosted-storage`; copy `infra/seaweedfs/s3.prod.example.json` to `s3.prod.json` with new keys).
 
-Restore a backup:
+Restore a backup (stop the app first so nothing writes during the restore):
 
 ```bash
-docker compose -f docker-compose.prod.yml exec -T postgres pg_restore -U ncs -d ncs --clean --if-exists < ncs-<timestamp>.dump
+docker compose -f docker-compose.prod.yml --env-file .env.production exec -T backup   sh -c 'pg_restore -d "$PGDATABASE" --clean --if-exists --no-owner /backups/ncs-<timestamp>.dump'
 ```
 
 ### Option B — AWS (Terraform + GitHub Actions)
