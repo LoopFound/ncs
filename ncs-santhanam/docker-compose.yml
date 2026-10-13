@@ -1,0 +1,88 @@
+# Local development stack: backing services only.
+# Run the app on the host with `npm run dev` / `npm run worker:dev`,
+# or start the containerised app too with `docker compose --profile app up`.
+name: ncs-dev
+
+services:
+  postgres:
+    image: postgres:17.11-alpine
+    environment:
+      POSTGRES_USER: ncs
+      POSTGRES_PASSWORD: ncs
+      POSTGRES_DB: ncs
+    ports: ["127.0.0.1:${NCS_PG_PORT:-55432}:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ncs -d ncs"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7.4.11-alpine
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports: ["127.0.0.1:${NCS_REDIS_PORT:-56379}:6379"]
+    volumes: [redisdata:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # S3-compatible object storage (stand-in for AWS S3).
+  s3:
+    image: chrislusf/seaweedfs:4.48
+    command: ["server", "-dir=/data", "-s3", "-s3.port=8333", "-s3.config=/etc/seaweedfs/s3.json", "-volume.max=0"]
+    ports: ["127.0.0.1:${NCS_S3_PORT:-58333}:8333"]
+    volumes:
+      - s3data:/data
+      - ./infra/seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8333/healthz || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  # Catches all outgoing email. UI at http://localhost:58025
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports: ["127.0.0.1:${NCS_SMTP_PORT:-51025}:1025", "127.0.0.1:${NCS_MAIL_UI_PORT:-58025}:8025"]
+
+  app:
+    profiles: [app]
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://ncs:ncs@postgres:5432/ncs
+      REDIS_URL: redis://redis:6379
+      S3_ENDPOINT: http://s3:8333
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      NODE_ENV: production
+    ports: ["127.0.0.1:${NCS_APP_PORT:-3100}:3000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  worker:
+    profiles: [app]
+    build: .
+    command: ["node", "worker.mjs"]
+    env_file: .env
+    environment:
+      HEALTH_PORT: "3001"
+      HEALTH_PATH: ""
+      DATABASE_URL: postgresql://ncs:ncs@postgres:5432/ncs
+      REDIS_URL: redis://redis:6379
+      S3_ENDPOINT: http://s3:8333
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      NODE_ENV: production
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+volumes:
+  pgdata:
+  redisdata:
+  s3data:

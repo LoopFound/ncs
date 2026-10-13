@@ -1,0 +1,13 @@
+{
+  "identities": [
+    {
+      "name": "ncs-app",
+      "credentials": [{ "accessKey": "ncs-dev-access", "secretKey": "ncs-dev-secret-change-me" }],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    },
+    {
+      "name": "anonymous",
+      "actions": ["Read:ncs-media"]
+    }
+  ]
+}

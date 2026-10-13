@@ -1,0 +1,44 @@
+{
+	email {$ACME_EMAIL}
+	servers {
+		# Only the reverse proxy itself is trusted for client IPs.
+		trusted_proxies static private_ranges
+	}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	# Self-hosted media (only when the selfhosted-storage profile is used):
+	# S3_PUBLIC_URL=https://{$DOMAIN}/media/ncs-media
+	handle_path /media/* {
+		@notget not method GET HEAD
+		respond @notget 405
+		reverse_proxy s3:8333
+		header Cache-Control "public, max-age=31536000, immutable"
+	}
+
+	handle {
+		reverse_proxy {
+			# Resolve every app replica via Docker DNS and balance across them.
+			dynamic a app 3000 {
+				refresh 10s
+			}
+			lb_policy least_conn
+			lb_try_duration 5s
+			health_uri /api/ready
+			health_interval 10s
+			health_timeout 3s
+			fail_duration 30s
+		}
+	}
+
+	log {
+		output stdout
+		format json
+	}
+}
+
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri} permanent
+}

@@ -1,0 +1,125 @@
+name: Deploy to AWS
+
+# Requires (repository settings → Secrets and variables → Actions):
+#   vars.DEPLOY_TARGET            "aws" turns this workflow on ("vps" uses deploy-vps.yml instead)
+#   secrets.AWS_DEPLOY_ROLE_ARN   IAM role trusted for GitHub OIDC (ECR push, ECS deploy, iam:PassRole)
+#   vars.AWS_REGION               e.g. ap-south-1
+#   vars.NAME_PREFIX              Terraform "<project>-<environment>", e.g. ncs-prod
+#   vars.MEDIA_PUBLIC_URL         https://<cloudfront domain> (terraform output media_cdn_domain)
+#   vars.PRIVATE_SUBNETS          comma-separated (terraform output private_subnet_ids)
+#   vars.TASK_SECURITY_GROUP      terraform output task_security_group_id
+
+on:
+  workflow_run:
+    workflows: [CI]
+    branches: [main]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    if: ${{ vars.DEPLOY_TARGET == 'aws' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 40
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      PREFIX: ${{ vars.NAME_PREFIX }}
+      TAG: ${{ github.event.workflow_run.head_sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build & push app image
+        uses: docker/build-push-action@v6
+        with:
+          context: ncs-santhanam
+          target: runtime
+          push: true
+          build-args: S3_PUBLIC_URL=${{ vars.MEDIA_PUBLIC_URL }}
+          tags: ${{ steps.ecr.outputs.registry }}/${{ env.PREFIX }}-app:${{ env.TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build & push migrate image
+        uses: docker/build-push-action@v6
+        with:
+          context: ncs-santhanam
+          target: migrate
+          push: true
+          tags: ${{ steps.ecr.outputs.registry }}/${{ env.PREFIX }}-migrate:${{ env.TAG }}
+          cache-from: type=gha
+
+      - name: Run database migrations
+        run: |
+          set -euo pipefail
+          aws ecs describe-task-definition --task-definition "$PREFIX-migrate" --query taskDefinition > migrate.json
+          jq --arg img "${{ steps.ecr.outputs.registry }}/$PREFIX-migrate:$TAG" \
+            '.containerDefinitions[0].image = $img
+             | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' \
+            migrate.json > migrate-new.json
+          ARN=$(aws ecs register-task-definition --cli-input-json file://migrate-new.json --query taskDefinition.taskDefinitionArn --output text)
+          SUBNETS=$(echo '${{ vars.PRIVATE_SUBNETS }}' | sed 's/,/","/g')
+          TASK=$(aws ecs run-task --cluster "$PREFIX" --launch-type FARGATE --task-definition "$ARN" \
+            --network-configuration "awsvpcConfiguration={subnets=[\"$SUBNETS\"],securityGroups=[\"${{ vars.TASK_SECURITY_GROUP }}\"],assignPublicIp=DISABLED}" \
+            --query 'tasks[0].taskArn' --output text)
+          aws ecs wait tasks-stopped --cluster "$PREFIX" --tasks "$TASK"
+          CODE=$(aws ecs describe-tasks --cluster "$PREFIX" --tasks "$TASK" --query 'tasks[0].containers[0].exitCode' --output text)
+          echo "migration exit code: $CODE"
+          test "$CODE" = "0"
+
+      - name: Render app task definition
+        id: app-td
+        run: aws ecs describe-task-definition --task-definition "$PREFIX-app" --query taskDefinition > app-td.json
+
+      - id: render-app
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: app-td.json
+          container-name: app
+          image: ${{ steps.ecr.outputs.registry }}/${{ env.PREFIX }}-app:${{ env.TAG }}
+
+      - name: Deploy app (rolling, auto-rollback on failure)
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-app.outputs.task-definition }}
+          cluster: ${{ env.PREFIX }}
+          service: app
+          wait-for-service-stability: true
+
+      - name: Render worker task definition
+        run: aws ecs describe-task-definition --task-definition "$PREFIX-worker" --query taskDefinition > worker-td.json
+
+      - id: render-worker
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: worker-td.json
+          container-name: worker
+          image: ${{ steps.ecr.outputs.registry }}/${{ env.PREFIX }}-app:${{ env.TAG }}
+
+      - name: Deploy worker
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-worker.outputs.task-definition }}
+          cluster: ${{ env.PREFIX }}
+          service: worker
+          wait-for-service-stability: true

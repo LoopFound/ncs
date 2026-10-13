@@ -1,125 +1,71 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
+import { motion, type Variants } from "framer-motion";
+import type { ReviewDTO } from "@/server/services/content";
 
-const testimonials = [
-    {
-        id: 1,
-        name: "Priya Sharma",
-        location: "Chennai",
-        rating: 5,
-        text: "The quality of the silk is absolutely exceptional. My wedding saree from NCS Santhanam was the most beautiful piece I've ever owned. The craftsmanship is unparalleled.",
-    },
-    {
-        id: 2,
-        name: "Lakshmi Venkat",
-        location: "Bangalore",
-        rating: 5,
-        text: "I've been buying sarees from NCS Santhanam for over a decade. Their attention to detail and customer service is what keeps me coming back.",
-    },
-    {
-        id: 3,
-        name: "Meera Krishnan",
-        location: "Mumbai",
-        rating: 5,
-        text: "Found the perfect gift saree for my mother's 60th birthday. The packaging was elegant, and the saree exceeded all expectations.",
-    },
-];
-
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.2,
-        },
-    },
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
 };
 
-const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.6,
-        },
-    },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-export default function TestimonialsSection() {
-    return (
-        <section className="py-24 lg:py-32 bg-[var(--cream)]">
-            <div className="container mx-auto px-6 lg:px-12">
-                {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8 }}
-                    className="text-center mb-16 lg:mb-20"
-                >
-                    <div className="w-10 h-[2px] bg-[var(--gold)] mx-auto mb-6" />
-                    <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-4">
-                        What Our Customers Say
-                    </h2>
-                    <p className="text-[var(--text-muted)] max-w-md mx-auto">
-                        Trusted by families across generations for life&apos;s most precious moments.
-                    </p>
-                </motion.div>
+/** Real, moderated reviews from verified buyers (the section is hidden when there are none). */
+export default function TestimonialsSection({ reviews }: { reviews: ReviewDTO[] }) {
+  return (
+    <section className="py-24 lg:py-32 bg-[var(--cream)]" aria-labelledby="reviews-home-heading">
+      <div className="container mx-auto px-6 lg:px-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16 lg:mb-20"
+        >
+          <div className="w-10 h-[2px] bg-[var(--gold)] mx-auto mb-6" />
+          <h2 id="reviews-home-heading" className="font-serif text-4xl md:text-5xl font-light text-[var(--navy)] mb-4">
+            What Our Customers Say
+          </h2>
+          <p className="text-[var(--text-muted)] max-w-md mx-auto">Reviews from customers who have received their weaves.</p>
+        </motion.div>
 
-                {/* Testimonials Grid */}
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    className="grid md:grid-cols-3 gap-8"
-                >
-                    {testimonials.map((testimonial) => (
-                        <motion.div
-                            key={testimonial.id}
-                            variants={itemVariants}
-                            className="bg-[var(--white)] p-8 lg:p-10 relative border border-[var(--grey-light)] shadow-sm hover:shadow-lg transition-shadow duration-300"
-                        >
-                            {/* Quote mark */}
-                            <div className="absolute top-6 right-6 font-[var(--font-serif)] text-6xl text-[var(--gold)]/20 leading-none">
-                                &ldquo;
-                            </div>
-
-                            {/* Stars */}
-                            <div className="flex gap-1 mb-6">
-                                {[...Array(testimonial.rating)].map((_, i) => (
-                                    <svg
-                                        key={i}
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="var(--gold)"
-                                    >
-                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                    </svg>
-                                ))}
-                            </div>
-
-                            {/* Text */}
-                            <p className="text-[var(--text-body)] leading-relaxed mb-6 relative z-10 italic">
-                                &ldquo;{testimonial.text}&rdquo;
-                            </p>
-
-                            {/* Author */}
-                            <div className="pt-6 border-t border-[var(--grey-light)]">
-                                <h4 className="font-[var(--font-serif)] text-lg text-[var(--navy)]">
-                                    {testimonial.name}
-                                </h4>
-                                <p className="text-xs tracking-wider uppercase text-[var(--text-muted)] mt-1">
-                                    {testimonial.location}
-                                </p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </motion.div>
-            </div>
-        </section>
-    );
+        <motion.ul
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid md:grid-cols-3 gap-8"
+        >
+          {reviews.map((r) => (
+            <motion.li
+              key={r.id}
+              variants={itemVariants}
+              className="bg-[var(--white)] p-8 lg:p-10 relative border border-[var(--grey-light)] shadow-sm hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="absolute top-6 right-6 font-serif text-6xl text-[var(--gold)]/20 leading-none" aria-hidden="true">
+                &ldquo;
+              </div>
+              <div className="flex gap-1 mb-6 text-[var(--gold)]" aria-label={`${r.rating} out of 5 stars`}>
+                {"★".repeat(r.rating)}
+              </div>
+              <blockquote className="text-[var(--text-body)] leading-relaxed mb-6 relative z-10 italic">&ldquo;{r.body}&rdquo;</blockquote>
+              <div className="pt-6 border-t border-[var(--grey-light)]">
+                <p className="font-serif !text-lg text-[var(--navy)] !mb-0">{r.authorName}</p>
+                <p className="text-xs tracking-wider uppercase text-[var(--text-muted)] mt-1 !mb-0">
+                  {r.isVerifiedPurchase ? "Verified purchase · " : ""}
+                  <Link href={`/shop/${r.productSlug}`} className="hover:text-[var(--gold-text)]">
+                    {r.productName}
+                  </Link>
+                </p>
+              </div>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </div>
+    </section>
+  );
 }

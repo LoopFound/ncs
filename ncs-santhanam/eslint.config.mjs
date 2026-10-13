@@ -7,7 +7,9 @@ const eslintConfig = defineConfig([
   ...nextTs,
   {
     rules: {
+      // Product media is served from S3/CloudFront at fixed sizes; plain <img> is intentional.
       "@next/next/no-img-element": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_", ignoreRestSiblings: true }],
     },
   },
   // Override default ignores of eslint-config-next.
@@ -17,6 +19,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "src/generated/**",
+    "dist/**",
+    "playwright-report/**",
+    "test-results/**",
   ]),
 ]);
 

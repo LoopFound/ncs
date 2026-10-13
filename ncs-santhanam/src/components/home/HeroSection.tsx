@@ -5,26 +5,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const heroEdits = [
+import type { BannerDTO } from "@/server/services/content";
+
+const FALLBACK: BannerDTO[] = [
   {
+    id: "fallback",
     tag: "Royal Muhurtham Edit",
     title: "The Kanchipuram Brocade",
-    desc: "Woven with double-warp mulberry silk & authentic tested gold zari.",
+    subtitle: "Woven with double-warp mulberry silk & authentic tested gold zari.",
     image: "/images/hero/hero-main.png",
-    accent: "Violet & Gold",
+    href: "/wedding",
+    ctaLabel: null,
+    accent: null,
   },
-  {
-    tag: "Bridal Crimson Heritage",
-    title: "Samudrika Bridal Pattu",
-    desc: "Auspicious red silk embellished with intricate temple architecture motifs.",
-    image: "/images/hero/hero-model.png",
-    accent: "Auspicious Crimson",
-  }
 ];
 
-export default function HeroSection() {
+export default function HeroSection({ banners }: { banners: BannerDTO[] }) {
+  const heroEdits = banners.length > 0 ? banners : FALLBACK;
   const [activeEditIndex, setActiveEditIndex] = useState(0);
-  const activeEdit = heroEdits[activeEditIndex];
+  const activeEdit = heroEdits[Math.min(activeEditIndex, heroEdits.length - 1)];
 
   return (
     <section className="relative min-h-[780px] lg:min-h-screen overflow-hidden bg-[#071333] text-white flex items-center">
@@ -65,7 +64,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="mb-6"
           >
-            <h1 className="font-[var(--font-serif)] text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-normal leading-[1.04] tracking-tight text-[#FAF7F0]">
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-normal leading-[1.04] tracking-tight text-[#FAF7F0]">
               Sacred Weaves, <br />
               <span className="italic text-[#E5C158] font-light">Timeless Heirlooms.</span>
             </h1>
@@ -112,15 +111,15 @@ export default function HeroSection() {
             className="grid grid-cols-3 gap-6 pt-6 border-t border-white/15 max-w-lg"
           >
             <div>
-              <div className="font-[var(--font-serif)] text-2xl sm:text-3xl text-[#FAF7F0]">50+ Years</div>
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">50+ Years</div>
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Loom Mastery</div>
             </div>
             <div>
-              <div className="font-[var(--font-serif)] text-2xl sm:text-3xl text-[#FAF7F0]">100% Pure</div>
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">100% Pure</div>
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Silk & Real Zari</div>
             </div>
             <div>
-              <div className="font-[var(--font-serif)] text-2xl sm:text-3xl text-[#FAF7F0]">10,000+</div>
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">10,000+</div>
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Brides Adorned</div>
             </div>
           </motion.div>
@@ -154,19 +153,21 @@ export default function HeroSection() {
                       {activeEdit.tag}
                     </span>
                   </div>
-                  <h3 className="font-[var(--font-serif)] text-xl sm:text-2xl text-[#FAF7F0] mt-1 font-normal">
-                    {activeEdit.title}
+                  <h3 className="font-serif text-xl sm:text-2xl text-[#FAF7F0] mt-1 font-normal">
+                    {activeEdit.href ? <a href={activeEdit.href} className="hover:text-[#E5C158]">{activeEdit.title}</a> : activeEdit.title}
                   </h3>
                   <p className="text-xs text-white/70 font-light mt-1 max-w-sm">
-                    {activeEdit.desc}
+                    {activeEdit.subtitle}
                   </p>
                 </div>
 
                 {/* Edit Switcher Controls */}
                 <div className="flex items-center gap-2 shrink-0">
-                  {heroEdits.map((item, idx) => (
+                  {heroEdits.length > 1 && heroEdits.map((item, idx) => (
                     <button
-                      key={item.title}
+                      key={item.id}
+                      type="button"
+                      aria-pressed={activeEditIndex === idx}
                       onClick={() => setActiveEditIndex(idx)}
                       className={`px-3 py-1.5 text-[10px] tracking-wider uppercase rounded transition-all ${
                         activeEditIndex === idx

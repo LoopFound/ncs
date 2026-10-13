@@ -1,0 +1,15 @@
+domain_name     = "ncsanthanam.in"
+route53_zone_id = "Z0123456789ABCDEFGHIJ" # or "" and set certificate_arn
+alarm_email     = "ops@ncsanthanam.in"
+email_from      = "NCS Santhanam <orders@ncsanthanam.in>"
+
+# Put real values in secrets.auto.tfvars (git-ignored):
+# app_secrets = {
+#   RAZORPAY_KEY_ID         = "rzp_live_..."
+#   RAZORPAY_KEY_SECRET     = "..."
+#   RAZORPAY_WEBHOOK_SECRET = "..."
+#   MSG91_AUTH_KEY          = "..."
+#   MSG91_SENDER_ID         = "NCSSLK"
+#   MSG91_OTP_TEMPLATE_ID   = "..."
+#   MSG91_ORDER_TEMPLATE_ID = "..."
+# }
