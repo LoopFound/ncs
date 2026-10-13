@@ -77,18 +77,18 @@ export default function HeaderClient({ nav, user }: Props) {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 ${
-          isScrolled || isMobileMenuOpen ? "bg-[var(--navy)]/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
+          isScrolled || isMobileMenuOpen || pathname !== "/" ? "bg-[var(--navy)]/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between h-20 lg:h-24 gap-4">
+        <div className="container mx-auto px-6 lg:px-8 2xl:px-12 flex items-center justify-between h-20 lg:h-24 gap-4">
           {/* Logo */}
           <Link href="/" className="relative z-50 shrink-0" aria-label="NCS Santhanam — home">
             <Image src="/logo1.jpg" alt="NCS Santhanam" width={120} height={40} className="h-10 lg:h-14 w-auto object-contain" priority />
           </Link>
 
           {/* Desktop navigation */}
-          <nav aria-label="Collections" className="hidden xl:flex items-center justify-center flex-1 mx-6">
-            <ul className="bg-[#F5F1E8] rounded-full px-6 py-3 shadow-lg flex items-center gap-4 2xl:gap-6">
+          <nav aria-label="Collections" className="hidden 2xl:flex items-center justify-center flex-1 min-w-0">
+            <ul className="bg-[#F5F1E8] rounded-full px-5 py-3 shadow-lg flex items-center gap-3 2xl:gap-5">
               {nav.map((item, index) => {
                 const hasChildren = item.children.length > 0;
                 const isOpen = openIndex === index;
@@ -107,7 +107,7 @@ export default function HeaderClient({ nav, user }: Props) {
                       href={item.href}
                       aria-haspopup={hasChildren ? "true" : undefined}
                       aria-expanded={hasChildren ? isOpen : undefined}
-                      className={`text-[0.7rem] font-bold tracking-wider uppercase transition-colors duration-300 flex items-center gap-1 ${
+                      className={`text-[0.65rem] 2xl:text-[0.7rem] whitespace-nowrap font-bold tracking-wider uppercase transition-colors duration-300 flex items-center gap-1 ${
                         pathname === item.href || pathname.startsWith(`${item.href}/`) ? "text-[var(--gold-text)]" : "text-[var(--navy)] hover:text-[var(--gold-text)]"
                       }`}
                     >
@@ -126,7 +126,7 @@ export default function HeaderClient({ nav, user }: Props) {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-52"
+                          className="absolute top-full left-1/2 -translate-x-1/2 pt-5 w-52"
                         >
                           <li className="bg-[#F5F1E8] rounded-xl shadow-xl overflow-hidden py-2 border border-[var(--navy)]/5">
                             {item.children.map((sub) => (
@@ -144,7 +144,7 @@ export default function HeaderClient({ nav, user }: Props) {
                     </AnimatePresence>
 
                     {index < nav.length - 1 && (
-                      <span className="ml-4 2xl:ml-6 text-[var(--navy)]/20" aria-hidden="true">
+                      <span className="ml-3 2xl:ml-5 text-[var(--navy)]/20" aria-hidden="true">
                         |
                       </span>
                     )}
@@ -159,7 +159,7 @@ export default function HeaderClient({ nav, user }: Props) {
             <div className="hidden md:block">
               <SearchBox />
             </div>
-            <div className="hidden xl:flex bg-[#F5F1E8] rounded-full px-6 py-3 shadow-lg items-center gap-6">
+            <div className="hidden 2xl:flex bg-[#F5F1E8] rounded-full px-6 py-3 shadow-lg items-center gap-6">
               <Link href={accountHref} className="flex items-center gap-2 text-xs uppercase tracking-widest font-medium text-[var(--navy)] hover:text-[var(--gold-text)] transition-colors">
                 <UserIcon />
                 <span>{accountLabel}</span>
@@ -176,7 +176,7 @@ export default function HeaderClient({ nav, user }: Props) {
             </div>
 
             {/* Mobile: always-visible bag */}
-            <Link href="/cart" aria-label={cartLabel} className="xl:hidden relative z-50 p-2 text-white">
+            <Link href="/cart" aria-label={cartLabel} className="2xl:hidden relative z-50 p-3 min-w-11 min-h-11 text-white">
               <BagIcon />
               {cartCount > 0 && (
                 <span className="absolute top-0 right-0 min-w-4 h-4 px-1 bg-[var(--gold)] text-[var(--navy)] text-[9px] font-bold flex items-center justify-center rounded-full">
@@ -187,7 +187,7 @@ export default function HeaderClient({ nav, user }: Props) {
 
             <button
               type="button"
-              className="xl:hidden relative z-50 p-2"
+              className="2xl:hidden relative z-50 p-3 min-w-11 min-h-11"
               onClick={() => setIsMobileMenuOpen((v) => !v)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
@@ -215,7 +215,7 @@ export default function HeaderClient({ nav, user }: Props) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-[var(--navy)] xl:hidden overflow-y-auto"
+            className="fixed inset-0 z-40 bg-[var(--navy)] 2xl:hidden overflow-y-auto"
           >
             <div className="flex flex-col items-center min-h-full pt-32 pb-16 px-6 gap-7">
               <div className="w-full max-w-sm">
@@ -239,13 +239,13 @@ export default function HeaderClient({ nav, user }: Props) {
                   transition={{ duration: 0.25, delay: index * 0.04 }}
                   className="flex flex-col items-center gap-3"
                 >
-                  <Link href={item.href} className="font-serif text-3xl text-white hover:text-[var(--gold)] transition-colors">
+                  <Link href={item.href} className="font-serif text-3xl text-white hover:text-[var(--gold)] transition-colors min-h-11 flex items-center">
                     {item.label}
                   </Link>
                   {item.children.length > 0 && (
                     <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
                       {item.children.map((sub) => (
-                        <Link key={sub.href} href={sub.href} className="text-sm text-white/70 hover:text-[var(--gold)] uppercase tracking-widest">
+                        <Link key={sub.href} href={sub.href} className="text-sm text-white/80 hover:text-[var(--gold)] uppercase tracking-widest min-h-11 flex items-center">
                           {sub.label}
                         </Link>
                       ))}

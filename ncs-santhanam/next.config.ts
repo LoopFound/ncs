@@ -64,6 +64,9 @@ const nextConfig: NextConfig = {
       permanent: true,
     }));
   },
+  typescript: {
+    ignoreBuildErrors: false,
+  },
 };
 
 export default nextConfig;
