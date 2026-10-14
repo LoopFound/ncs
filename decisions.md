@@ -37,3 +37,24 @@ This file records meaningful code changes made during Codex sessions. Each entry
 - **What changed:** Rebuilt the frontend login page with the backend login composition, local bridal imagery, sign-in, account creation, password reset, and mobile OTP modes. Added a route-aware site chrome wrapper so `/login` renders without the storefront header and footer while all other frontend routes retain them.
 - **Why:** The deployed frontend showed an obsolete demo form, external imagery, clipped overlay text, and storefront chrome that did not match the correct local backend login.
 - **Why this method:** Reused existing React, Next.js Image, Tailwind, and project design tokens instead of adding another form or UI library. A small route-aware wrapper preserves every existing storefront route without a broad route-group move, while the static frontend stays independent until a public backend authentication URL exists.
+
+## 2026-10-14 — Close stale pre-separation dependency PRs
+
+- **What changed:** Audited and closed all 10 open pull requests (#2–#11). Each PR received a comment explaining that it became stale after the frontend/backend separation.
+- **Why:** Every PR was created by Dependabot before the repository restructure and GitHub reported every one as `CONFLICTING` with a `DIRTY` merge state. PRs #2–#6 modified the removed `ncs-santhanam/package.json` and lockfile. PRs #7–#11 modified root GitHub Actions workflows that no longer exist.
+- **Why this method:** Closed the obsolete PRs instead of resolving conflicts into deleted paths. Any still-needed upgrade should be recreated against the current `frontend/` or `backend/` owner, which keeps dependency changes reviewable and prevents restoring retired structure.
+
+### Closed PR inventory
+
+| PR | Update | Obsolete target |
+| --- | --- | --- |
+| #2 | Six minor and patch npm updates | `ncs-santhanam` manifests |
+| #3 | ESLint 9 to 10 | `ncs-santhanam` manifests |
+| #4 | Framer Motion 12 to 14 | `ncs-santhanam` manifests |
+| #5 | TypeScript 5 to 7 | `ncs-santhanam` manifests; CI failed before closure |
+| #6 | Node type definitions 24 to 26 | `ncs-santhanam` manifests |
+| #7 | AWS credentials action 4 to 6 | Deleted AWS deployment workflow |
+| #8 | Terraform setup action 3 to 4 | Deleted root workflows |
+| #9 | Checkout action 4 to 7 | Deleted root workflows |
+| #10 | Docker build action 6 to 7 | Deleted root workflows |
+| #11 | Node setup action 4 to 7 | Deleted root CI workflow |
