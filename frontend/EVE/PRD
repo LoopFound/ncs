@@ -1,0 +1,183 @@
+📌 Product Requirements Document (PRD)
+
+Project Name: NCS Santhanam Silk Website Redesign
+Website: https://ncsanthanam.in/
+
+
+📝 1. Objective
+
+Redesign and enhance the existing NCS Santhanam Silk e-commerce website to improve:
+
+Visual design and brand presence
+
+User interaction and engagement
+
+Navigation and product discovery
+
+Conversion rates and sales
+
+Mobile responsiveness
+
+Trust and credibility
+
+Current site sells traditional silk products including wedding sarees, fancy Kanjivarams, soft silk, gift options, etc.
+
+🎯 2. Target Users
+User Segment	Description
+Primary Shopper	Women looking for premium sarees for weddings, festivals, and gifting
+Gift Buyers	Users shopping for presents (e.g., gift sarees, pavadas)
+Mobile Users	Users accessing via phones/tablets (majority expected traffic)
+Repeat Customers	Users familiar with the brand and site
+🧭 3. UX & UI Design Goals
+✔️ Brand & Visual Identity
+
+Elegant, premium Indian theme (reflect silk heritage)
+
+Clear category hierarchy
+
+Consistent use of brand colors and typography
+
+✔️ Homepage
+
+Must include:
+
+Hero section with carousel banners (popular collections, new arrivals)
+
+Promotional highlights (e.g., wedding saree collection)
+
+Featured products & best-sellers
+
+Testimonials or reviews
+
+Newsletter signup & trust badges
+
+📦 4. Functional Requirements
+🛍️ Product Catalog & Shopping
+
+Must include:
+
+Multi-level categories: e.g., Wedding Sarees, Kanchipuram, Soft Silk, Gift Sarees, Pavadas, Dupattas, Men's Corner, Materials
+
+Product filtering by price, type, fabric, color
+
+Product quick view & detailed pages with zoom images
+
+“Add to Cart” and optimized cart flow
+
+📱 Mobile Responsiveness
+
+Fully responsive UX
+
+Touch-friendly interactions
+
+Sticky cart button on product pages for easy conversion
+
+🔍 Search & Navigation
+
+Search bar with auto-suggest
+
+Breadcrumb navigation
+
+Clear category labels
+
+Mega menu for quick access
+
+🛒 Checkout
+
+Guest checkout option
+
+Multiple payment methods (UPI, cards, wallets)
+
+Address auto-suggest
+
+Estimated delivery cost & shipping times
+
+📣 Engagement & Marketing
+
+Homepage sliders for promotions
+
+Newsletter subscription with incentive (e.g., discount)
+
+Pop-up offers for first-time visitors
+
+Social sharing on product pages
+
+🧾 Trust & Support
+
+Customer reviews on products
+
+Trust badges (secure payments, return policy)
+
+Contact page linking to:
+
+Address: 59, Viladadikoil Street, Kancheepuram, Tamil Nadu – 631501
+
+Email & phone
+
+Return and shipping policy pages
+
+🗂️ 5. Information Architecture (Proposed)
+Home
+├── Shop
+│   ├── Wedding Sarees
+│   ├── Kanchipuram Silk
+│   │   ├── Fancy Kanjivarams
+│   │   └── Kanchipuram Pattu Sarees
+│   ├── Soft Silk
+│   ├── Gift Sarees
+│   ├── Pavadas
+│   ├── Dupattas
+│   └── Men's Corner
+├── About Us
+├── Blog/Style Guides
+├── Contact Us
+└── Policies (Shipping, Returns, Privacy)
+
+🧪 6. Quality & Performance Requirements
+Area	Target
+Page Load Speed	< 3 seconds
+Mobile Score (Google Lighthouse)	≥ 90
+Accessibility	WCAG AA compliance
+SEO	Optimized metadata & schema
+Secure	HTTPS, SSL
+🖼️ 7. Design Requirements
+🎨 Branding & Visual Style
+
+Rich textile textures and elegant serif fonts
+
+Warm color palette associated with heritage fabrics
+
+High-quality product photography
+
+📷 Product Images
+
+Multiple angles
+
+Zoom on hover
+
+Lifestyle images
+
+🔧 8. Technical Requirements
+
+Platform: Shopify / WooCommerce / Custom CMS
+
+Payment Integrations: Razorpay, Stripe, PayPal (India options)
+
+Sync with inventory
+
+Analytics & tracking (Google Analytics)
+
+📈 9. KPIs & Success Metrics
+Metric	Goal
+Bounce Rate	↓ 20%
+Conversion Rate	↑ 15%
+AOV (Average Order Value)	↑ 10%
+Mobile Engagement	↑ 25%
+Newsletter Sign-Ups	≥ 1000/month
+🗓️ 10. Timeline (Example)
+Phase	Duration
+Discovery & Wireframes	1–2 weeks
+UI Design	2 weeks
+Development	4–6 weeks
+QA & Testing	1–2 weeks
+Launch	1 week

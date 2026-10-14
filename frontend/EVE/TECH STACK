@@ -1,0 +1,139 @@
+Project Type
+
+Luxury ecommerce website (custom build)
+
+Frontend
+
+Framework: Next.js (App Router)
+
+Language: TypeScript
+
+Styling: Tailwind CSS
+
+Animations: Framer Motion
+
+Rendering: Server Components + SEO-first
+
+Backend
+
+Framework: Next.js (API Routes + Server Actions)
+
+Runtime: Node.js / Edge (as required)
+
+Authentication: JWT / Session-based (custom)
+
+Middleware: Auth, rate-limiting, security
+
+Database
+
+Type: PostgreSQL
+
+Hosting: Neon (Serverless PostgreSQL)
+
+ORM: Prisma
+
+Ecommerce Modules (Custom)
+
+Products
+
+Categories
+
+Variants
+
+Cart
+
+Orders
+
+Inventory
+
+Coupons
+
+Shipping rules
+
+Payments
+
+Razorpay (UPI, Cards, Wallets)
+
+Stripe (optional / future)
+
+Payment verification via webhooks
+
+CMS
+
+Sanity CMS
+
+Purpose: banners, editorial content, brand story
+
+Media Storage
+
+Cloudinary (image optimization + CDN)
+
+Hosting & Deployment
+
+Platform: Vercel
+
+Frontend + Backend hosted together
+
+Analytics & SEO
+
+Google Analytics
+
+Google Search Console
+
+Meta Pixel
+
+Product & Review Schema
+
+Open Graph metadata
+
+Security
+
+HTTPS (SSL)
+
+Secure API routes
+
+Server-side payment validation
+
+Environment variables
+
+Database not publicly exposed
+
+Dev Tools
+
+ESLint
+
+Prettier
+
+TypeScript strict mode
+
+GitHub (CI/CD optional)
+
+Architecture Summary
+Next.js (UI + API)
+→ Prisma
+→ Neon PostgreSQL
+→ Razorpay / Stripe
+
+Constraints
+
+No Shopify
+
+No WordPress
+
+No page builders
+
+Fully custom ecommerce
+
+TypeScript everywhere
+
+UX Requirements
+
+Editorial / luxury layout
+
+Minimal UI
+
+Smooth animations
+
+High performance
+
+Mobile-first
