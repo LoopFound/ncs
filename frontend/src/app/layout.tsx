@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import { CartProvider } from "@/context/CartContext";
 
 export const metadata: Metadata = {
@@ -25,9 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--text-body)] antialiased">
         <CartProvider>
-          <Header />
-          <main className="flex-1 flex flex-col">{children}</main>
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </CartProvider>
       </body>
     </html>

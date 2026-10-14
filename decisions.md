@@ -31,3 +31,9 @@ This file records meaningful code changes made during Codex sessions. Each entry
 - **What changed:** Added a root `README.md` describing the frontend/backend layout, local startup commands, deployment roots, and links to detailed backend documentation and the decision log.
 - **Why:** GitHub visitors need an immediate explanation of the two-project structure without opening either application folder first.
 - **Why this method:** Kept a concise root overview and linked to the existing backend guide instead of duplicating its full operations documentation. This gives clear entry points while avoiding documentation drift.
+
+## 2026-10-14 — Align deployed login with backend UI
+
+- **What changed:** Rebuilt the frontend login page with the backend login composition, local bridal imagery, sign-in, account creation, password reset, and mobile OTP modes. Added a route-aware site chrome wrapper so `/login` renders without the storefront header and footer while all other frontend routes retain them.
+- **Why:** The deployed frontend showed an obsolete demo form, external imagery, clipped overlay text, and storefront chrome that did not match the correct local backend login.
+- **Why this method:** Reused existing React, Next.js Image, Tailwind, and project design tokens instead of adding another form or UI library. A small route-aware wrapper preserves every existing storefront route without a broad route-group move, while the static frontend stays independent until a public backend authentication URL exists.
