@@ -25,3 +25,9 @@ This file records meaningful code changes made during Codex sessions. Each entry
 - **What changed:** Kept stable frontend product route IDs while aligning catalog image order and product facts with `backend/prisma/seed-data.ts`. Added a source note beside the frontend snapshot.
 - **Why:** The frontend must remain independently deployable, but product information should match the backend source instead of drifting mock content.
 - **Why this method:** Copied a static snapshot rather than importing backend code at build time or adding an API dependency. This preserves the old frontend behavior and makes backend downtime unable to break catalog pages.
+
+## 2026-10-14 — Add repository-level documentation
+
+- **What changed:** Added a root `README.md` describing the frontend/backend layout, local startup commands, deployment roots, and links to detailed backend documentation and the decision log.
+- **Why:** GitHub visitors need an immediate explanation of the two-project structure without opening either application folder first.
+- **Why this method:** Kept a concise root overview and linked to the existing backend guide instead of duplicating its full operations documentation. This gives clear entry points while avoiding documentation drift.
