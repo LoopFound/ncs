@@ -82,3 +82,9 @@ This file records meaningful code changes made during Codex sessions. Each entry
 - **What changed:** Reduced the hero heading scale at constrained desktop widths, established a deliberate two-column ratio, tightened vertical rhythm, and gave the saree photograph a consistent responsive frame with a restrained border, shadow, and image-only treatment.
 - **Why:** Live review at 1280px showed the headline wrapping into an oversized four-line block and overpowering the saree visual. The revised composition keeps both story and product visible within the first viewport.
 - **Why this method:** Adjusted the existing Tailwind layout and type scale instead of restructuring the page or adding dependencies. Responsive `clamp` sizing and current breakpoints preserve the established component while fixing the actual balance problem.
+
+## 2026-10-15 — Replace root quickstart with full workflow guide
+
+- **What changed:** Expanded the root README with repository architecture, separate frontend and backend setup, environment and service ownership, database workflow, commands, testing, common change processes, deployment paths, launch gates, and troubleshooting.
+- **Why:** The previous README explained only the minimum startup commands and required readers to infer how the two applications, worker, infrastructure, and release process fit together.
+- **Why this method:** Kept one simplified repository entry point and linked to the detailed backend operations guide instead of duplicating every production command. Tables, ordered processes, and copy-ready PowerShell commands make the guide usable without adding documentation tooling.
