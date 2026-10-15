@@ -3,54 +3,35 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-
-const heroEdits = [
-  {
-    tag: "Royal Muhurtham Edit",
-    title: "The Kanchipuram Brocade",
-    desc: "Woven with double-warp mulberry silk & authentic tested gold zari.",
-    image: "/images/hero/hero-main.png",
-    accent: "Violet & Gold",
-  },
-  {
-    tag: "Bridal Crimson Heritage",
-    title: "Samudrika Bridal Pattu",
-    desc: "Auspicious red silk embellished with intricate temple architecture motifs.",
-    image: "/images/hero/hero-model.png",
-    accent: "Auspicious Crimson",
-  }
-];
 
 export default function HeroSection() {
-  const [activeEditIndex, setActiveEditIndex] = useState(0);
-  const activeEdit = heroEdits[activeEditIndex];
-
   return (
-    <section className="relative min-h-[780px] lg:min-h-screen overflow-hidden bg-[#071333] text-white flex items-center">
-      {/* Background Lighting & Silk Weave Ambiance */}
+    <section className="relative min-h-[760px] overflow-hidden bg-[#071333] text-white flex items-center lg:min-h-screen">
+      {/* Kanchipuram textile backdrop inspired by the supplied border artwork. */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -left-32 top-20 h-[38rem] w-[38rem] rounded-full bg-[#8B1E2D]/25 blur-[130px]" />
-        <div className="absolute right-1/4 bottom-10 h-80 w-80 rounded-full bg-[#C9A227]/15 blur-[110px]" />
-        <div
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-          }}
+        <Image
+          src="/images/imagehero.avif"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          aria-hidden="true"
+          className="object-cover object-left opacity-75"
         />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,19,51,0.7)_0%,rgba(7,19,51,0.82)_44%,rgba(7,19,51,0.96)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,19,51,0.08)_0%,rgba(7,19,51,0.52)_100%)]" />
+        <div className="absolute right-1/4 bottom-10 h-80 w-80 rounded-full bg-[#C9A227]/15 blur-[110px]" />
       </div>
 
-      <div className="relative z-10 w-full mx-auto max-w-[1600px] grid grid-cols-1 lg:grid-cols-12 min-h-[780px] lg:min-h-screen items-center">
+      <div className="relative z-10 mx-auto grid min-h-[760px] w-full max-w-[1520px] grid-cols-1 items-center gap-8 px-5 pb-12 pt-32 sm:px-10 lg:min-h-screen lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-10 lg:px-12 lg:pb-8 lg:pt-28 xl:gap-16 xl:px-16">
         {/* Left Column: Brand Story & CTAs (Span 6) */}
-        <div className="lg:col-span-6 flex flex-col justify-center px-6 sm:px-12 lg:px-16 xl:px-20 pt-32 pb-16 lg:py-28">
+        <div className="flex max-w-2xl flex-col justify-center">
           {/* Heritage Crest */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex items-center gap-3.5 mb-6"
+            className="mb-5 flex items-center gap-3.5"
           >
             <span className="h-px w-10 bg-[#D4AF37]" />
             <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-[#D4AF37]">
@@ -63,11 +44,11 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="mb-6"
+            className="mb-5"
           >
-            <h1 className="font-[var(--font-serif)] text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-normal leading-[1.04] tracking-tight text-[#FAF7F0]">
-              Sacred Weaves, <br />
-              <span className="italic text-[#E5C158] font-light">Timeless Heirlooms.</span>
+            <h1 className="font-[var(--font-serif)] text-5xl font-normal leading-[0.98] tracking-[-0.025em] text-[#FAF7F0] sm:text-6xl lg:text-[3.5rem] xl:text-[3.75rem] 2xl:text-[4.5rem]">
+              <span className="block">Sacred Weaves,</span>
+              <span className="mt-2 block font-light italic text-[#E5C158] sm:whitespace-nowrap">Timeless Heirlooms.</span>
             </h1>
           </motion.div>
 
@@ -76,7 +57,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.22 }}
-            className="text-base sm:text-lg text-white/75 font-light leading-relaxed max-w-xl mb-10 border-l border-[#D4AF37]/40 pl-5"
+            className="mb-8 max-w-xl border-l border-[#D4AF37]/50 pl-5 text-base font-light leading-7 text-white/78 sm:text-lg"
           >
             Rooted in the temple town of Kanchipuram, each NCS Santhanam saree is meticulously handwoven from pure mulberry silk and authentic zari—crafted to be passed down through generations.
           </motion.p>
@@ -86,7 +67,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.35 }}
-            className="flex flex-wrap items-center gap-4 mb-12"
+            className="mb-10 flex flex-wrap items-center gap-4"
           >
             <Link
               href="/wedding"
@@ -109,7 +90,7 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="grid grid-cols-3 gap-6 pt-6 border-t border-white/15 max-w-lg"
+            className="grid max-w-lg grid-cols-3 gap-4 border-t border-white/15 pt-5 sm:gap-6"
           >
             <div>
               <div className="font-[var(--font-serif)] text-2xl sm:text-3xl text-[#FAF7F0]">50+ Years</div>
@@ -127,59 +108,18 @@ export default function HeroSection() {
         </div>
 
         {/* Right Column: Visual Draping Showcase (Span 6) */}
-        <div className="lg:col-span-6 relative h-[580px] lg:h-screen w-full flex items-center justify-center p-6 sm:p-12 lg:p-16">
-          <div className="relative w-full h-full max-h-[820px] rounded-lg overflow-hidden border border-white/10 shadow-2xl">
+        <div className="relative flex h-[520px] w-full items-center justify-center sm:h-[620px] lg:h-[68vh] lg:min-h-[420px] lg:max-h-[720px]">
+          <div className="relative h-full w-full overflow-hidden rounded-[1.25rem] border border-[#E5C158]/25 shadow-[0_32px_80px_rgba(0,0,0,0.38)]">
             {/* Active Image */}
             <Image
-              key={activeEdit.image}
-              src={activeEdit.image}
-              alt={activeEdit.title}
+              src="/images/hero/hero-main.png"
+              alt="Kanchipuram silk saree"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-[50%_35%] transition-all duration-1000"
+              className="object-cover object-[50%_32%] transition-transform duration-700 hover:scale-[1.015]"
             />
-
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#071333] via-transparent to-transparent opacity-80 lg:opacity-60" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#071333]/40 via-transparent to-transparent hidden lg:block" />
-
-            {/* Floating Luxury Showcase Card */}
-            <div className="absolute bottom-6 left-6 right-6 p-6 rounded-lg bg-[#08153A]/90 backdrop-blur-md border border-[#D4AF37]/30 text-white shadow-2xl">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
-                    <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
-                      {activeEdit.tag}
-                    </span>
-                  </div>
-                  <h3 className="font-[var(--font-serif)] text-xl sm:text-2xl text-[#FAF7F0] mt-1 font-normal">
-                    {activeEdit.title}
-                  </h3>
-                  <p className="text-xs text-white/70 font-light mt-1 max-w-sm">
-                    {activeEdit.desc}
-                  </p>
-                </div>
-
-                {/* Edit Switcher Controls */}
-                <div className="flex items-center gap-2 shrink-0">
-                  {heroEdits.map((item, idx) => (
-                    <button
-                      key={item.title}
-                      onClick={() => setActiveEditIndex(idx)}
-                      className={`px-3 py-1.5 text-[10px] tracking-wider uppercase rounded transition-all ${
-                        activeEditIndex === idx
-                          ? "bg-[#D4AF37] text-[#08153A] font-bold shadow"
-                          : "bg-white/10 text-white/70 hover:bg-white/20"
-                      }`}
-                    >
-                      Look 0{idx + 1}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#071333]/30 via-transparent to-transparent" />
           </div>
         </div>
       </div>
