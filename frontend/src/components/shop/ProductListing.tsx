@@ -41,19 +41,19 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
             <div className="container mx-auto px-6 lg:px-12">
 
                 {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-                    <div>
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16">
+                    <div className="space-y-3">
                         {!activeCategory && (
                             <span className="block text-[11px] font-semibold leading-none tracking-[0.28em] uppercase text-[var(--charcoal-muted)]">
                                 All Products
                             </span>
                         )}
-                        <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl font-light text-[var(--charcoal)]">
+                        <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl font-light leading-none tracking-tight text-[var(--charcoal)]">
                             {collectionTitle}
                         </h1>
                     </div>
 
-                    <div className="text-sm text-[var(--charcoal-muted)] mt-4 md:mt-0 font-medium">
+                    <div className="text-sm leading-relaxed text-[var(--charcoal-muted)] font-medium md:pb-1">
                         Showing {filteredProducts.length} {filteredProducts.length === 1 ? "weave" : "weaves"}
                     </div>
                 </div>
