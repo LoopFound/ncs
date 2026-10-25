@@ -61,7 +61,7 @@ export default function Footer() {
 
                     {/* Collections (Span 3) */}
                     <div>
-                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-2">
+                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
                             <span>Collections</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
                         </h4>
@@ -101,7 +101,7 @@ export default function Footer() {
 
                     {/* Client Care & Policies (Span 4) */}
                     <div>
-                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-2">
+                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
                             <span>Client Care</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
                         </h4>
@@ -142,7 +142,7 @@ export default function Footer() {
                 </div>
 
                 {/* Clean Bottom Bar */}
-                <div className="mt-16 pt-8 border-t border-white/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 text-xs !text-[#CBD5E1]">
+                <div className="mt-10 sm:mt-12 pt-6 border-t border-white/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs !text-[#CBD5E1]">
                     <p className="!text-xs !leading-relaxed !text-[#CBD5E1]">© 2026 NCS Santhanam Silks. Kanchipuram, India.</p>
 
                     <button

@@ -243,7 +243,19 @@ html {
   max-width: 1440px;
   /* Slightly wider */
   margin: 0 auto;
-  padding: 0 var(--space-lg);
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-inline: 3rem;
+  }
 }
 
 .container-narrow {
@@ -256,7 +268,13 @@ html {
 
 /* === Section Spacing === */
 .section {
-  padding: var(--space-3xl) 0;
+  padding: var(--space-2xl) 0;
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: var(--space-3xl) 0;
+  }
 }
 
 .section-tight {
@@ -424,6 +442,21 @@ html {
   background: var(--navy);
   border: 2px solid var(--cream);
   border-radius: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 
