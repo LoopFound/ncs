@@ -28,6 +28,14 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
         })
         : products;
 
+    const collectionTitle = activeCategory === "Wedding"
+        ? "Wedding Collection"
+        : activeCategory === "Kanchipuram"
+            ? "Kanchipuram Classics"
+            : activeCategory === "Soft Silk"
+                ? "Soft Silks"
+                : activeCategory || "The Heritage Collection";
+
     return (
         <div className="pt-24 lg:pt-32 pb-24 min-h-[75vh]">
             <div className="container mx-auto px-6 lg:px-12">
@@ -35,14 +43,13 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
                     <div>
-                        <span className="text-xs tracking-[0.3em] uppercase text-[var(--charcoal-muted)] block mb-2">
-                            {activeCategory ? "Collection" : "All Products"}
-                        </span>
+                        {!activeCategory && (
+                            <span className="block text-[11px] font-semibold leading-none tracking-[0.28em] uppercase text-[var(--charcoal-muted)]">
+                                All Products
+                            </span>
+                        )}
                         <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl font-light text-[var(--charcoal)]">
-                            {activeCategory
-                                ? `${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}`
-                                : "The Heritage Collection"
-                            }
+                            {collectionTitle}
                         </h1>
                     </div>
 
