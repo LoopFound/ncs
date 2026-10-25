@@ -12,11 +12,11 @@ export default function Footer() {
             {/* Top gold hairline accent */}
             <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-90" />
 
-            <div className="container mx-auto max-w-[1280px] px-6 lg:px-12 py-14 lg:py-16">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] gap-x-10 gap-y-12 lg:gap-x-16 items-start">
+            <div className="container mx-auto max-w-[1280px] px-5 sm:px-6 lg:px-12 py-16 lg:py-20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] gap-x-10 gap-y-14 lg:gap-x-20 lg:gap-y-16 items-start">
 
                     {/* Brand & Showroom (Span 5) */}
-                    <div className="sm:col-span-2 lg:col-span-1 space-y-4">
+                    <div className="sm:col-span-2 lg:col-span-1 space-y-5">
                         <Link href="/" className="inline-block group">
                             <h2 className="font-[var(--font-serif)] text-3xl sm:text-4xl !text-[#FAF7F0] tracking-wide group-hover:!text-[#E5C158] transition-colors">
                                 NCS Santhanam
@@ -61,11 +61,11 @@ export default function Footer() {
 
                     {/* Collections (Span 3) */}
                     <div>
-                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-5 tracking-wide flex items-center gap-2">
+                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-2">
                             <span>Collections</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
                         </h4>
-                        <ul className="space-y-3 text-sm">
+                        <ul className="space-y-4 text-sm">
                             <li>
                                 <Link href="/wedding" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
                                     Wedding Silks
@@ -101,11 +101,11 @@ export default function Footer() {
 
                     {/* Client Care & Policies (Span 4) */}
                     <div>
-                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-5 tracking-wide flex items-center gap-2">
+                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-2">
                             <span>Client Care</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
                         </h4>
-                        <ul className="space-y-3 text-sm">
+                        <ul className="space-y-4 text-sm">
                             <li>
                                 <Link href="/about" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
                                     Our Heritage & Story
@@ -142,13 +142,13 @@ export default function Footer() {
                 </div>
 
                 {/* Clean Bottom Bar */}
-                <div className="mt-12 pt-6 border-t border-white/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs !text-[#CBD5E1]">
+                <div className="mt-16 pt-8 border-t border-white/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 text-xs !text-[#CBD5E1]">
                     <p className="!text-xs !leading-relaxed !text-[#CBD5E1]">© 2026 NCS Santhanam Silks. Kanchipuram, India.</p>
 
                     <button
                         onClick={scrollToTop}
                         aria-label="Back to top"
-                        className="flex items-center gap-2 !text-[#E5C158] hover:!text-white transition-colors cursor-pointer"
+                        className="min-h-11 flex items-center gap-2 !text-[#E5C158] hover:!text-white transition-colors cursor-pointer"
                     >
                         <span className="uppercase tracking-[0.2em] text-[10px] font-semibold">Back to Top</span>
                         <svg
