@@ -58,3 +58,33 @@ This file records meaningful code changes made during Codex sessions. Each entry
 | #9 | Checkout action 4 to 7 | Deleted root workflows |
 | #10 | Docker build action 6 to 7 | Deleted root workflows |
 | #11 | Node setup action 4 to 7 | Deleted root CI workflow |
+
+## 2026-10-15 — Use supplied textile artwork in homepage hero
+
+- **What changed:** Replaced the hero's generic grid ambience with the supplied `imagehero.avif` textile artwork, layered beneath navy readability gradients and the existing gold glow. The image is decorative and hidden from assistive technology.
+- **Why:** The supplied purple, crimson, and gold Kanchipuram border pattern gives the hero the requested traditional silk identity while preserving existing copy, product imagery, controls, and calls to action.
+- **Why this method:** Reused Next.js `Image` and existing Tailwind utilities instead of flattening the full hero into an image or adding CSS-generated ornamentation. This keeps text accessible, preserves responsive layout, and lets Next.js optimize the supplied asset.
+
+## 2026-10-15 — Keep desktop navigation visible without dropdowns
+
+- **What changed:** Exposed the full primary navigation from the `xl` desktop breakpoint, removed the Kanchipuram dropdown and its nested options, and compacted header spacing and account actions to fit the 1280px desktop layout.
+- **Why:** Desktop users need immediate access to primary collection options in the header. The dropdown added unnecessary interaction and the previous `2xl` breakpoint showed a mobile menu on common desktop widths.
+- **Why this method:** Simplified the existing navigation data and responsive classes instead of adding another header variant. Direct links reduce state and interaction complexity while preserving the mobile menu below the desktop breakpoint.
+
+## 2026-10-15 — Keep hero product visual free of overlays
+
+- **What changed:** Removed the title card, description, status marker, and Look switcher from the hero product visual. The panel now contains only the primary Kanchipuram saree photograph.
+- **Why:** The overlaid card obscured the saree and competed with the hero's main copy. The requested composition gives the product image uninterrupted visual focus.
+- **Why this method:** Removed the now-unused state and alternate-look data at their owning component instead of hiding controls with CSS. This keeps the rendered UI and component logic consistent.
+
+## 2026-10-15 — Rebalance responsive hero composition
+
+- **What changed:** Reduced the hero heading scale at constrained desktop widths, established a deliberate two-column ratio, tightened vertical rhythm, and gave the saree photograph a consistent responsive frame with a restrained border, shadow, and image-only treatment.
+- **Why:** Live review at 1280px showed the headline wrapping into an oversized four-line block and overpowering the saree visual. The revised composition keeps both story and product visible within the first viewport.
+- **Why this method:** Adjusted the existing Tailwind layout and type scale instead of restructuring the page or adding dependencies. Responsive `clamp` sizing and current breakpoints preserve the established component while fixing the actual balance problem.
+
+## 2026-10-15 — Replace root quickstart with full workflow guide
+
+- **What changed:** Expanded the root README with repository architecture, separate frontend and backend setup, environment and service ownership, database workflow, commands, testing, common change processes, deployment paths, launch gates, and troubleshooting.
+- **Why:** The previous README explained only the minimum startup commands and required readers to infer how the two applications, worker, infrastructure, and release process fit together.
+- **Why this method:** Kept one simplified repository entry point and linked to the detailed backend operations guide instead of duplicating every production command. Tables, ordered processes, and copy-ready PowerShell commands make the guide usable without adding documentation tooling.

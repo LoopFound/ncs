@@ -8,17 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
     { label: "Wedding", href: "/wedding" },
-    {
-        label: "Kanchipuram",
-        href: "/kanchipuram",
-        hasDropdown: true,
-        subItems: [
-            { label: "Traditional", href: "/kanchipuram/traditional" },
-            { label: "Borderless", href: "/kanchipuram/borderless" },
-            { label: "Fancy Kanjivarams", href: "/kanchipuram/fancy-kanjivarams" },
-            { label: "Exclusives", href: "/kanchipuram/exclusives" },
-        ]
-    },
+    { label: "Kanchipuram", href: "/kanchipuram" },
     { label: "Soft silk", href: "/soft-silk" },
     { label: "Gift Sarees", href: "/gift-sarees" },
     { label: "Pavadas", href: "/pavadas" },
@@ -34,7 +24,6 @@ export default function Header() {
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -80,62 +69,28 @@ export default function Header() {
                     </Link>
 
                     {/* 2. Navigation Pill (Center) */}
-                    <nav aria-label="Main navigation" className="hidden 2xl:flex items-center justify-center flex-1 min-w-0 relative">
+                    <nav aria-label="Main navigation" className="relative hidden min-w-0 flex-1 items-center justify-center xl:flex">
                         <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: 0.2 }}
-                            className="bg-[#F5F1E8] rounded-full px-5 py-3 shadow-lg flex items-center gap-3 2xl:gap-5 relative z-10"
+                            className="relative z-10 flex items-center gap-2 rounded-full bg-[#F5F1E8] px-4 py-3 shadow-lg 2xl:gap-5 2xl:px-5"
                         >
                             {navItems.map((item, index) => (
                                 <div
                                     key={item.href}
                                     className="relative flex items-center group"
-                                    onMouseEnter={() => setHoveredIndex(index)}
-                                    onMouseLeave={() => setHoveredIndex(null)}
-                                    onFocus={() => setHoveredIndex(index)}
-                                    onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHoveredIndex(null); }}
                                 >
                                     <Link
                                         href={item.href}
-                                        className="text-[0.65rem] 2xl:text-[0.7rem] whitespace-nowrap font-bold tracking-wider uppercase text-[var(--navy)] hover:text-[var(--gold-text)] transition-colors duration-300 flex items-center gap-1"
+                                        className="flex items-center whitespace-nowrap text-[0.58rem] font-bold uppercase tracking-wider text-[var(--navy)] transition-colors duration-300 hover:text-[var(--gold-text)] 2xl:text-[0.7rem]"
                                     >
                                         {item.label}
-                                        {item.hasDropdown && (
-                                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                                <path d="M1 1L5 5L9 1" />
-                                            </svg>
-                                        )}
                                     </Link>
-
-                                    {/* Dropdown */}
-                                    <AnimatePresence>
-                                        {item.hasDropdown && hoveredIndex === index && item.subItems && (
-                                            <motion.div
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                exit={{ opacity: 0, y: 10 }}
-                                                transition={{ duration: 0.2 }}
-                                                className="absolute top-full left-1/2 -translate-x-1/2 pt-5 w-48"
-                                            >
-                                                <div className="bg-[#F5F1E8] rounded-xl shadow-xl overflow-hidden py-2 border border-[var(--navy)]/5">
-                                                    {item.subItems.map((subItem) => (
-                                                        <Link
-                                                            key={subItem.href}
-                                                            href={subItem.href}
-                                                            className="block px-6 py-2 text-sm text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white transition-colors uppercase tracking-wider text-[0.7rem] font-medium text-center"
-                                                        >
-                                                            {subItem.label}
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
 
                                     {/* Separator (except for last item) */}
                                     {index < navItems.length - 1 && (
-                                        <span aria-hidden="true" className="ml-3 2xl:ml-5 text-[var(--navy)]/20">|</span>
+                                        <span aria-hidden="true" className="ml-2 text-[var(--navy)]/20 2xl:ml-5">|</span>
                                     )}
                                 </div>
                             ))}
@@ -143,12 +98,12 @@ export default function Header() {
                     </nav>
 
                     {/* 3. Action Buttons (Right) */}
-                    <div className="hidden 2xl:flex items-center justify-end shrink-0">
+                    <div className="hidden shrink-0 items-center justify-end xl:flex">
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.4, delay: 0.3 }}
-                            className="bg-[#F5F1E8] rounded-full px-6 py-3 shadow-lg flex items-center gap-6"
+                            className="flex items-center gap-3 rounded-full bg-[#F5F1E8] px-4 py-3 shadow-lg 2xl:gap-6 2xl:px-6"
                         >
                             <Link
                                 href="/login"
@@ -158,7 +113,7 @@ export default function Header() {
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                     <circle cx="12" cy="7" r="4" />
                                 </svg>
-                                <span className="hidden lg:inline">Log In</span>
+                                <span className="hidden 2xl:inline">Log In</span>
                             </Link>
                             <Link
                                 href="/cart"
@@ -169,7 +124,7 @@ export default function Header() {
                                     <line x1="3" y1="6" x2="21" y2="6" />
                                     <path d="M16 10a4 4 0 0 1-8 0" />
                                 </svg>
-                                <span className="hidden lg:inline">Cart</span>
+                                <span className="hidden 2xl:inline">Cart</span>
                                 <span className="absolute -top-1.5 -right-2 w-4 h-4 bg-[var(--gold)] text-[var(--navy)] text-[9px] font-bold flex items-center justify-center rounded-full">{cartCount}</span>
                             </Link>
                         </motion.div>
@@ -177,7 +132,7 @@ export default function Header() {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="2xl:hidden relative z-50 p-3 min-w-11 min-h-11"
+                        className="relative z-50 min-h-11 min-w-11 p-3 xl:hidden"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label="Toggle menu"
                         aria-expanded={isMobileMenuOpen}
@@ -216,7 +171,7 @@ export default function Header() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
                         id="mobile-navigation"
-                        className="fixed inset-0 z-40 bg-[var(--navy)] 2xl:hidden overflow-y-auto"
+                        className="fixed inset-0 z-40 overflow-y-auto bg-[var(--navy)] xl:hidden"
                     >
                         <nav aria-label="Mobile navigation" className="flex flex-col items-center justify-center min-h-full px-6 pt-28 pb-12 gap-6">
                             {navItems.map((item, index) => (
@@ -231,26 +186,10 @@ export default function Header() {
                                     <Link
                                         href={item.href}
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="font-[var(--font-serif)] text-3xl text-white hover:text-[var(--gold)] transition-colors min-h-11 flex items-center"
+                                        className="flex min-h-11 items-center font-[var(--font-serif)] text-3xl text-white transition-colors hover:text-[var(--gold)]"
                                     >
                                         {item.label}
                                     </Link>
-
-                                    {/* Mobile Sub-menu */}
-                                    {item.subItems && (
-                                        <div className="flex flex-col items-center gap-3">
-                                            {item.subItems.map(subItem => (
-                                                <Link
-                                                    key={subItem.href}
-                                                    href={subItem.href}
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                    className="text-sm text-white/80 hover:text-[var(--gold)] uppercase tracking-widest min-h-11 flex items-center"
-                                                >
-                                                    {subItem.label}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    )}
                                 </motion.div>
                             ))}
                             <div className="flex gap-8 border-t border-white/20 pt-6 mt-2 text-sm uppercase tracking-widest text-white">
