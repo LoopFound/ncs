@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Returns & Exchange Policy | NCS Santhanam",
+  title: "Returns & Exchange Policy",
   description: "Read our transparent 7-day returns, exchange, and cancellation policy for pure Kanchipuram silk sarees.",
 };
 

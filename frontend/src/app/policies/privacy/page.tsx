@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy & Data Protection Policy | NCS Santhanam",
+  title: "Privacy & Data Protection Policy",
   description: "Learn how NCS Santhanam protects your personal data, payment security, and digital privacy.",
 };
 

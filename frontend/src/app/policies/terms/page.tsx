@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms & Conditions of Service | NCS Santhanam",
+  title: "Terms & Conditions of Service",
   description: "Terms and conditions governing the purchase and ownership of NCS Santhanam handcrafted silk sarees.",
 };
 

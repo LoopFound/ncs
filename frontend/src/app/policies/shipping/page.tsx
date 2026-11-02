@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Shipping & Delivery Policy | NCS Santhanam",
+  title: "Shipping & Delivery Policy",
   description: "Learn about our complimentary insured domestic delivery and worldwide international shipping for authentic Kanchipuram silk sarees.",
 };
 

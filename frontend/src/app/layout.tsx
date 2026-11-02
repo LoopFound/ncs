@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import { CartProvider } from "@/context/CartContext";
+import { SITE_URL } from "@/lib/site";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -17,7 +18,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "NCS Santhanam | Premium Silk Boutique",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "NCS Santhanam | Premium Silk Boutique",
+    template: "%s | NCS Santhanam",
+  },
   description: "Discover exquisite handcrafted silk sarees from Kanchipuram. Wedding silks, Kanchipuram classics, and luxury collections crafted with heritage and tradition.",
   keywords: ["silk sarees", "Kanchipuram sarees", "wedding sarees", "Indian silk", "luxury sarees", "NCS Santhanam"],
   openGraph: {
@@ -25,7 +30,9 @@ export const metadata: Metadata = {
     description: "Discover exquisite handcrafted silk sarees from Kanchipuram.",
     type: "website",
     locale: "en_IN",
+    siteName: "NCS Santhanam",
   },
+  alternates: { canonical: "/" },
 };
 
 export default function RootLayout({
