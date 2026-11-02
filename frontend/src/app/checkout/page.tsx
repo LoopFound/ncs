@@ -43,7 +43,7 @@ export default function CheckoutPage() {
     return (
       <div className="pt-32 pb-24 min-h-[70vh] flex items-center justify-center">
         <div className="text-center max-w-md p-8 bg-white rounded-xl border border-[var(--border)] shadow-xs">
-          <h2 className="font-[var(--font-serif)] text-3xl text-[var(--navy)] mb-3">Your Bag is Empty</h2>
+          <h2 className="font-serif text-3xl text-[var(--navy)] mb-3">Your Bag is Empty</h2>
           <p className="text-sm text-[var(--text-muted)] mb-6">
             Please add your chosen silk sarees to your shopping bag before proceeding to checkout.
           </p>
@@ -72,7 +72,7 @@ export default function CheckoutPage() {
           <span className="text-xs uppercase tracking-[0.3em] text-[var(--gold-text)] font-semibold block mb-1">
             Secure Atelier Checkout
           </span>
-          <h1 className="font-[var(--font-serif)] text-4xl text-[var(--navy)]">
+          <h1 className="font-serif text-4xl text-[var(--navy)]">
             Delivery & Payment Information
           </h1>
         </div>
@@ -82,7 +82,7 @@ export default function CheckoutPage() {
           <div className="lg:col-span-7 space-y-8">
             {/* Contact & Shipping */}
             <div className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-xs">
-              <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-6 pb-2 border-b border-[var(--border)]">
+              <h2 className="font-serif text-2xl text-[var(--navy)] mb-6 pb-2 border-b border-[var(--border)]">
                 1. Delivery Address
               </h2>
 
@@ -189,7 +189,7 @@ export default function CheckoutPage() {
 
             {/* Bespoke Services */}
             <div className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-xs">
-              <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-4 pb-2 border-b border-[var(--border)]">
+              <h2 className="font-serif text-2xl text-[var(--navy)] mb-4 pb-2 border-b border-[var(--border)]">
                 2. Atelier Saree Customization
               </h2>
               <div className="space-y-4">
@@ -231,7 +231,7 @@ export default function CheckoutPage() {
 
             {/* Payment Options */}
             <div className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-xs">
-              <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-4 pb-2 border-b border-[var(--border)]">
+              <h2 className="font-serif text-2xl text-[var(--navy)] mb-4 pb-2 border-b border-[var(--border)]">
                 3. Payment Method
               </h2>
               <div className="space-y-3">
@@ -270,7 +270,7 @@ export default function CheckoutPage() {
           {/* Right Summary (Span 5) */}
           <div className="lg:col-span-5">
             <div className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-sm sticky top-32">
-              <h3 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-6 pb-2 border-b border-[var(--border)]">
+              <h3 className="font-serif text-2xl text-[var(--navy)] mb-6 pb-2 border-b border-[var(--border)]">
                 Order Summary
               </h3>
 

@@ -23,7 +23,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-[var(--font-serif)] text-5xl sm:text-6xl md:text-7xl text-[var(--navy)] leading-tight mb-6"
+          className="font-serif text-5xl sm:text-6xl md:text-7xl text-[var(--navy)] leading-tight mb-6"
         >
           A Thread Lost in <br />
           <span className="italic text-[var(--gold-text)] font-normal">the Loom</span>
@@ -67,7 +67,7 @@ export default function NotFound() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-xs text-left"
         >
-          <h3 className="font-[var(--font-serif)] text-lg text-[var(--navy)] mb-4 text-center">
+          <h3 className="font-serif text-lg text-[var(--navy)] mb-4 text-center">
             Popular Heirlooms & Sanctuaries
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">

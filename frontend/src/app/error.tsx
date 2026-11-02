@@ -27,7 +27,7 @@ export default function ErrorPage({
           Error Encountered
         </span>
 
-        <h1 className="font-[var(--font-serif)] text-4xl sm:text-5xl text-[var(--navy)] mb-4">
+        <h1 className="font-serif text-4xl sm:text-5xl text-[var(--navy)] mb-4">
           A Momentary Pause in <br />
           <span className="italic text-[var(--gold-text)] font-normal">the Weave</span>
         </h1>

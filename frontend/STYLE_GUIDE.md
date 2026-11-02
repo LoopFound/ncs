@@ -11,10 +11,10 @@ The website pairs a classical, high-contrast Serif typeface for editorial grande
 
 ### Font Families
 - **Display & Headings (Serif):** `"Cormorant Garamond", Georgia, "Times New Roman", serif`
-  - *Tailwind class:* `font-[var(--font-serif)]` or `font-serif`
+  - *Tailwind class:* `font-serif`
   - *Mood:* Royal, ceremonial, literary, reminiscent of traditional South Indian temple inscriptions and heritage luxury.
 - **Body & Interface (Sans):** `Inter, Arial, Helvetica, sans-serif`
-  - *Tailwind class:* `font-[var(--font-sans)]` or `font-sans`
+  - *Tailwind class:* `font-sans`
   - *Mood:* Clean, modern, accessible, high legibility for product specifications, pricing, and forms.
 
 ---

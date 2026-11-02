@@ -25,7 +25,7 @@ export default function OrderSuccessPage() {
           Order Confirmed & Secured
         </span>
 
-        <h1 className="font-[var(--font-serif)] text-4xl sm:text-5xl text-[var(--navy)] mb-4">
+        <h1 className="font-serif text-4xl sm:text-5xl text-[var(--navy)] mb-4">
           Thank You for Welcoming <br />
           <span className="italic text-[var(--gold-text)]">Our Weave</span>
         </h1>

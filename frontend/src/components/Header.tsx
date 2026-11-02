@@ -186,7 +186,7 @@ export default function Header() {
                                     <Link
                                         href={item.href}
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="flex min-h-11 items-center font-[var(--font-serif)] text-3xl text-white transition-colors hover:text-[var(--gold)]"
+                                        className="flex min-h-11 items-center font-serif text-3xl text-white transition-colors hover:text-[var(--gold)]"
                                     >
                                         {item.label}
                                     </Link>

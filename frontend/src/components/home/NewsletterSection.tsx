@@ -34,7 +34,7 @@ export default function NewsletterSection() {
                     </span>
 
                     {/* Title */}
-                    <h2 className="font-[var(--font-serif)] text-3xl md:text-4xl text-[#FAF7F0] mb-3">
+                    <h2 className="font-serif text-3xl md:text-4xl text-[#FAF7F0] mb-3">
                         Join Our Exclusive Atelier
                     </h2>
 

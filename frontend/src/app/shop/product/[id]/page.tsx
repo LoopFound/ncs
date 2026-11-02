@@ -71,7 +71,7 @@ export default function ProductDetailPage() {
                             <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)] font-bold mb-3 block">
                                 {product.category}
                             </span>
-                            <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl text-[var(--navy)] mb-6 leading-[1.1]">
+                            <h1 className="font-serif text-4xl lg:text-5xl text-[var(--navy)] mb-6 leading-[1.1]">
                                 {product.name}
                             </h1>
                             <div className="flex items-center gap-6">

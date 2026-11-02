@@ -19,7 +19,7 @@ export default function ContactPage() {
                         <span className="text-xs tracking-[0.3em] uppercase text-[var(--charcoal-muted)] block mb-4">
                             Get in Touch
                         </span>
-                        <h1 className="font-[var(--font-serif)] text-5xl lg:text-6xl font-light text-[var(--charcoal)] mb-8">
+                        <h1 className="font-serif text-5xl lg:text-6xl font-light text-[var(--charcoal)] mb-8">
                             Visit Our <br />
                             <span className="italic">Showroom</span>
                         </h1>
@@ -69,7 +69,7 @@ export default function ContactPage() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="bg-[var(--cream)] p-8 lg:p-12 border border-[var(--border)]"
                     >
-                        <h3 className="font-[var(--font-serif)] text-3xl text-[var(--charcoal)] mb-8">Send us a Message</h3>
+                        <h3 className="font-serif text-3xl text-[var(--charcoal)] mb-8">Send us a Message</h3>
 
                         <Suspense fallback={null}>
                             <ContactForm />

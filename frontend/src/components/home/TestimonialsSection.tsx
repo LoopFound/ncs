@@ -60,7 +60,7 @@ export default function TestimonialsSection() {
                     className="text-center mb-16 lg:mb-20"
                 >
                     <div className="w-10 h-[2px] bg-[var(--gold)] mx-auto mb-6" />
-                    <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-4">
+                    <h2 className="font-serif text-4xl md:text-5xl font-light text-[var(--navy)] mb-4">
                         What Our Customers Say
                     </h2>
                     <p className="text-[var(--text-muted)] max-w-md mx-auto">
@@ -83,7 +83,7 @@ export default function TestimonialsSection() {
                             className="bg-[var(--white)] p-8 lg:p-10 relative border border-[var(--grey-light)] shadow-sm hover:shadow-lg transition-shadow duration-300"
                         >
                             {/* Quote mark */}
-                            <div className="absolute top-6 right-6 font-[var(--font-serif)] text-6xl text-[var(--gold)]/20 leading-none">
+                            <div className="absolute top-6 right-6 font-serif text-6xl text-[var(--gold)]/20 leading-none">
                                 &ldquo;
                             </div>
 
@@ -109,7 +109,7 @@ export default function TestimonialsSection() {
 
                             {/* Author */}
                             <div className="pt-6 border-t border-[var(--grey-light)]">
-                                <h4 className="font-[var(--font-serif)] text-lg text-[var(--navy)]">
+                                <h4 className="font-serif text-lg text-[var(--navy)]">
                                     {testimonial.name}
                                 </h4>
                                 <p className="text-xs tracking-wider uppercase text-[var(--text-muted)] mt-1">

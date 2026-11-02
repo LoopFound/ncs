@@ -48,7 +48,7 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                                 All Products
                             </span>
                         )}
-                        <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl font-light leading-none tracking-tight text-[var(--charcoal)]">
+                        <h1 className="font-serif text-4xl lg:text-5xl font-light leading-none tracking-tight text-[var(--charcoal)]">
                             {collectionTitle}
                         </h1>
                     </div>
@@ -125,7 +125,7 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                                                 <span className="text-[10px] uppercase tracking-widest text-[var(--gold-text)] font-semibold block mb-1">
                                                     {product.category}
                                                 </span>
-                                                <h3 className="font-[var(--font-serif)] text-lg text-[var(--navy)] group-hover:text-[var(--gold-text)] transition-colors line-clamp-1">
+                                                <h3 className="font-serif text-lg text-[var(--navy)] group-hover:text-[var(--gold-text)] transition-colors line-clamp-1">
                                                     <Link href={`/shop/product/${product.id}`}>
                                                         {product.name}
                                                     </Link>
@@ -159,7 +159,7 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                                         <path d="m21 21-4.3-4.3" />
                                     </svg>
                                 </div>
-                                <h3 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-2">No Weaves Found</h3>
+                                <h3 className="font-serif text-2xl text-[var(--navy)] mb-2">No Weaves Found</h3>
                                 <p className="text-sm text-[var(--charcoal-light)] max-w-md mx-auto mb-6">
                                     We currently do not have sarees matching &quot;{activeCategory}&quot;. Please explore our wider collection or speak to our Kanchipuram concierge.
                                 </p>

@@ -14,7 +14,7 @@ export default function CartPage() {
         <div className="pt-32 pb-24 min-h-screen">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="mb-12">
-                    <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl text-[var(--navy)]">Your Shopping Bag</h1>
+                    <h1 className="font-serif text-4xl lg:text-5xl text-[var(--navy)]">Your Shopping Bag</h1>
                     <p className="text-[var(--text-muted)] mt-2 uppercase tracking-widest text-xs">
                         {cartItems.length} {cartItems.length === 1 ? 'Item' : 'Items'} in your bag
                     </p>
@@ -41,7 +41,7 @@ export default function CartPage() {
                                             <div className="flex justify-between items-start mb-2">
                                                 <div>
                                                     <p className="text-[10px] uppercase tracking-widest text-[var(--gold-text)] mb-1">{item.category}</p>
-                                                    <h3 className="font-[var(--font-serif)] text-xl text-[var(--navy)]">{item.name}</h3>
+                                                    <h3 className="font-serif text-xl text-[var(--navy)]">{item.name}</h3>
                                                 </div>
                                                 <p className="font-medium">₹{(item.price * item.quantity).toLocaleString('en-IN')}</p>
                                             </div>
@@ -79,7 +79,7 @@ export default function CartPage() {
                         {/* Order Summary */}
                         <div className="lg:col-span-1">
                             <div className="bg-white border border-[var(--border)] p-8 sticky top-32">
-                                <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-6">Order Summary</h2>
+                                <h2 className="font-serif text-2xl text-[var(--navy)] mb-6">Order Summary</h2>
 
                                 <div className="space-y-4 mb-8 text-sm">
                                     <div className="flex justify-between text-[var(--text-muted)]">
@@ -134,7 +134,7 @@ export default function CartPage() {
                                 <path d="M16 10a4 4 0 0 1-8 0" />
                             </svg>
                         </div>
-                        <h2 className="font-[var(--font-serif)] text-3xl text-[var(--navy)] mb-4">Your bag is empty</h2>
+                        <h2 className="font-serif text-3xl text-[var(--navy)] mb-4">Your bag is empty</h2>
                         <p className="text-[var(--text-muted)] mb-10 leading-relaxed">
                             Discover our exquisite collection of handcrafted silk sarees and find your perfect masterpiece.
                         </p>

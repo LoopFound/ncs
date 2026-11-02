@@ -44,7 +44,7 @@ export default function LoginPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)] via-[var(--navy)]/10 to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 md:p-10">
-            <p className="mb-3 font-[var(--font-serif)] text-4xl leading-tight text-white">
+            <p className="mb-3 font-serif text-4xl leading-tight text-white">
               Masterpieces
               <br />
               Crafted with Passion.
@@ -58,7 +58,7 @@ export default function LoginPage() {
         <div className="flex flex-1 items-center p-6 sm:p-8 md:w-1/2 lg:p-14">
           <div className="w-full">
             <header className="mb-8 text-center md:text-left">
-              <h1 className="mb-2 font-[var(--font-serif)] text-4xl text-[var(--navy)]">
+              <h1 className="mb-2 font-serif text-4xl text-[var(--navy)]">
                 {titles[mode][0]}
               </h1>
               <p className="mb-0 text-sm uppercase tracking-[0.16em] text-[var(--text-muted)]">

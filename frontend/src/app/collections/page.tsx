@@ -14,7 +14,7 @@ export default function CollectionsPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="font-[var(--font-serif)] text-5xl md:text-6xl font-light text-[var(--charcoal)] mb-6"
+                        className="font-serif text-5xl md:text-6xl font-light text-[var(--charcoal)] mb-6"
                     >
                         Our Collections
                     </motion.h1>
@@ -51,7 +51,7 @@ export default function CollectionsPage() {
                                     </div>
                                 </div>
 
-                                <h2 className="font-[var(--font-serif)] text-3xl text-[var(--charcoal)] mb-3 group-hover:text-[var(--gold)] transition-colors">
+                                <h2 className="font-serif text-3xl text-[var(--charcoal)] mb-3 group-hover:text-[var(--gold)] transition-colors">
                                     {collection.title}
                                 </h2>
                                 <p className="text-[var(--charcoal-light)] text-sm max-w-sm mx-auto mb-4">

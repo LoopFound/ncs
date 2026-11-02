@@ -16,7 +16,7 @@ export default function AboutPage() {
                     <span className="text-xs tracking-[0.3em] uppercase text-[var(--charcoal-muted)] block mb-4">
                         Our Heritage
                     </span>
-                    <h1 className="font-[var(--font-serif)] text-5xl md:text-6xl lg:text-7xl font-light text-[var(--charcoal)] mb-8">
+                    <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-light text-[var(--charcoal)] mb-8">
                         Weaving Stories for Generations
                     </h1>
                     <p className="text-lg text-[var(--charcoal-light)] leading-relaxed max-w-2xl mx-auto">
@@ -47,19 +47,19 @@ export default function AboutPage() {
             <section className="container mx-auto px-6 lg:px-12 mb-24 lg:mb-32">
                 <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
                     <div className="text-center">
-                        <h3 className="font-[var(--font-serif)] text-3xl text-[var(--charcoal)] mb-4">Purity</h3>
+                        <h3 className="font-serif text-3xl text-[var(--charcoal)] mb-4">Purity</h3>
                         <p className="text-[var(--charcoal-light)] leading-relaxed">
                             We use only the finest mulberry silk and pure zari, certified for authenticity. Our commitment to quality is unwavering.
                         </p>
                     </div>
                     <div className="text-center">
-                        <h3 className="font-[var(--font-serif)] text-3xl text-[var(--charcoal)] mb-4">Craftsmanship</h3>
+                        <h3 className="font-serif text-3xl text-[var(--charcoal)] mb-4">Craftsmanship</h3>
                         <p className="text-[var(--charcoal-light)] leading-relaxed">
                             Each saree is a labor of love, handwoven by master artisans who have inherited the skill from their forefathers.
                         </p>
                     </div>
                     <div className="text-center">
-                        <h3 className="font-[var(--font-serif)] text-3xl text-[var(--charcoal)] mb-4">Tradition</h3>
+                        <h3 className="font-serif text-3xl text-[var(--charcoal)] mb-4">Tradition</h3>
                         <p className="text-[var(--charcoal-light)] leading-relaxed">
                             While we embrace contemporary designs, our heart beats for the classic motifs and techniques that define Kanchipuram.
                         </p>
@@ -75,19 +75,19 @@ export default function AboutPage() {
                             <div className="relative">
                                 <span className="absolute -left-[41px] lg:-left-[57px] top-2 w-4 h-4 rounded-full bg-[var(--gold)] border-4 border-[var(--greige)]" />
                                 <span className="text-sm font-bold text-[var(--gold-text)] block mb-2">1975</span>
-                                <h3 className="font-[var(--font-serif)] text-2xl text-[var(--charcoal)] mb-4">The Beginning</h3>
+                                <h3 className="font-serif text-2xl text-[var(--charcoal)] mb-4">The Beginning</h3>
                                 <p className="text-[var(--charcoal-light)]">Founded by N.C. Santhanam with a single loom and a vision to bring quality silk to the community.</p>
                             </div>
                             <div className="relative">
                                 <span className="absolute -left-[41px] lg:-left-[57px] top-2 w-4 h-4 rounded-full bg-[var(--gold)] border-4 border-[var(--greige)]" />
                                 <span className="text-sm font-bold text-[var(--gold-text)] block mb-2">1995</span>
-                                <h3 className="font-[var(--font-serif)] text-2xl text-[var(--charcoal)] mb-4">Expanding Horizons</h3>
+                                <h3 className="font-serif text-2xl text-[var(--charcoal)] mb-4">Expanding Horizons</h3>
                                 <p className="text-[var(--charcoal-light)]">Expanded to a larger showroom in Kanchipuram, becoming a trusted name for wedding silks.</p>
                             </div>
                             <div className="relative">
                                 <span className="absolute -left-[41px] lg:-left-[57px] top-2 w-4 h-4 rounded-full bg-[var(--gold)] border-4 border-[var(--greige)]" />
                                 <span className="text-sm font-bold text-[var(--gold-text)] block mb-2">Present Day</span>
-                                <h3 className="font-[var(--font-serif)] text-2xl text-[var(--charcoal)] mb-4">A Global Legacy</h3>
+                                <h3 className="font-serif text-2xl text-[var(--charcoal)] mb-4">A Global Legacy</h3>
                                 <p className="text-[var(--charcoal-light)]">Serving customers worldwide through our online boutique while maintaining our roots in tradition.</p>
                             </div>
                         </div>

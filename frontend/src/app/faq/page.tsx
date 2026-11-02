@@ -85,7 +85,7 @@ export default function FAQPage() {
           <span className="text-xs uppercase tracking-[0.3em] text-[var(--gold-text)] font-semibold block mb-2">
             Heritage & Knowledge
           </span>
-          <h1 className="font-[var(--font-serif)] text-4xl sm:text-5xl text-[var(--navy)] mb-4">
+          <h1 className="font-serif text-4xl sm:text-5xl text-[var(--navy)] mb-4">
             Care Guide & Frequently Asked Questions
           </h1>
           <p className="text-sm text-[var(--text-muted)] leading-relaxed">
@@ -97,7 +97,7 @@ export default function FAQPage() {
         <div className="space-y-12">
           {faqs.map((group, groupIdx) => (
             <div key={group.category} className="space-y-4">
-              <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] border-b border-[var(--gold)]/30 pb-2">
+              <h2 className="font-serif text-2xl text-[var(--navy)] border-b border-[var(--gold)]/30 pb-2">
                 {group.category}
               </h2>
 
@@ -115,7 +115,7 @@ export default function FAQPage() {
                         onClick={() => toggleItem(itemKey)}
                         className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-medium text-[var(--navy)] text-base"
                       >
-                        <span className="font-[var(--font-serif)] text-lg">{faq.q}</span>
+                        <span className="font-serif text-lg">{faq.q}</span>
                         <span className={`w-6 h-6 rounded-full bg-[var(--cream)] flex items-center justify-center text-xs transition-transform duration-200 shrink-0 ${isOpen ? "rotate-180" : ""}`}>
                           ↓
                         </span>
@@ -144,7 +144,7 @@ export default function FAQPage() {
 
         {/* Concierge Help Box */}
         <div className="mt-16 p-8 rounded-xl bg-[var(--navy)] text-white text-center">
-          <h3 className="font-[var(--font-serif)] text-2xl mb-2 text-[#FAF7F0]">
+          <h3 className="font-serif text-2xl mb-2 text-[#FAF7F0]">
             Have a Specific Question About a Weave?
           </h3>
           <p className="text-sm text-white/70 max-w-lg mx-auto mb-6">

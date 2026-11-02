@@ -18,7 +18,7 @@ export default function Footer() {
                     {/* Brand & Showroom (Span 5) */}
                     <div className="sm:col-span-2 lg:col-span-1 space-y-5">
                         <Link href="/" className="inline-block group">
-                            <h2 className="font-[var(--font-serif)] text-3xl sm:text-4xl !text-[#FAF7F0] tracking-wide group-hover:!text-[#E5C158] transition-colors">
+                            <h2 className="font-serif text-3xl sm:text-4xl !text-[#FAF7F0] tracking-wide group-hover:!text-[#E5C158] transition-colors">
                                 NCS Santhanam
                             </h2>
                             <span className="block text-xs tracking-[0.35em] uppercase !text-[#E5C158] font-semibold mt-1">
@@ -61,7 +61,7 @@ export default function Footer() {
 
                     {/* Collections (Span 3) */}
                     <div>
-                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
+                        <h4 className="font-serif text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
                             <span>Collections</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
                         </h4>
@@ -101,7 +101,7 @@ export default function Footer() {
 
                     {/* Client Care & Policies (Span 4) */}
                     <div>
-                        <h4 className="font-[var(--font-serif)] text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
+                        <h4 className="font-serif text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
                             <span>Client Care</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
                         </h4>

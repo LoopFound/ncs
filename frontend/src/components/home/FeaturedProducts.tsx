@@ -74,7 +74,7 @@ export default function FeaturedProducts() {
                 >
                     <div>
                         <div className="w-10 h-[2px] bg-[var(--gold)] mb-6" />
-                        <h2 className="font-[var(--font-serif)] text-4xl md:text-5xl font-light text-[var(--navy)] mb-3">
+                        <h2 className="font-serif text-4xl md:text-5xl font-light text-[var(--navy)] mb-3">
                             Featured Pieces
                         </h2>
                         <p className="text-[var(--text-muted)] max-w-md">
@@ -139,7 +139,7 @@ export default function FeaturedProducts() {
                                     <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--text-muted)] mb-2">
                                         {product.category}
                                     </p>
-                                    <h3 className="font-[var(--font-serif)] text-lg text-[var(--navy)] mb-2 group-hover:text-[var(--gold)] transition-colors duration-300">
+                                    <h3 className="font-serif text-lg text-[var(--navy)] mb-2 group-hover:text-[var(--gold)] transition-colors duration-300">
                                         {product.name}
                                     </h3>
                                     <div className="flex items-center justify-center gap-2">

@@ -22,7 +22,7 @@ export default function ShippingPolicyPage() {
           <span className="text-xs uppercase tracking-[0.3em] text-[var(--gold-text)] font-semibold block mb-2">
             Client Care
           </span>
-          <h1 className="font-[var(--font-serif)] text-4xl sm:text-5xl text-[var(--navy)] mb-4">
+          <h1 className="font-serif text-4xl sm:text-5xl text-[var(--navy)] mb-4">
             Shipping & Delivery Policy
           </h1>
           <p className="text-sm text-[var(--text-muted)]">
@@ -33,7 +33,7 @@ export default function ShippingPolicyPage() {
         {/* Content Sections */}
         <div className="prose prose-navy max-w-none space-y-10 text-[var(--text-body)]">
           <section className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-xs">
-            <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-4">
+            <h2 className="font-serif text-2xl text-[var(--navy)] mb-4">
               1. Domestic Shipping (Within India)
             </h2>
             <p className="text-sm leading-relaxed mb-4 text-[var(--text-body)]">
@@ -47,7 +47,7 @@ export default function ShippingPolicyPage() {
           </section>
 
           <section className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-xs">
-            <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-4">
+            <h2 className="font-serif text-2xl text-[var(--navy)] mb-4">
               2. International Worldwide Shipping
             </h2>
             <p className="text-sm leading-relaxed mb-4 text-[var(--text-body)]">
@@ -61,7 +61,7 @@ export default function ShippingPolicyPage() {
           </section>
 
           <section className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-xs">
-            <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-4">
+            <h2 className="font-serif text-2xl text-[var(--navy)] mb-4">
               3. Order Tracking & Real-Time Updates
             </h2>
             <p className="text-sm leading-relaxed text-[var(--text-body)]">
@@ -70,7 +70,7 @@ export default function ShippingPolicyPage() {
           </section>
 
           <section className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-xs">
-            <h2 className="font-[var(--font-serif)] text-2xl text-[var(--navy)] mb-4">
+            <h2 className="font-serif text-2xl text-[var(--navy)] mb-4">
               4. Damaged or Tampered Parcels
             </h2>
             <p className="text-sm leading-relaxed text-[var(--text-body)]">

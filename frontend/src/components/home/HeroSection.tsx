@@ -46,7 +46,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="mb-5"
           >
-            <h1 className="font-[var(--font-serif)] text-5xl font-normal leading-[0.98] tracking-[-0.025em] text-[#FAF7F0] sm:text-6xl lg:text-[3.5rem] xl:text-[3.75rem] 2xl:text-[4.5rem]">
+            <h1 className="font-serif text-5xl font-normal leading-[0.98] tracking-[-0.025em] text-[#FAF7F0] sm:text-6xl lg:text-[3.5rem] xl:text-[3.75rem] 2xl:text-[4.5rem]">
               <span className="block">Sacred Weaves,</span>
               <span className="mt-2 block font-light italic text-[#E5C158] sm:whitespace-nowrap">Timeless Heirlooms.</span>
             </h1>
@@ -93,15 +93,15 @@ export default function HeroSection() {
             className="grid max-w-lg grid-cols-3 gap-4 border-t border-white/15 pt-5 sm:gap-6"
           >
             <div>
-              <div className="font-[var(--font-serif)] text-2xl sm:text-3xl text-[#FAF7F0]">50+ Years</div>
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">50+ Years</div>
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Loom Mastery</div>
             </div>
             <div>
-              <div className="font-[var(--font-serif)] text-2xl sm:text-3xl text-[#FAF7F0]">100% Pure</div>
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">100% Pure</div>
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Silk & Real Zari</div>
             </div>
             <div>
-              <div className="font-[var(--font-serif)] text-2xl sm:text-3xl text-[#FAF7F0]">10,000+</div>
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">10,000+</div>
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Brides Adorned</div>
             </div>
           </motion.div>

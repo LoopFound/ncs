@@ -9,7 +9,7 @@ export default function Loading() {
         {/* Core Dot */}
         <div className="w-2.5 h-2.5 rounded-full bg-[var(--navy)]" />
       </div>
-      <p className="font-[var(--font-serif)] text-lg text-[var(--navy)] tracking-wide">
+      <p className="font-serif text-lg text-[var(--navy)] tracking-wide">
         Unfolding the Loom...
       </p>
       <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold-text)] font-semibold mt-1">
