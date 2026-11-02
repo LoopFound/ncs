@@ -98,7 +98,7 @@ export default function ProductDetailPage() {
 
                         <div className="space-y-8 mb-12">
                             <div>
-                                <h4 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--navy)] mb-4">The Craftsmanship</h4>
+                                <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--navy)] mb-4">The Craftsmanship</h2>
                                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-8 text-sm text-[var(--text-body)]/80">
                                     {product.details.map((detail, i) => (
                                         <li key={i} className="flex gap-3 items-center">

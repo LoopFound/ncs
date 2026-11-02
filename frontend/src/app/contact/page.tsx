@@ -28,7 +28,7 @@ export default function ContactPage() {
 
                         <div className="space-y-8 mb-12">
                             <div>
-                                <h3 className="font-medium text-[var(--charcoal)] mb-2 uppercase tracking-wider text-sm">Address</h3>
+                                <h2 className="font-medium text-[var(--charcoal)] mb-2 uppercase tracking-wider text-sm">Address</h2>
                                 <p className="text-[var(--charcoal-light)] leading-relaxed">
                                     59, Viladadikoil Street,<br />
                                     Kancheepuram, Tamil Nadu – 631501
@@ -36,7 +36,7 @@ export default function ContactPage() {
                             </div>
 
                             <div>
-                                <h3 className="font-medium text-[var(--charcoal)] mb-2 uppercase tracking-wider text-sm">Contact</h3>
+                                <h2 className="font-medium text-[var(--charcoal)] mb-2 uppercase tracking-wider text-sm">Contact</h2>
                                 <p className="text-[var(--charcoal-light)] hover:text-[var(--gold)] transition-colors">
                                     <a href="tel:+919876543210">+91 98765 43210</a>
                                 </p>
@@ -46,7 +46,7 @@ export default function ContactPage() {
                             </div>
 
                             <div>
-                                <h3 className="font-medium text-[var(--charcoal)] mb-2 uppercase tracking-wider text-sm">Hours</h3>
+                                <h2 className="font-medium text-[var(--charcoal)] mb-2 uppercase tracking-wider text-sm">Hours</h2>
                                 <p className="text-[var(--charcoal-light)]">
                                     Monday – Saturday: 10am – 8pm<br />
                                     Sunday: 10am – 2pm
@@ -80,7 +80,7 @@ export default function ContactPage() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="bg-[var(--cream)] p-8 lg:p-12 border border-[var(--border)]"
                     >
-                        <h3 className="font-serif text-3xl text-[var(--charcoal)] mb-8">Send us a Message</h3>
+                        <h2 className="font-serif text-3xl text-[var(--charcoal)] mb-8">Send us a Message</h2>
 
                         <Suspense fallback={null}>
                             <ContactForm />

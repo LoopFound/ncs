@@ -109,9 +109,9 @@ export default function TestimonialsSection() {
 
                             {/* Author */}
                             <div className="pt-6 border-t border-[var(--grey-light)]">
-                                <h4 className="font-serif text-lg text-[var(--navy)]">
+                                <h3 className="font-serif text-lg text-[var(--navy)]">
                                     {testimonial.name}
-                                </h4>
+                                </h3>
                                 <p className="text-xs tracking-wider uppercase text-[var(--text-muted)] mt-1">
                                     {testimonial.location}
                                 </p>

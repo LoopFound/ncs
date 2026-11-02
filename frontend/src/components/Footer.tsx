@@ -61,10 +61,10 @@ export default function Footer() {
 
                     {/* Collections (Span 3) */}
                     <div>
-                        <h4 className="font-serif text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
+                        <h3 className="font-serif text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
                             <span>Collections</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
-                        </h4>
+                        </h3>
                         <ul className="space-y-4 text-sm">
                             <li>
                                 <Link href="/wedding" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
@@ -101,10 +101,10 @@ export default function Footer() {
 
                     {/* Client Care & Policies (Span 4) */}
                     <div>
-                        <h4 className="font-serif text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
+                        <h3 className="font-serif text-xl !text-[#FAF7F0] mb-6 tracking-wide flex items-center gap-3">
                             <span>Client Care</span>
                             <span className="h-px w-6 bg-[#D4AF37]" />
-                        </h4>
+                        </h3>
                         <ul className="space-y-4 text-sm">
                             <li>
                                 <Link href="/about" className="!text-[#E2E8F0] hover:!text-[#E5C158] transition-colors inline-block">
