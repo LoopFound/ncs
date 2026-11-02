@@ -50,7 +50,7 @@ const itemVariants = {
 
 export default function CollectionsSection() {
     return (
-        <section className="py-24 lg:py-32 bg-[var(--cream)]">
+        <section className="py-24 lg:py-32 textile-temple">
             <div className="container mx-auto px-6 lg:px-12">
                 {/* Section Header */}
                 <motion.div

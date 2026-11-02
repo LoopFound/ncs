@@ -18,7 +18,7 @@ export default function ProductDetailPage() {
     }
 
     return (
-        <div className="pt-24 lg:pt-32 pb-24 bg-[var(--cream)]">
+        <div className="pt-24 lg:pt-32 pb-24">
             <div className="container mx-auto px-6 lg:px-12">
                 {/* Breadcrumb */}
                 <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--navy)]/60 mb-12">

@@ -15,7 +15,7 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-[var(--cream)] flex items-center justify-center pt-28 pb-20 px-6">
+    <div className="min-h-screen flex items-center justify-center pt-28 pb-20 px-6">
       <div className="max-w-xl w-full text-center">
         <div className="w-16 h-16 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center mx-auto mb-6 text-amber-700">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">

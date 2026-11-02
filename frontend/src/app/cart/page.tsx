@@ -11,7 +11,7 @@ export default function CartPage() {
     const total = cartTotal + tax;
 
     return (
-        <div className="pt-32 pb-24 min-h-screen bg-[var(--cream)]">
+        <div className="pt-32 pb-24 min-h-screen">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="mb-12">
                     <h1 className="font-[var(--font-serif)] text-4xl lg:text-5xl text-[var(--navy)]">Your Shopping Bag</h1>

@@ -8,7 +8,7 @@ export default function Footer() {
     };
 
     return (
-        <footer className="bg-[#071333] text-[#FAF7F0] border-t border-[#D4AF37]/40 mt-auto relative z-20">
+        <footer className="bg-[#071333] textile-night text-[#FAF7F0] border-t border-[#D4AF37]/40 mt-auto relative z-20">
             {/* Top gold hairline accent */}
             <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-90" />
 
