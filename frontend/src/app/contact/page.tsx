@@ -6,7 +6,7 @@ import ContactForm from "@/components/ContactForm";
 
 export default function ContactPage() {
     return (
-        <div className="pt-24 lg:pt-32 pb-24">
+        <div className="pt-header pb-24">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
 

@@ -508,6 +508,17 @@ html {
 
 /* === New Animations === */
 @layer utilities {
+  /* Clears the fixed header (7rem tall, 8rem from lg) plus breathing room above page titles. */
+  .pt-header {
+    padding-top: 9rem;
+  }
+
+  @media (min-width: 1024px) {
+    .pt-header {
+      padding-top: 11rem;
+    }
+  }
+
   .animate-slow-pan {
     animation: slowPan 20s linear infinite;
   }

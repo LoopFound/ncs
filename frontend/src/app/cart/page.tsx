@@ -11,7 +11,7 @@ export default function CartPage() {
     const total = cartTotal + tax;
 
     return (
-        <div className="pt-32 pb-24 min-h-screen">
+        <div className="pt-header pb-24 min-h-screen">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="mb-12">
                     <h1 className="font-serif text-4xl lg:text-5xl text-[var(--navy)]">Your Shopping Bag</h1>
@@ -78,7 +78,7 @@ export default function CartPage() {
 
                         {/* Order Summary */}
                         <div className="lg:col-span-1">
-                            <div className="bg-white border border-[var(--border)] p-8 sticky top-32">
+                            <div className="bg-white border border-[var(--border)] p-8 sticky top-36">
                                 <h2 className="font-serif text-2xl text-[var(--navy)] mb-6">Order Summary</h2>
 
                                 <div className="space-y-4 mb-8 text-sm">

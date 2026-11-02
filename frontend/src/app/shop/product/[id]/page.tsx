@@ -18,7 +18,7 @@ export default function ProductDetailPage() {
     }
 
     return (
-        <div className="pt-24 lg:pt-32 pb-24">
+        <div className="pt-header pb-24">
             <div className="container mx-auto px-6 lg:px-12">
                 {/* Breadcrumb */}
                 <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--navy)]/60 mb-12">
@@ -66,7 +66,7 @@ export default function ProductDetailPage() {
                     </div>
 
                     {/* Product Info */}
-                    <div className="lg:sticky lg:top-32 h-fit">
+                    <div className="lg:sticky lg:top-36 h-fit">
                         <div className="mb-8">
                             <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--gold)] font-bold mb-3 block">
                                 {product.category}

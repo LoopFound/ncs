@@ -8,7 +8,7 @@ export default function OrderSuccessPage() {
   const [orderNumber] = useState("NCS-78429");
 
   return (
-    <div className="pt-28 lg:pt-36 pb-24 min-h-screen flex items-center justify-center">
+    <div className="pt-header pb-24 min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-6 max-w-2xl text-center">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}

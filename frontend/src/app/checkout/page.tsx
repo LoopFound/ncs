@@ -41,7 +41,7 @@ export default function CheckoutPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="pt-32 pb-24 min-h-[70vh] flex items-center justify-center">
+      <div className="pt-header pb-24 min-h-[70vh] flex items-center justify-center">
         <div className="text-center max-w-md p-8 bg-white rounded-xl border border-[var(--border)] shadow-xs">
           <h2 className="font-serif text-3xl text-[var(--navy)] mb-3">Your Bag is Empty</h2>
           <p className="text-sm text-[var(--text-muted)] mb-6">
@@ -59,7 +59,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="pt-28 lg:pt-36 pb-24 min-h-screen">
+    <div className="pt-header pb-24 min-h-screen">
       <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
         {/* Breadcrumb */}
         <div className="text-[10px] uppercase tracking-[0.25em] text-[var(--navy)]/60 mb-6">
@@ -269,7 +269,7 @@ export default function CheckoutPage() {
 
           {/* Right Summary (Span 5) */}
           <div className="lg:col-span-5">
-            <div className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-sm sticky top-32">
+            <div className="bg-white p-8 rounded-xl border border-[var(--border)] shadow-sm sticky top-36">
               <h3 className="font-serif text-2xl text-[var(--navy)] mb-6 pb-2 border-b border-[var(--border)]">
                 Order Summary
               </h3>

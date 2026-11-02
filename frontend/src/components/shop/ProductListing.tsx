@@ -37,7 +37,7 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                 : activeCategory || "The Heritage Collection";
 
     return (
-        <div className="pt-24 lg:pt-32 pb-24 min-h-[75vh]">
+        <div className="pt-header pb-24 min-h-[75vh]">
             <div className="container mx-auto px-6 lg:px-12">
 
                 {/* Header */}

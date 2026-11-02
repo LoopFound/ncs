@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ShippingPolicyPage() {
   return (
-    <div className="pt-28 lg:pt-36 pb-24">
+    <div className="pt-header pb-24">
       <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
         {/* Breadcrumb */}
         <div className="text-[10px] uppercase tracking-[0.25em] text-[var(--navy)]/60 mb-6">

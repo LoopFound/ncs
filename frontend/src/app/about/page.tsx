@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function AboutPage() {
     return (
-        <div className="pt-24 lg:pt-32 pb-24">
+        <div className="pt-header pb-24">
             {/* Hero Section */}
             <section className="container mx-auto px-6 lg:px-12 mb-20 lg:mb-32">
                 <motion.div

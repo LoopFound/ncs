@@ -6,7 +6,7 @@ import { collections } from "@/data/mock";
 
 export default function CollectionsPage() {
     return (
-        <div className="pt-24 lg:pt-32 pb-24">
+        <div className="pt-header pb-24">
             <div className="container mx-auto px-6 lg:px-12">
                 {/* Header */}
                 <div className="text-center mb-16 lg:mb-24">
