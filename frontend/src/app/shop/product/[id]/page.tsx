@@ -120,9 +120,12 @@ export default function ProductDetailPage() {
                             >
                                 Add to Bag
                             </button>
-                            <button className="w-full border border-[var(--navy)] text-[var(--navy)] py-5 text-xs tracking-[0.2em] uppercase font-bold hover:bg-[var(--navy)] hover:text-white transition-all duration-300">
-                                Reserve Collection
-                            </button>
+                            <Link
+                                href={`/contact?product=${product.id}`}
+                                className="block w-full border border-[var(--navy)] text-center text-[var(--navy)] py-5 text-xs tracking-[0.2em] uppercase font-bold hover:bg-[var(--navy)] hover:text-white transition-all duration-300"
+                            >
+                                Enquire About This Saree
+                            </Link>
                         </div>
 
                         <div className="grid grid-cols-3 gap-4 border-t border-[var(--border)] pt-8">

@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Suspense } from "react";
+import ContactForm from "@/components/ContactForm";
 
 export default function ContactPage() {
     return (
@@ -69,32 +71,9 @@ export default function ContactPage() {
                     >
                         <h3 className="font-[var(--font-serif)] text-3xl text-[var(--charcoal)] mb-8">Send us a Message</h3>
 
-                        <form className="space-y-6">
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label htmlFor="name" className="block text-xs uppercase tracking-wider text-[var(--charcoal-muted)] mb-2">Name</label>
-                                    <input type="text" id="name" className="w-full bg-white border border-[var(--border)] px-4 py-3 text-[var(--charcoal)] focus:outline-none focus:border-[var(--gold)] transition-colors" />
-                                </div>
-                                <div>
-                                    <label htmlFor="email" className="block text-xs uppercase tracking-wider text-[var(--charcoal-muted)] mb-2">Email</label>
-                                    <input type="email" id="email" className="w-full bg-white border border-[var(--border)] px-4 py-3 text-[var(--charcoal)] focus:outline-none focus:border-[var(--gold)] transition-colors" />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="subject" className="block text-xs uppercase tracking-wider text-[var(--charcoal-muted)] mb-2">Subject</label>
-                                <input type="text" id="subject" className="w-full bg-white border border-[var(--border)] px-4 py-3 text-[var(--charcoal)] focus:outline-none focus:border-[var(--gold)] transition-colors" />
-                            </div>
-
-                            <div>
-                                <label htmlFor="message" className="block text-xs uppercase tracking-wider text-[var(--charcoal-muted)] mb-2">Message</label>
-                                <textarea id="message" rows={6} className="w-full bg-white border border-[var(--border)] px-4 py-3 text-[var(--charcoal)] focus:outline-none focus:border-[var(--gold)] transition-colors resize-none"></textarea>
-                            </div>
-
-                            <button type="submit" className="w-full bg-[var(--charcoal)] text-white py-4 text-sm tracking-[0.15em] uppercase hover:bg-black transition-colors">
-                                Send Message
-                            </button>
-                        </form>
+                        <Suspense fallback={null}>
+                            <ContactForm />
+                        </Suspense>
                     </motion.div>
 
                 </div>
