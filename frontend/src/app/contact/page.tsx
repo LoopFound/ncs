@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Suspense } from "react";
 import ContactForm from "@/components/ContactForm";
 
+const SHOWROOM_MAP_QUERY = encodeURIComponent("59, Viladadikoil Street, Kancheepuram, Tamil Nadu 631501");
+
 export default function ContactPage() {
     return (
         <div className="pt-header pb-24">
@@ -52,14 +54,23 @@ export default function ContactPage() {
                             </div>
                         </div>
 
-                        {/* Map Placeholder */}
                         <div className="aspect-video bg-[var(--greige)] relative overflow-hidden border border-[var(--border)]">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-[var(--charcoal-muted)] text-xs tracking-widest uppercase">
-                                    Google Map Integration
-                                </span>
-                            </div>
+                            <iframe
+                                title="Map showing the NCS Santhanam showroom in Kancheepuram"
+                                src={`https://www.google.com/maps?q=${SHOWROOM_MAP_QUERY}&output=embed`}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="absolute inset-0 h-full w-full border-0"
+                            />
                         </div>
+                        <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${SHOWROOM_MAP_QUERY}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block mt-3 text-xs uppercase tracking-widest text-[var(--navy)] underline underline-offset-4 hover:text-[var(--gold-text)] transition-colors"
+                        >
+                            Open in Google Maps
+                        </a>
                     </motion.div>
 
                     {/* Contact Form */}

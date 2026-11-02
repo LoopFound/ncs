@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { collections } from "@/data/mock";
 
@@ -42,13 +43,13 @@ export default function CollectionsPage() {
                                     {/* Overlay */}
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 z-10" />
 
-                                    {/* Image Placeholder */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold)]/5 to-[var(--bronze)]/10 group-hover:scale-105 transition-transform duration-700 ease-out" />
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="text-[var(--charcoal-muted)] text-xs tracking-widest uppercase opacity-50">
-                                            {collection.title} Image
-                                        </span>
-                                    </div>
+                                    <Image
+                                        src={collection.image}
+                                        alt={collection.title}
+                                        fill
+                                        sizes="(min-width: 768px) 50vw, 100vw"
+                                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                                    />
                                 </div>
 
                                 <h2 className="font-serif text-3xl text-[var(--charcoal)] mb-3 group-hover:text-[var(--gold)] transition-colors">
