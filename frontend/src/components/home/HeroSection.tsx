@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { brandStats } from "@/data/brandStats";
 
 export default function HeroSection() {
   return (
@@ -93,7 +94,7 @@ export default function HeroSection() {
             className="grid max-w-lg grid-cols-3 gap-4 border-t border-white/15 pt-5 sm:gap-6"
           >
             <div>
-              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">50+ Years</div>
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">{brandStats.yearsWeaving} Years</div>
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Loom Mastery</div>
             </div>
             <div>
@@ -101,7 +102,7 @@ export default function HeroSection() {
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Silk & Real Zari</div>
             </div>
             <div>
-              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">10,000+</div>
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF7F0]">{brandStats.bridesAdorned}</div>
               <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">Brides Adorned</div>
             </div>
           </motion.div>

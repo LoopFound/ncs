@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { brandStats } from "@/data/brandStats";
 
 export default function BrandStorySection() {
     return (
@@ -81,15 +82,15 @@ export default function BrandStorySection() {
                         {/* Stats */}
                         <div className="grid grid-cols-3 gap-6 mb-10 py-8 border-t border-b border-[var(--border)]">
                             <div className="text-center">
-                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">50+</span>
+                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.yearsWeaving}</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Years</span>
                             </div>
                             <div className="text-center">
-                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">100+</span>
+                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.artisans}</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Artisans</span>
                             </div>
                             <div className="text-center">
-                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">25K+</span>
+                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.sareesWoven}</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Sarees</span>
                             </div>
                         </div>
