@@ -194,9 +194,9 @@
   - [x] Price range
   - [x] Product type
   - [x] Fabric
-  - [x] Color
+  - [ ] Color (products have no colour data yet)
 - [x] Quick view modal
-- [x] Pagination/infinite scroll
+- [ ] Pagination/infinite scroll
 
 ### Product Detail Page
 - [x] Image gallery (60-70% width)
@@ -282,9 +282,9 @@
 
 ## 🔍 SEARCH & DISCOVERY
 
-- [ ] Global search bar
-- [ ] Auto-suggest results
-- [ ] Search results page
+- [x] Global search bar
+- [x] Auto-suggest results
+- [x] Search results page
 - [ ] Recent searches (optional)
 - [ ] Popular searches (optional)
 

@@ -18,12 +18,14 @@ const navItems = [
 ];
 
 import { useCart } from "@/context/CartContext";
+import SiteSearch from "@/components/SiteSearch";
 
 export default function Header() {
     const { cartCount } = useCart();
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -105,6 +107,17 @@ export default function Header() {
                             transition={{ duration: 0.4, delay: 0.3 }}
                             className="flex items-center gap-3 rounded-full bg-[#F5F1E8] px-4 py-3 shadow-lg 2xl:gap-6 2xl:px-6"
                         >
+                            <button
+                                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                                aria-label="Search products"
+                                aria-expanded={isSearchOpen}
+                                className="flex items-center text-[var(--navy)] hover:text-[var(--gold)] transition-colors"
+                            >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path d="m21 21-4.3-4.3" />
+                                </svg>
+                            </button>
                             <Link
                                 href="/login"
                                 className="flex items-center gap-2 text-xs uppercase tracking-widest font-medium text-[var(--navy)] hover:text-[var(--gold)] transition-colors"
@@ -130,10 +143,21 @@ export default function Header() {
                         </motion.div>
                     </div>
 
-                    {/* Mobile Menu Button */}
+                    {/* Mobile Search + Menu Buttons */}
+                    <button
+                        className="relative z-50 ml-auto flex min-h-11 min-w-11 items-center justify-center text-white xl:hidden"
+                        onClick={() => { setIsMobileMenuOpen(false); setIsSearchOpen(!isSearchOpen); }}
+                        aria-label="Search products"
+                        aria-expanded={isSearchOpen}
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path d="m21 21-4.3-4.3" />
+                                </svg>
+                    </button>
                     <button
                         className="relative z-50 min-h-11 min-w-11 p-3 xl:hidden"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        onClick={() => { setIsSearchOpen(false); setIsMobileMenuOpen(!isMobileMenuOpen); }}
                         aria-label="Toggle menu"
                         aria-expanded={isMobileMenuOpen}
                         aria-controls="mobile-navigation"
@@ -160,6 +184,7 @@ export default function Header() {
                         </div>
                     </button>
                 </div>
+                {isSearchOpen && <SiteSearch onNavigate={() => setIsSearchOpen(false)} />}
             </header>
 
             {/* Mobile Menu */}

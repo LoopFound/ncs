@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { products } from "@/data/mock";
 import { useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import QuickViewDialog from "@/components/shop/QuickViewDialog";
+import { applyFilters, fabricOf, matchesCategory, NO_FILTERS, PRICE_RANGES } from "@/lib/product-search";
 
 interface ProductListingProps {
     initialCategory?: string;
@@ -15,26 +18,37 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
     const categoryParam = searchParams.get("category");
     const activeCategory = initialCategory || categoryParam;
 
-    const filteredProducts = activeCategory
-        ? products.filter((p) => {
-            const cat = activeCategory.toLowerCase().trim();
-            const pCat = p.category.toLowerCase().trim();
-            return (
-                pCat === cat ||
-                pCat.includes(cat) ||
-                cat.includes(pCat) ||
-                p.tags.some(t => t.toLowerCase().includes(cat) || cat.includes(t.toLowerCase()))
-            );
-        })
-        : products;
+    const queryParam = searchParams.get("q") ?? "";
+    const [filters, setFilters] = useState({ ...NO_FILTERS, query: queryParam });
+    const [lastQueryParam, setLastQueryParam] = useState(queryParam);
+    const [quickViewId, setQuickViewId] = useState<string | null>(null);
 
-    const collectionTitle = activeCategory === "Wedding"
+    // A new header search replaces whatever is typed in the page's own search box.
+    if (queryParam !== lastQueryParam) {
+        setLastQueryParam(queryParam);
+        setFilters({ ...filters, query: queryParam });
+    }
+
+    const categoryProducts = activeCategory
+        ? products.filter((p) => matchesCategory(p, activeCategory))
+        : products;
+    const filteredProducts = applyFilters(categoryProducts, filters);
+    const typeOptions = [...new Set(categoryProducts.map((p) => p.category))];
+    const fabricOptions = [...new Set(categoryProducts.map(fabricOf))].sort();
+    const hasFilters = Object.values(filters).some(Boolean);
+    const quickViewProduct = products.find((p) => p.id === quickViewId);
+    const fieldClass = "min-h-11 w-full border border-[var(--border)] bg-white px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]";
+
+    const titleKey = activeCategory?.toLowerCase().replace(/-/g, " ");
+    const collectionTitle = titleKey === "wedding"
         ? "Wedding Collection"
-        : activeCategory === "Kanchipuram"
+        : titleKey === "kanchipuram"
             ? "Kanchipuram Classics"
-            : activeCategory === "Soft Silk"
+            : titleKey === "soft silk"
                 ? "Soft Silks"
-                : activeCategory || "The Heritage Collection";
+                : titleKey === "gifts"
+                    ? "Gift Collections"
+                    : activeCategory || "The Heritage Collection";
 
     return (
         <div className="pt-header pb-24 min-h-[75vh]">
@@ -56,6 +70,37 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                     <div className="text-sm leading-relaxed text-[var(--charcoal-muted)] font-medium md:pb-1">
                         Showing {filteredProducts.length} {filteredProducts.length === 1 ? "weave" : "weaves"}
                     </div>
+                </div>
+
+                {/* Search + Filters */}
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto] mb-12">
+                    <input
+                        type="search"
+                        value={filters.query}
+                        onChange={(e) => setFilters({ ...filters, query: e.target.value })}
+                        placeholder="Search this collection"
+                        aria-label="Search this collection"
+                        className={`${fieldClass} sm:col-span-2 lg:col-span-1`}
+                    />
+                    <select aria-label="Filter by price" value={filters.price} onChange={(e) => setFilters({ ...filters, price: e.target.value })} className={fieldClass}>
+                        <option value="">Any price</option>
+                        {PRICE_RANGES.map((range) => <option key={range.id} value={range.id}>{range.label}</option>)}
+                    </select>
+                    <select aria-label="Filter by product type" value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })} className={fieldClass}>
+                        <option value="">All types</option>
+                        {typeOptions.map((type) => <option key={type} value={type}>{type}</option>)}
+                    </select>
+                    <select aria-label="Filter by fabric" value={filters.fabric} onChange={(e) => setFilters({ ...filters, fabric: e.target.value })} className={fieldClass}>
+                        <option value="">All fabrics</option>
+                        {fabricOptions.map((fabric) => <option key={fabric} value={fabric}>{fabric}</option>)}
+                    </select>
+                    <button
+                        onClick={() => setFilters(NO_FILTERS)}
+                        disabled={!hasFilters}
+                        className="min-h-11 px-4 text-xs uppercase tracking-widest text-[var(--navy)] underline underline-offset-4 disabled:opacity-40 disabled:no-underline"
+                    >
+                        Clear
+                    </button>
                 </div>
 
                 {/* Layout: Sidebar + Grid */}
@@ -119,6 +164,12 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                                                 )}
                                             </div>
                                         </Link>
+                                        <button
+                                            onClick={() => setQuickViewId(product.id)}
+                                            className="-mt-2 mb-3 min-h-11 text-[10px] uppercase tracking-[0.2em] text-[var(--navy)] underline underline-offset-4 hover:text-[var(--gold-text)] transition-colors"
+                                        >
+                                            Quick View
+                                        </button>
 
                                         <div className="flex-1 flex flex-col justify-between">
                                             <div>
@@ -161,7 +212,7 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                                 </div>
                                 <h3 className="font-serif text-2xl text-[var(--navy)] mb-2">No Weaves Found</h3>
                                 <p className="text-sm text-[var(--charcoal-light)] max-w-md mx-auto mb-6">
-                                    We currently do not have sarees matching &quot;{activeCategory}&quot;. Please explore our wider collection or speak to our Kanchipuram concierge.
+                                    We currently do not have sarees matching your selection. Please explore our wider collection or speak to our Kanchipuram concierge.
                                 </p>
                                 <div className="flex flex-wrap items-center justify-center gap-4">
                                     <Link href="/shop" className="px-6 py-3 bg-[var(--navy)] text-white text-xs uppercase tracking-widest font-semibold hover:bg-[var(--gold)] hover:text-[var(--navy)] transition-colors">
@@ -176,6 +227,9 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                     </div>
                 </div>
             </div>
+            {quickViewProduct && (
+                <QuickViewDialog product={quickViewProduct} onClose={() => setQuickViewId(null)} />
+            )}
         </div>
     );
 }
