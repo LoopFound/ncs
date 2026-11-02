@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[var(--cream)] flex items-center justify-center pt-28 pb-20 px-6">
+    <div className="min-h-screen flex items-center justify-center pt-28 pb-20 px-6">
       <div className="max-w-2xl w-full text-center">
         {/* Decorative Badge */}
         <motion.div

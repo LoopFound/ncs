@@ -60,9 +60,9 @@ export default function Header() {
                             <Image
                                 src="/logo1.jpg"
                                 alt="NCS Santhanam"
-                                width={120}
-                                height={40}
-                                className="h-10 lg:h-14 w-auto object-contain"
+                                width={180}
+                                height={60}
+                                className="h-12 lg:h-16 w-auto object-contain"
                                 priority
                             />
                         </motion.div>

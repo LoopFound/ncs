@@ -41,7 +41,7 @@ export default function CheckoutPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="pt-32 pb-24 min-h-[70vh] bg-[var(--cream)] flex items-center justify-center">
+      <div className="pt-32 pb-24 min-h-[70vh] flex items-center justify-center">
         <div className="text-center max-w-md p-8 bg-white rounded-xl border border-[var(--border)] shadow-xs">
           <h2 className="font-[var(--font-serif)] text-3xl text-[var(--navy)] mb-3">Your Bag is Empty</h2>
           <p className="text-sm text-[var(--text-muted)] mb-6">
@@ -59,7 +59,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="pt-28 lg:pt-36 pb-24 bg-[var(--cream)] min-h-screen">
+    <div className="pt-28 lg:pt-36 pb-24 min-h-screen">
       <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
         {/* Breadcrumb */}
         <div className="text-[10px] uppercase tracking-[0.25em] text-[var(--navy)]/60 mb-6">

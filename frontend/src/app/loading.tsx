@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="min-h-[70vh] bg-[var(--cream)] flex flex-col items-center justify-center p-6">
+    <div className="min-h-[70vh] flex flex-col items-center justify-center p-6">
       <div className="relative w-16 h-16 flex items-center justify-center mb-4">
         {/* Outer Ring */}
         <div className="absolute inset-0 rounded-full border-2 border-[var(--gold)]/20 animate-ping opacity-30" />

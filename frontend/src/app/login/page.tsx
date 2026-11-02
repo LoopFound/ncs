@@ -28,7 +28,7 @@ export default function LoginPage() {
   const preventSubmit = (event: FormEvent<HTMLFormElement>) => event.preventDefault();
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--cream)] px-4 py-10 sm:px-6 md:py-16">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6 md:py-16">
       <div aria-hidden="true" className="absolute -right-32 -top-32 size-80 rounded-full bg-[var(--gold)]/5 blur-3xl" />
       <div aria-hidden="true" className="absolute -bottom-32 -left-32 size-80 rounded-full bg-[var(--maroon)]/5 blur-3xl" />
 
