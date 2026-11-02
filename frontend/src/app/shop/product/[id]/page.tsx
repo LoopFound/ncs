@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { products } from "@/data/mock";
 import { useParams, notFound } from "next/navigation";
@@ -38,10 +39,13 @@ export default function ProductDetailPage() {
                             className="aspect-[3/4] bg-white relative overflow-hidden shadow-sm"
                         >
                             {product.images[activeImage] ? (
-                                <img
+                                <Image
                                     src={product.images[activeImage]}
                                     alt={product.name}
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    priority
+                                    sizes="(min-width: 1024px) 50vw, 100vw"
+                                    className="object-cover"
                                 />
                             ) : (
                                 <div className="absolute inset-0 flex items-center justify-center bg-[var(--greige)]">
@@ -59,7 +63,7 @@ export default function ProductDetailPage() {
                                     onClick={() => setActiveImage(idx)}
                                     className={`aspect-[3/4] bg-white relative overflow-hidden border-2 transition-all ${activeImage === idx ? 'border-[var(--gold)]' : 'border-transparent opacity-60 hover:opacity-100'}`}
                                 >
-                                    <img src={img} alt={`${product.name} view ${idx}`} className="w-full h-full object-cover" />
+                                    <Image src={img} alt={`${product.name} view ${idx + 1}`} fill sizes="(min-width: 1024px) 12vw, 25vw" className="object-cover" />
                                 </button>
                             ))}
                         </div>

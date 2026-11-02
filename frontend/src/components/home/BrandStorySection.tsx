@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { brandStats } from "@/data/brandStats";
 
@@ -19,10 +20,12 @@ export default function BrandStorySection() {
                     >
                         <div className="aspect-[4/5] bg-[var(--white)] relative overflow-hidden border border-[var(--grey-light)]">
                             {/* Heritage Image */}
-                            <img
+                            <Image
                                 src="/images/collections/kanchipuram.png"
                                 alt="Heritage Handloom"
-                                className="absolute inset-0 w-full h-full object-cover"
+                                fill
+                                sizes="(min-width: 1024px) 50vw, 100vw"
+                                className="object-cover"
                             />
                         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
 const products = [
@@ -113,10 +114,12 @@ export default function FeaturedProducts() {
                                 {/* Image */}
                                 <div className="relative aspect-[3/4] overflow-hidden bg-[var(--white)] mb-4 border border-[var(--grey-light)]">
                                     {/* Product Image */}
-                                    <img
+                                    <Image
                                         src={product.image}
                                         alt={product.name}
-                                        className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
+                                        fill
+                                        sizes="(min-width: 1024px) 25vw, 50vw"
+                                        className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
                                     />
 
                                     {/* Overlay gradient for hover effect */}

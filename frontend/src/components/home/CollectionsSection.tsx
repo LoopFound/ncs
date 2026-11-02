@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
 const collections = [
@@ -82,10 +83,12 @@ export default function CollectionsSection() {
                             <Link href={collection.href} className="group block">
                                 <div className="relative aspect-[3/4] overflow-hidden bg-[var(--white)] border border-[var(--grey-light)]">
                                     {/* Collection Image */}
-                                    <img
+                                    <Image
                                         src={collection.image}
                                         alt={collection.title}
-                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                                        fill
+                                        sizes="(min-width: 768px) 33vw, 100vw"
+                                        className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
                                     />
 
                                     {/* Texture Overlay (Reveal on Hover) */}

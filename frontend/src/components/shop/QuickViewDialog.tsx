@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import type { products } from "@/data/mock";
@@ -29,9 +30,9 @@ export default function QuickViewDialog({ product, onClose }: QuickViewDialogPro
             className="m-auto w-[calc(100%-2rem)] max-w-3xl max-h-[85vh] overflow-y-auto bg-white p-0 backdrop:bg-black/60"
         >
             <div className="grid sm:grid-cols-2">
-                <div className="aspect-[3/4] bg-[var(--greige)]">
+                <div className="relative aspect-[3/4] bg-[var(--greige)]">
                     {product.images[0] && (
-                        <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                        <Image src={product.images[0]} alt={product.name} fill sizes="(min-width: 640px) 384px, 100vw" className="object-cover" />
                     )}
                 </div>
                 <div className="relative p-6 lg:p-8 flex flex-col">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { products } from "@/data/mock";
 import { useSearchParams } from "next/navigation";
@@ -155,12 +156,12 @@ export default function ProductListing({ initialCategory }: ProductListingProps)
                     <div className="lg:col-span-3">
                         {filteredProducts.length > 0 ? (
                             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {filteredProducts.map((product) => (
+                                {filteredProducts.map((product, index) => (
                                     <div key={product.id} className="group flex flex-col h-full bg-white p-4 border border-[var(--border)] rounded-sm hover:shadow-lg transition-all duration-300">
                                         <Link href={`/shop/product/${product.id}`} className="block relative aspect-[3/4] bg-[var(--greige)] overflow-hidden mb-4">
                                             <div className="absolute inset-0 bg-gray-100">
                                                 {product.images[0] && (
-                                                    <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+                                                    <Image src={product.images[0]} alt={product.name} fill priority={index < 3} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
                                                 )}
                                             </div>
                                         </Link>
