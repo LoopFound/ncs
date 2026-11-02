@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { readSavedCart, writeSavedCart } from '@/lib/cart-storage';
 
 export interface CartItem {
     id: string;
@@ -30,14 +31,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     // Load cart from localStorage on mount
     useEffect(() => {
         const timer = window.setTimeout(() => {
-            const savedCart = localStorage.getItem('ncs_cart');
-            if (savedCart) {
-                try {
-                    setCartItems(JSON.parse(savedCart));
-                } catch (e) {
-                    console.error("Failed to parse cart from localStorage", e);
-                }
-            }
+            setCartItems(readSavedCart());
             hasLoadedCart.current = true;
         }, 0);
 
@@ -47,7 +41,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     // Save cart to localStorage on change
     useEffect(() => {
         if (!hasLoadedCart.current) return;
-        localStorage.setItem('ncs_cart', JSON.stringify(cartItems));
+        writeSavedCart(cartItems);
     }, [cartItems]);
 
     const addToCart = (item: Omit<CartItem, 'quantity'>) => {
