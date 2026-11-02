@@ -3,10 +3,7 @@ import type { NextConfig } from "next";
 // Media host for product images uploaded through the admin (S3 / CloudFront).
 // Read at build time; pass S3_PUBLIC_URL as a Docker build arg.
 function mediaPatterns(): NonNullable<NextConfig["images"]>["remotePatterns"] {
-  const patterns: NonNullable<NonNullable<NextConfig["images"]>["remotePatterns"]> = [
-    { protocol: "https", hostname: "**.cloudfront.net" },
-    { protocol: "https", hostname: "**.amazonaws.com" },
-  ];
+  const patterns: NonNullable<NonNullable<NextConfig["images"]>["remotePatterns"]> = [];
   const base = process.env.S3_PUBLIC_URL;
   if (base) {
     const u = new URL(base);
@@ -56,6 +53,17 @@ const nextConfig: NextConfig = {
     remotePatterns: mediaPatterns(),
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
+  // Baseline hardening for API responses (pages get theirs, plus the nonce CSP, from src/proxy.ts).
+  async headers() {
+    const api = [
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      ...(process.env.NODE_ENV === "production"
+        ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }]
+        : []),
+    ];
+    return [{ source: "/api/:path*", headers: api }];
   },
   async redirects() {
     return Object.entries(legacyProductIds).map(([id, slug]) => ({

@@ -112,6 +112,8 @@ model Address {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Not expressible in Prisma (managed in SQL migration 20261102000000): partial unique index
+  // addresses_userId_default_key ON addresses(userId) WHERE isDefault. CHECK constraints likewise.
   @@index([userId])
   @@map("addresses")
 }
@@ -304,6 +306,7 @@ model CartItem {
   updatedAt DateTime       @updatedAt
 
   @@unique([cartId, variantId])
+  @@index([variantId])
   @@map("cart_items")
 }
 
@@ -399,6 +402,7 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+  @@index([variantId])
   @@map("order_items")
 }
 
@@ -526,6 +530,7 @@ model CouponRedemption {
   createdAt DateTime @default(now())
 
   @@index([couponId, userId])
+  @@index([userId])
   @@map("coupon_redemptions")
 }
 

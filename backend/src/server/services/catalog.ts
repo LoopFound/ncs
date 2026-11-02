@@ -1,4 +1,5 @@
-import { db, type Prisma } from "../db";
+import { Prisma } from "@/generated/prisma/client";
+import { db } from "../db";
 import { cached, CacheTags } from "../cache";
 
 // ─── DTOs (plain JSON — safe to cache and pass to client components) ───
@@ -151,96 +152,138 @@ export async function getCategoryByPath(path: string) {
 
 // ─── Product listing / search ───
 
-/** Ranked product ids for a full-text query (uses the products_search_idx GIN index). */
-async function searchIds(q: string, limit = 500): Promise<string[]> {
-  const rows = await db.$queryRaw<{ id: string }[]>`
-    SELECT id FROM products
-    WHERE status = 'ACTIVE'
-      AND (
-        ncs_product_search_doc(name, subtitle, collection, tags, fabric, weave, description)
-          @@ websearch_to_tsquery('simple', ${q})
-        OR name % ${q}
-      )
-    ORDER BY ts_rank(
-      ncs_product_search_doc(name, subtitle, collection, tags, fabric, weave, description),
-      websearch_to_tsquery('simple', ${q})
-    ) DESC, similarity(name, ${q}) DESC
-    LIMIT ${limit}`;
-  return rows.map((r) => r.id);
+const SEARCH_DOC = Prisma.sql`ncs_product_search_doc(p.name, p.subtitle, p.collection, p.tags, p.fabric, p.weave, p.description)`;
+
+export interface NormalizedListInput {
+  categoryPath?: string;
+  q?: string;
+  fabric?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  newArrivals: boolean;
+  inStockOnly: boolean;
+  sort: ProductSort;
+  page: number;
+  pageSize: number;
+}
+
+const MAX_PAGE = 200;
+
+/** Canonical form of a listing request: trimmed/lowercased text, clamped paging, no undefined keys. */
+export function normalizeListInput(input: ListProductsInput): NormalizedListInput {
+  const out: NormalizedListInput = {
+    newArrivals: Boolean(input.newArrivals),
+    inStockOnly: Boolean(input.inStockOnly),
+    sort: input.sort ?? "featured",
+    page: Math.min(MAX_PAGE, Math.max(1, Math.floor(input.page ?? 1))),
+    pageSize: Math.min(60, Math.max(1, Math.floor(input.pageSize ?? 24))),
+  };
+  const q = input.q?.trim().replace(/\s+/g, " ").toLowerCase().slice(0, 100);
+  if (q) out.q = q;
+  const cat = input.categoryPath?.trim().toLowerCase();
+  if (cat) out.categoryPath = cat;
+  const fabric = input.fabric?.trim().toLowerCase();
+  if (fabric) out.fabric = fabric;
+  if (input.minPrice != null && Number.isFinite(input.minPrice)) out.minPrice = Math.floor(input.minPrice);
+  if (input.maxPrice != null && Number.isFinite(input.maxPrice)) out.maxPrice = Math.floor(input.maxPrice);
+  return out;
+}
+
+/** Stable key: keys are emitted in sorted order so equivalent requests share one entry. */
+export function listCacheKey(prefix: string, n: object): string {
+  const entries = Object.entries(n)
+    .filter(([, v]) => v !== undefined)
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+  return `${prefix}:${JSON.stringify(Object.fromEntries(entries))}`;
+}
+
+function buildWhere(n: NormalizedListInput, opts: { skipFabric?: boolean } = {}): Prisma.Sql {
+  const parts: Prisma.Sql[] = [Prisma.sql`p.status = 'ACTIVE'`];
+  if (n.categoryPath) {
+    const like = n.categoryPath.replace(/[%_\\]/g, "\\$&") + "/%";
+    parts.push(Prisma.sql`EXISTS (SELECT 1 FROM categories c WHERE c.id = p."categoryId" AND (lower(c.path) = ${n.categoryPath} OR lower(c.path) LIKE ${like}))`);
+  }
+  if (n.fabric && !opts.skipFabric) parts.push(Prisma.sql`lower(p.fabric) = ${n.fabric}`);
+  if (n.newArrivals) parts.push(Prisma.sql`p."isNewArrival"`);
+  const v: Prisma.Sql[] = [Prisma.sql`v."productId" = p.id`, Prisma.sql`v."isActive"`];
+  if (n.minPrice != null) v.push(Prisma.sql`v.price >= ${n.minPrice}`);
+  if (n.maxPrice != null) v.push(Prisma.sql`v.price <= ${n.maxPrice}`);
+  if (n.inStockOnly) v.push(Prisma.sql`v.stock > 0`);
+  parts.push(Prisma.sql`EXISTS (SELECT 1 FROM product_variants v WHERE ${Prisma.join(v, " AND ")})`);
+  if (n.q) {
+    parts.push(
+      Prisma.sql`(${SEARCH_DOC} @@ websearch_to_tsquery('simple', ${n.q}) OR p.name % ${n.q})`,
+    );
+  }
+  return Prisma.join(parts, " AND ");
+}
+
+function buildOrder(n: NormalizedListInput): Prisma.Sql {
+  const minPrice = Prisma.sql`(SELECT MIN(pv.price) FROM product_variants pv WHERE pv."productId" = p.id AND pv."isActive")`;
+  const rank = n.q
+    ? Prisma.sql`ts_rank(${SEARCH_DOC}, websearch_to_tsquery('simple', ${n.q})) DESC, similarity(p.name, ${n.q}) DESC, `
+    : Prisma.empty;
+  switch (n.sort) {
+    case "price-asc":
+      return Prisma.sql`${minPrice} ASC, ${rank}p.id ASC`;
+    case "price-desc":
+      return Prisma.sql`${minPrice} DESC, ${rank}p.id ASC`;
+    case "newest":
+      return Prisma.sql`p."createdAt" DESC, p.id ASC`;
+    default:
+      return Prisma.sql`${rank}p."isFeatured" DESC, p."sortRank" ASC, p.id ASC`;
+  }
+}
+
+/** Fabric facet values for a filter set (ignoring the fabric filter itself); cached separately from the page. */
+function getFabricFacets(n: NormalizedListInput): Promise<string[]> {
+  const facetInput = { ...n, fabric: undefined, page: 1, pageSize: 1, sort: "featured" as const };
+  const key = listCacheKey("products:facets", {
+    categoryPath: n.categoryPath,
+    q: n.q,
+    minPrice: n.minPrice,
+    maxPrice: n.maxPrice,
+    newArrivals: n.newArrivals,
+    inStockOnly: n.inStockOnly,
+  });
+  return cached(key, { ttlSeconds: n.q ? 60 : 600, tags: TAGS }, async () => {
+    const rows = await db.$queryRaw<{ fabric: string }[]>`
+      SELECT DISTINCT p.fabric FROM products p
+      WHERE ${buildWhere(facetInput, { skipFabric: true })} AND p.fabric IS NOT NULL
+      ORDER BY p.fabric LIMIT 50`;
+    return rows.map((r) => r.fabric).filter(Boolean);
+  });
 }
 
 export async function listProducts(input: ListProductsInput): Promise<ProductPage> {
-  const page = Math.max(1, Math.floor(input.page ?? 1));
-  const pageSize = Math.min(60, Math.max(1, Math.floor(input.pageSize ?? 24)));
-  const sort = input.sort ?? "featured";
-  const key = `products:list:${JSON.stringify({ ...input, page, pageSize, sort })}`;
+  const n = normalizeListInput(input);
+  const key = listCacheKey("products:list", n);
+  // Free-text results are high-cardinality and ranking-sensitive: keep them short-lived.
+  const ttl = n.q ? 60 : TTL;
 
-  return cached(key, { ttlSeconds: TTL, tags: TAGS }, async () => {
-    const where: Prisma.ProductWhereInput = { status: "ACTIVE", variants: { some: { isActive: true } } };
-    if (input.categoryPath) {
-      where.category = { OR: [{ path: input.categoryPath }, { path: { startsWith: `${input.categoryPath}/` } }] };
-    }
-    if (input.fabric) where.fabric = { equals: input.fabric, mode: "insensitive" };
-    if (input.newArrivals) where.isNewArrival = true;
-    const variantFilter: Prisma.ProductVariantWhereInput = { isActive: true };
-    if (input.minPrice != null || input.maxPrice != null) {
-      variantFilter.price = { gte: input.minPrice ?? undefined, lte: input.maxPrice ?? undefined };
-    }
-    if (input.inStockOnly) variantFilter.stock = { gt: 0 };
-    where.variants = { some: variantFilter };
-
-    let rankedIds: string[] | undefined;
-    if (input.q && input.q.trim().length > 0) {
-      rankedIds = await searchIds(input.q.trim());
-      where.id = { in: rankedIds };
-    }
-
-    const orderBy: Prisma.ProductOrderByWithRelationInput[] =
-      sort === "newest"
-        ? [{ createdAt: "desc" }]
-        : [{ isFeatured: "desc" }, { sortRank: "asc" }];
-
-    const [total, rows, fabricRows] = await Promise.all([
-      db.product.count({ where }),
-      db.product.findMany({
-        where,
-        include: cardInclude,
-        orderBy,
-        // Price sorting and search ranking need the full candidate set; others paginate in SQL.
-        ...(sort === "price-asc" || sort === "price-desc" || rankedIds
-          ? {}
-          : { skip: (page - 1) * pageSize, take: pageSize }),
-      }),
-      db.product.findMany({
-        where: { ...where, fabric: undefined },
-        select: { fabric: true },
-        distinct: ["fabric"],
-      }),
+  return cached(key, { ttlSeconds: ttl, tags: TAGS }, async () => {
+    const where = buildWhere(n);
+    const offset = (n.page - 1) * n.pageSize;
+    const [countRows, idRows, fabrics] = await Promise.all([
+      db.$queryRaw<{ total: bigint }[]>`SELECT COUNT(*) AS total FROM products p WHERE ${where}`,
+      db.$queryRaw<{ id: string }[]>`
+        SELECT p.id FROM products p WHERE ${where}
+        ORDER BY ${buildOrder(n)} LIMIT ${n.pageSize} OFFSET ${offset}`,
+      getFabricFacets(n),
     ]);
-
-    let items = cards(rows);
-    if (rankedIds && sort === "featured") {
-      const pos = new Map(rankedIds.map((id, i) => [id, i]));
-      items.sort((a, b) => (pos.get(a.id) ?? 0) - (pos.get(b.id) ?? 0));
-    }
-    if (sort === "price-asc") items.sort((a, b) => a.price - b.price);
-    if (sort === "price-desc") items.sort((a, b) => b.price - a.price);
-    if (rankedIds || sort === "price-asc" || sort === "price-desc") {
-      items = items.slice((page - 1) * pageSize, page * pageSize);
-    }
+    const total = Number(countRows[0]?.total ?? 0);
+    const ids = idRows.map((r) => r.id);
+    const rows = ids.length ? await db.product.findMany({ where: { id: { in: ids } }, include: cardInclude }) : [];
+    const byId = new Map(rows.map((r) => [r.id, r]));
+    const items = cards(ids.map((id) => byId.get(id)).filter((r): r is CardRow => r !== undefined));
 
     return {
       items,
       total,
-      page,
-      pageSize,
-      pageCount: Math.max(1, Math.ceil(total / pageSize)),
-      facets: {
-        fabrics: fabricRows
-          .map((f) => f.fabric)
-          .filter((f): f is string => Boolean(f))
-          .sort((a, b) => a.localeCompare(b)),
-      },
+      page: n.page,
+      pageSize: n.pageSize,
+      pageCount: Math.max(1, Math.ceil(total / n.pageSize)),
+      facets: { fabrics: [...fabrics].sort((a, b) => a.localeCompare(b)) },
     };
   });
 }

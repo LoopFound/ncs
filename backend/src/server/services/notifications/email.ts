@@ -16,6 +16,9 @@ function mailer(): Transporter {
     auth: e.SMTP_USER && e.SMTP_PASS ? { user: e.SMTP_USER, pass: e.SMTP_PASS } : undefined,
     pool: true,
     maxConnections: 5,
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 30_000,
   });
   return transport;
 }

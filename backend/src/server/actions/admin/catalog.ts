@@ -6,7 +6,7 @@ import { db } from "../../db";
 import { audit } from "../../audit";
 import { invalidateTags, CacheTags } from "../../cache";
 import { adjustStock } from "../../services/inventory";
-import { deletePublicObject } from "../../storage";
+import { deletePublicObject, publicUrl } from "../../storage";
 import { OrderError } from "../../services/orders";
 import { adminRun, checkbox, formObject, id, lines, optRupees, optText, percentToBps, rupees, slugify } from "./shared";
 
@@ -141,14 +141,27 @@ export async function archiveProductAction(productId: string) {
   });
 }
 
+/** Keys the upload route can produce: products/YYYY-MM/<uuid>.<ext>. */
+const PRODUCT_KEY = z.string().max(200).regex(/^products\/[\w./-]+$/).refine((k) => !k.includes(".."), "Invalid storage key");
+
 export async function addProductImageAction(productId: string, image: { url: string; key: string | null; alt?: string }) {
   return adminRun("product.image.add", "staff", async (actor) => {
     const pid = id.parse(productId);
-    const url = z.string().url().or(z.string().startsWith("/images/")).parse(image.url);
+    // Uploaded images: the URL is derived server-side from a validated key, never trusted from the client.
+    // Without a key only bundled /images/ assets are allowed.
+    let url: string;
+    let storageKey: string | null = null;
+    if (image.key) {
+      storageKey = PRODUCT_KEY.parse(image.key);
+      url = publicUrl(storageKey);
+      if (image.url && image.url !== url) throw new OrderError("Image URL does not match its storage key.");
+    } else {
+      url = z.string().regex(/^\/images\/[\w./-]+$/).refine((u) => !u.includes(".."), "Invalid image path").parse(image.url);
+    }
     const max = await db.productImage.aggregate({ where: { productId: pid }, _max: { sortOrder: true } });
     const product = await db.product.findUniqueOrThrow({ where: { id: pid }, select: { slug: true, name: true } });
     await db.productImage.create({
-      data: { productId: pid, url, storageKey: image.key, alt: image.alt?.trim() || product.name, sortOrder: (max._max.sortOrder ?? -1) + 1 },
+      data: { productId: pid, url, storageKey, alt: image.alt?.trim() || product.name, sortOrder: (max._max.sortOrder ?? -1) + 1 },
     });
     await invalidateTags([CacheTags.catalog, CacheTags.product(product.slug)]);
     await audit(actor.id, "product.image.add", "product", pid, { url });
@@ -160,7 +173,7 @@ export async function addProductImageAction(productId: string, image: { url: str
 export async function deleteProductImageAction(imageId: string) {
   return adminRun("product.image.delete", "staff", async (actor) => {
     const img = await db.productImage.delete({ where: { id: id.parse(imageId) }, include: { product: { select: { slug: true } } } });
-    if (img.storageKey) await deletePublicObject(img.storageKey).catch(() => undefined);
+    if (img.storageKey && PRODUCT_KEY.safeParse(img.storageKey).success) await deletePublicObject(img.storageKey).catch(() => undefined);
     await invalidateTags([CacheTags.catalog, CacheTags.product(img.product.slug)]);
     await audit(actor.id, "product.image.delete", "product", img.productId, { url: img.url });
     revalidatePath(`/admin/products/${img.productId}`);

@@ -13,6 +13,7 @@ const optional = z
 const schema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   APP_URL: z.url(),
+  TRUSTED_PROXY_HOPS: z.coerce.number().int().min(0).max(10).default(1),
   LOG_LEVEL: z.enum(["trace", "debug", "info", "warn", "error", "fatal", "silent"]).default("info"),
 
   DATABASE_URL: z.string().min(1),

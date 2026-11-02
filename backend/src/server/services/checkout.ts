@@ -1,7 +1,7 @@
 import { db } from "../db";
 import { features } from "../env";
 import { redis } from "../redis";
-import { enqueue } from "../queue";
+import { enqueueSafe } from "../queue";
 import { logger, errorInfo } from "../logger";
 import { isPlaceholderEmail } from "../auth";
 import type { SessionUser } from "../session";
@@ -10,7 +10,7 @@ import { computeTotals, type PricingLineInput, type Totals } from "./pricing";
 import { quoteShipping, type ShippingQuote } from "./shipping";
 import { CouponError, normalizeCouponCode, redeemCoupon, validateCoupon } from "./coupons";
 import { reserveStock } from "./inventory";
-import { nextOrderNumber, transitionOrder } from "./orders";
+import { invalidateStockCache, nextOrderNumber, transitionOrder } from "./orders";
 import { createRazorpayOrder, razorpayKeyId } from "./payments/razorpay";
 import { getStoreInfo } from "./content";
 
@@ -170,6 +170,27 @@ export async function placeOrder(user: SessionUser, input: CheckoutInput): Promi
     const t = r.totals;
 
     const order = await db.$transaction(async (tx) => {
+      // Re-read prices and coupon terms under the transaction: an admin edit made while this checkout was
+      // being priced must not be charged at the stale price (the customer re-confirms at the new one).
+      const live = await tx.productVariant.findMany({
+        where: { id: { in: t.lines.map((l) => l.variantId) } },
+        select: { id: true, price: true, isActive: true },
+      });
+      const liveById = new Map(live.map((v) => [v.id, v]));
+      for (const l of t.lines) {
+        const v = liveById.get(l.variantId);
+        if (!v || !v.isActive) throw new CheckoutError(`${l.name} is no longer available. Please remove it from your bag.`);
+        if (v.price !== l.unitPrice) throw new CheckoutError(`The price of ${l.name} just changed. Please review your bag and try again.`);
+      }
+      if (r.coupon) {
+        const c = await tx.coupon.findUnique({ where: { id: r.coupon.id } });
+        const now = new Date();
+        const same =
+          c && c.isActive && (!c.startsAt || c.startsAt <= now) && (!c.endsAt || c.endsAt >= now) &&
+          c.type === r.coupon.type && c.value === r.coupon.value && c.minOrderValue === r.coupon.minOrderValue && c.maxDiscount === r.coupon.maxDiscount;
+        if (!same) throw new CheckoutError("This coupon's terms just changed. Please review your bag and try again.", "couponCode");
+      }
+
       const number = await nextOrderNumber(tx);
       const created = await tx.order.create({
         data: {
@@ -225,15 +246,19 @@ export async function placeOrder(user: SessionUser, input: CheckoutInput): Promi
       return created;
     });
 
+    // Stock changed: drop cached catalog/product pages.
+    await invalidateStockCache({ productIds: t.lines.map((l) => l.productId) });
+
     if (isCod) {
-      await enqueue("order.placed", { orderId: order.id });
+      await enqueueSafe("order.placed", { orderId: order.id });
       return { orderId: order.id, number: order.number, paymentMethod: "COD" };
     }
 
     try {
       const rzpOrder = await createRazorpayOrder({ amount: order.grandTotal, receipt: order.number, orderId: order.id });
       await db.payment.updateMany({ where: { orderId: order.id, provider: "razorpay" }, data: { providerOrderId: rzpOrder.id } });
-      await enqueue("order.expire", { orderId: order.id }, { delay: settings.orderHoldMinutes * 60_000 + 5_000, jobId: `expire-${order.id}` });
+      // The order is already saved: a Redis outage here must not fail the request (cleanup sweep expires it).
+      await enqueueSafe("order.expire", { orderId: order.id }, { delay: settings.orderHoldMinutes * 60_000 + 5_000, jobId: `expire-${order.id}` });
       return {
         orderId: order.id,
         number: order.number,
@@ -248,7 +273,9 @@ export async function placeOrder(user: SessionUser, input: CheckoutInput): Promi
       };
     } catch (err) {
       logger.error({ ...errorInfo(err), orderId: order.id }, "could not create razorpay order; cancelling");
-      await transitionOrder(order.id, "CANCELLED", { note: "Payment gateway unavailable" }).catch(() => undefined);
+      await transitionOrder(order.id, "CANCELLED", { note: "Payment gateway unavailable" }).catch((cancelErr) =>
+        logger.error({ ...errorInfo(cancelErr), orderId: order.id }, "could not cancel order after gateway failure; the expiry sweep will release it"),
+      );
       throw new CheckoutError("We couldn't reach the payment gateway. Your bag has been kept — please try again.");
     }
   } finally {

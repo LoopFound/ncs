@@ -3,7 +3,7 @@
     {
       "name": "ncs-app",
       "credentials": [{ "accessKey": "REPLACE_ACCESS_KEY", "secretKey": "REPLACE_SECRET_KEY" }],
-      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+      "actions": ["Read", "Write", "List", "Tagging"]
     },
     {
       "name": "anonymous",
