@@ -13,7 +13,8 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
   if (!product) return {};
 
   return {
-    title: product.name,
+    // The parent layout's plain title resets the root template.
+    title: { absolute: `${product.name} | NCS Santhanam` },
     description: product.description,
     alternates: { canonical: `/shop/product/${product.id}` },
     openGraph: {

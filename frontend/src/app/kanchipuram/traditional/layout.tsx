@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Traditional Kanchipuram Sarees",
+  // The parent layout's plain title resets the root template.
+  title: { absolute: "Traditional Kanchipuram Sarees | NCS Santhanam" },
   description: "Traditional Kanchipuram silk sarees with Korvai borders and classic motifs.",
   alternates: { canonical: "/kanchipuram/traditional" },
 };
