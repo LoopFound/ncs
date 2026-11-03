@@ -107,6 +107,18 @@ fi
 
 log "restarting worker (finishes in-flight jobs first)"
 compose up -d --no-deps worker
+mapfile -t WORKERS < <(compose ps -q worker)
+[ "${#WORKERS[@]}" -gt 0 ] || die "no worker containers after restart"
+# Require the worker to stay healthy (not crash-looping) before declaring the release good.
+if ! wait_healthy "${WORKERS[@]}"; then
+  for id in "${WORKERS[@]}"; do docker logs --tail 40 "$id" >&2 2>&1 || true; done
+  die "worker did not become healthy (crash loop?); the app is serving the new release, run 'deploy.sh rollback'"
+fi
+sleep "${WORKER_STABLE_SECONDS:-10}"
+for id in "${WORKERS[@]}"; do
+  restarts=$(docker inspect -f '{{.RestartCount}}' "$id" 2>/dev/null || echo 0)
+  [ "$restarts" -le 1 ] || die "worker ${id:0:12} restarted $restarts times after deploy; run 'deploy.sh rollback'"
+done
 
 # Apply config changes to everything else (no-op when unchanged) and reload Caddy's config.
 mapfile -t OTHERS < <(compose config --services | grep -v -x -e app -e worker -e migrate)

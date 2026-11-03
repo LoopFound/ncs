@@ -6,6 +6,7 @@ import { db } from "./db";
 import { env, features } from "./env";
 import { redis } from "./redis";
 import { enqueue } from "./queue";
+import { CLIENT_IP_HEADER, clientIp } from "./request";
 import { normalizeIndianMobile, sendSms } from "./services/notifications/sms";
 
 /** Placeholder email domain for accounts created via phone OTP (never emailed). */
@@ -22,7 +23,7 @@ function createAuth() {
       .filter(Boolean),
   );
 
-  return betterAuth({
+  const auth = betterAuth({
     appName: "NCS Santhanam",
     baseURL: e.APP_URL,
     secret: e.BETTER_AUTH_SECRET,
@@ -108,7 +109,7 @@ function createAuth() {
     advanced: {
       useSecureCookies: e.NODE_ENV === "production",
       cookiePrefix: "ncs",
-      ipAddress: { ipAddressHeaders: ["x-forwarded-for", "x-real-ip"] },
+      ipAddress: { ipAddressHeaders: [CLIENT_IP_HEADER] },
     },
 
     plugins: [
@@ -132,6 +133,17 @@ function createAuth() {
       nextCookies(),
     ],
   });
+
+  // Better Auth reads the first entry of the configured IP header, which is
+  // client-controlled in X-Forwarded-For. Overwrite our own header with the
+  // proxy-hop-aware address so rate limiting cannot be bypassed by spoofing.
+  const handle = auth.handler;
+  auth.handler = (request: Request) => {
+    const headers = new Headers(request.headers);
+    headers.set(CLIENT_IP_HEADER, clientIp(request.headers));
+    return handle(new Request(request, { headers }));
+  };
+  return auth;
 }
 
 export type Auth = ReturnType<typeof createAuth>;

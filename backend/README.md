@@ -1,6 +1,6 @@
 # NCS Santhanam — online store
 
-Next.js 16 storefront, admin and backend for NCS Santhanam silk sarees, with a background worker, PostgreSQL, Redis and S3-compatible storage.
+Next.js 16 admin and backend (APIs, worker) for NCS Santhanam silk sarees; the customer storefront lives in `../frontend`, with a background worker, PostgreSQL, Redis and S3-compatible storage.
 
 ## Architecture
 
@@ -19,7 +19,6 @@ Razorpay ──► /api/webhooks/razorpay (signed, idempotent)
 
 | Path | What it is |
 | --- | --- |
-| `src/app/(store)` | Storefront pages (catalog, product, cart, checkout, account, policies) |
 | `src/app/admin` | Admin: orders, products, inventory, categories, customers, coupons, reviews, banners, messages, newsletter, settings, audit log |
 | `src/app/api` | Auth, cart, search suggestions, Razorpay webhook, uploads, invoices, health/readiness |
 | `src/server/services` | Domain logic: catalog, cart, pricing, checkout, orders, inventory, payments, invoices, notifications |
@@ -63,6 +62,8 @@ The end-to-end suite covers:
 - sign-up, email verification, mobile OTP, COD checkout, admin shipping and delivery, and the GST invoice;
 - access control and HTTP status codes;
 - guest-cart merge, search, and the mobile menu.
+
+CI (`.github/workflows/backend.yml`) runs on every PR/push touching `backend/`: `npm ci`, lint, typecheck, unit and integration tests (Postgres and Redis service containers), build, and `npm audit --omit=dev --audit-level=high`.
 
 On low-memory machines, `NEXT_BUILD_CPUS=1 npx next build --webpack` builds with less memory than the default Turbopack build.
 
@@ -150,7 +151,10 @@ Then configure the GitHub repository using the variables listed at the top of `.
 
 ## Operations
 
-- **Health.** `/api/health` is liveness and `/api/ready` checks Postgres and Redis. The worker serves its health check on port 3001.
+- **Health.** `/api/health` is liveness and `/api/ready` checks Postgres and Redis (hard requirements) and reports S3 in `checks.s3`; S3 only fails readiness when `READY_REQUIRE_S3=true`. Failing checks are logged as warnings. The worker serves `/health` on port 3001 and returns 503 unless its queues, Postgres and Redis are all healthy.
+- **Dead jobs.** A job that fails its last attempt is logged with `event":"job_dead"`; set `ALERT_WEBHOOK_URL` (Slack/Discord-compatible) to also get a POST. `maintenance.cleanup` re-enqueues invoice and confirmation jobs for paid orders that have no invoice.
+- **Worker env.** `WORKER_SHUTDOWN_TIMEOUT_MS` (default 30000) force-exits a stuck shutdown; `WORKER_CONCURRENCY`, `WORKER_HEALTH_PORT` as before. To resend a notification explicitly, enqueue the job with a `resend` value (e.g. a timestamp) in its payload so its job id is unique.
+- **Backups.** `BACKUP_VERIFY_RESTORE=1` restores each dump into a throwaway database; `docker compose ... exec backup sh /backup.sh restore-test` checks the newest dump on demand. `BACKUP_MEDIA_DIR` mirrors a mounted directory off-site; for bundled SeaweedFS, mount its data volume read-only into the `backup` service and point this at it. Any backup, upload or retention failure exits non-zero and pings `BACKUP_PING_URL/fail`. `deploy.sh` takes its pre-deploy backup to the local volume only; set `PREDEPLOY_OFFSITE_CMD` to copy it off-site, and the release now fails if the worker does not stay healthy (`WORKER_STABLE_SECONDS`).
 - **Logs.** Logs are structured JSON on stdout, with secrets and OTPs redacted. Every admin change is in **Admin → Audit log**.
 - **Razorpay webhook.** Point it at `https://<domain>/api/webhooks/razorpay` and subscribe to `payment.captured`, `payment.failed`, `order.paid`, `refund.processed` and `refund.failed`. Its secret goes in `RAZORPAY_WEBHOOK_SECRET`.
 - **SMS.** MSG91 needs DLT-registered templates. The OTP template must expose an `otp` variable, and the order template an `order` variable.

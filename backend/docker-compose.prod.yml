@@ -161,6 +161,9 @@ services:
       BACKUP_S3_BUCKET: ${BACKUP_S3_BUCKET:-}
       BACKUP_S3_PREFIX: ${BACKUP_S3_PREFIX:-ncs}
       BACKUP_S3_RETENTION_DAYS: ${BACKUP_S3_RETENTION_DAYS:-30}
+      # Set to /media only when running the self-hosted SeaweedFS (selfhosted-storage profile).
+      BACKUP_MEDIA_DIR: ${BACKUP_MEDIA_DIR:-}
+      BACKUP_VERIFY_RESTORE: ${BACKUP_VERIFY_RESTORE:-}
       RCLONE_CONFIG_OFFSITE_TYPE: s3
       RCLONE_CONFIG_OFFSITE_PROVIDER: ${BACKUP_S3_PROVIDER:-Other}
       RCLONE_CONFIG_OFFSITE_ENDPOINT: ${BACKUP_S3_ENDPOINT:-}
@@ -170,6 +173,7 @@ services:
     volumes:
       - ./infra/backup/backup.sh:/backup.sh:ro
       - backups:/backups
+      - s3data:/media:ro
     entrypoint: ["/bin/sh", "/backup.sh"]
     depends_on:
       migrate: { condition: service_completed_successfully }

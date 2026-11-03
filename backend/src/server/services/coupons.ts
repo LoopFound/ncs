@@ -26,6 +26,14 @@ export async function validateCoupon(rawCode: string, userId: string | null, sub
 
 /** Atomically consumes one use; fails if the global limit was reached concurrently. */
 export async function redeemCoupon(tx: Tx, couponId: string, userId: string, orderId: string, amount: number) {
+  // Serialise concurrent redemptions by the same customer so the per-user limit cannot be raced.
+  await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${"coupon-redeem:" + couponId + ":" + userId}))`;
+  const coupon = await tx.coupon.findUnique({ where: { id: couponId }, select: { perUserLimit: true } });
+  if (!coupon) throw new CouponError("This coupon code isn't valid.");
+  if (coupon.perUserLimit > 0) {
+    const used = await tx.couponRedemption.count({ where: { couponId, userId } });
+    if (used >= coupon.perUserLimit) throw new CouponError("You've already used this coupon.");
+  }
   const updated = await tx.$executeRaw`
     UPDATE coupons SET "usedCount" = "usedCount" + 1, "updatedAt" = now()
     WHERE id = ${couponId} AND "isActive" AND ("usageLimit" IS NULL OR "usedCount" < "usageLimit")`;

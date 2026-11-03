@@ -4,12 +4,20 @@ import { getSessionCookie } from "better-auth/cookies";
 const PROTECTED = ["/account", "/admin", "/checkout"];
 const isDev = process.env.NODE_ENV !== "production";
 
+function mediaOrigin(): string {
+  try {
+    return process.env.S3_PUBLIC_URL ? new URL(process.env.S3_PUBLIC_URL).origin : "";
+  } catch {
+    return "";
+  }
+}
+
 function contentSecurityPolicy(nonce: string) {
   return [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://checkout.razorpay.com${isDev ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob: https:" + (isDev ? " http://localhost:*" : ""),
+    ["img-src 'self' data: blob: https://*.razorpay.com", mediaOrigin(), ...(isDev ? ["http://localhost:*"] : [])].filter(Boolean).join(" "),
     "font-src 'self' data:",
     "connect-src 'self' https://*.razorpay.com" + (isDev ? " ws: http://localhost:*" : ""),
     "frame-src https://api.razorpay.com https://checkout.razorpay.com https://www.google.com",

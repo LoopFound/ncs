@@ -1,5 +1,6 @@
 import { Queue, type JobsOptions } from "bullmq";
 import { createQueueConnection } from "./redis";
+import { logger, errorInfo } from "./logger";
 
 /** Every background job the worker understands, with its payload. */
 export interface JobPayloads {
@@ -60,6 +61,20 @@ function queue(name: keyof typeof QUEUE_NAMES): Queue {
 
 export async function enqueue<N extends JobName>(name: N, payload: JobPayloads[N], opts?: JobsOptions) {
   return queue(queueFor[name]).add(name, payload, opts);
+}
+
+/**
+ * Enqueue for work that follows a committed DB change. A Redis outage must not fail a request whose
+ * order is already saved: log and move on (maintenance.cleanup re-queues lost jobs). Returns success.
+ */
+export async function enqueueSafe<N extends JobName>(name: N, payload: JobPayloads[N], opts?: JobsOptions): Promise<boolean> {
+  try {
+    await enqueue(name, payload, opts);
+    return true;
+  } catch (err) {
+    logger.error({ ...errorInfo(err), job: name, payload }, "enqueue failed after commit; the cleanup sweep will recover it");
+    return false;
+  }
 }
 
 export async function closeQueues() {

@@ -1,4 +1,4 @@
-import { randomBytes } from "node:crypto";
+import { randomBytes, randomUUID } from "node:crypto";
 import { db, type Prisma } from "../db";
 import { includedGst } from "@/lib/money";
 
@@ -138,17 +138,19 @@ export async function addItem(identity: CartIdentity, variantId: string, quantit
   const v = await sellableVariant(variantId);
   if (v.stock < 1) throw new CartError(`${v.product.name} is out of stock.`);
   const { cartId, anonymousId } = await ensureCart(identity);
-  const existing = await db.cartItem.findUnique({ where: { cartId_variantId: { cartId, variantId } } });
-  const limit = Math.min(v.stock, v.maxPerOrder);
-  const next = Math.min((existing?.quantity ?? 0) + quantity, limit);
-  if (existing && existing.quantity >= limit) {
+  const limit = Math.max(1, Math.min(v.stock, v.maxPerOrder));
+  // Single atomic upsert: concurrent adds can never overshoot the limit, and a line already at the
+  // limit is left untouched (no row returned) so we can report it.
+  const rows = await db.$queryRaw<{ quantity: number }[]>`
+    INSERT INTO cart_items (id, "cartId", "variantId", quantity, "createdAt", "updatedAt")
+    VALUES (${randomUUID()}, ${cartId}, ${variantId}, LEAST(${quantity}::int, ${limit}::int), now(), now())
+    ON CONFLICT ("cartId", "variantId") DO UPDATE
+      SET quantity = LEAST(cart_items.quantity + ${quantity}::int, ${limit}::int), "updatedAt" = now()
+      WHERE cart_items.quantity < ${limit}::int
+    RETURNING quantity`;
+  if (rows.length === 0) {
     throw new CartError(limit === v.stock ? `Only ${v.stock} of ${v.product.name} available.` : `You can order up to ${limit} of this item.`);
   }
-  await db.cartItem.upsert({
-    where: { cartId_variantId: { cartId, variantId } },
-    create: { cartId, variantId, quantity: next },
-    update: { quantity: next },
-  });
   await db.cart.update({ where: { id: cartId }, data: { updatedAt: new Date() } });
   return { cart: await getCart({ userId: identity.userId, anonymousId }), anonymousId };
 }
@@ -172,6 +174,24 @@ export async function setQuantity(identity: CartIdentity, variantId: string, qua
 export async function clearCart(identity: CartIdentity) {
   const cart = await findCart(identity);
   if (cart) await db.cartItem.deleteMany({ where: { cartId: cart.id } });
+}
+
+/**
+ * Removes carts (items go via cascade) not touched for `olderThanDays` days, in batches.
+ * For the worker's periodic maintenance. Returns the number of carts removed.
+ */
+export async function purgeAbandonedCarts(olderThanDays = 30, batchSize = 1000): Promise<number> {
+  if (!Number.isFinite(olderThanDays) || olderThanDays < 1) throw new Error("olderThanDays must be >= 1");
+  const cutoff = new Date(Date.now() - olderThanDays * 86_400_000);
+  let total = 0;
+  for (let i = 0; i < 100; i++) {
+    const n = await db.cart.deleteMany({
+      where: { id: { in: (await db.cart.findMany({ where: { updatedAt: { lt: cutoff } }, orderBy: { updatedAt: "asc" }, take: batchSize, select: { id: true } })).map((c) => c.id) } },
+    });
+    total += n.count;
+    if (n.count < batchSize) break;
+  }
+  return total;
 }
 
 /** Moves a signed-out cart into the customer's account cart after sign-in. */

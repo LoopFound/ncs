@@ -1,0 +1,79 @@
+name: Backend
+
+on:
+  pull_request:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend.yml"
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend.yml"
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: backend
+    # Integration tests use an isolated ncs_test database and Redis DB 15 (see tests/test-env.ts);
+    # global-setup creates the database and applies migrations.
+    services:
+      postgres:
+        image: postgres:17.11-alpine
+        env:
+          POSTGRES_USER: ncs
+          POSTGRES_PASSWORD: ncs
+          POSTGRES_DB: ncs
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U ncs"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7.4.11-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://ncs:ncs@localhost:5432/ncs
+      REDIS_URL: redis://localhost:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - name: Unit tests
+        run: npx vitest run tests/unit
+      - name: Integration tests
+        run: npx vitest run tests/integration
+      - name: Build
+        env:
+          APP_URL: http://localhost:3100
+          BETTER_AUTH_SECRET: ci-build-secret-ci-build-secret-0123456789
+          S3_BUCKET: ncs-media
+          S3_PRIVATE_BUCKET: ncs-private
+          S3_PUBLIC_URL: http://localhost:58333/ncs-media
+          SMTP_HOST: localhost
+          EMAIL_FROM: "NCS CI <ci@example.com>"
+        run: npm run build && npm run worker:build
+      - name: Dependency audit
+        run: npm audit --omit=dev --audit-level=high
