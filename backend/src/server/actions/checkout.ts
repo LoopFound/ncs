@@ -4,7 +4,7 @@ import { z } from "zod";
 import { checkoutSchema, pincode } from "@/lib/validation";
 import { assertUser } from "../session";
 import { db } from "../db";
-import { rateLimit } from "../rate-limit";
+import { rateLimit, RateLimitError } from "../rate-limit";
 import { CheckoutError, placeOrder, quoteCheckout, resumePayment, type CheckoutQuote, type PlacedOrder } from "../services/checkout";
 import { cancelOrderByCustomer, markRazorpayPaid, OrderError, requestReturn } from "../services/orders";
 import { verifyPaymentSignature } from "../services/payments/razorpay";
@@ -28,7 +28,7 @@ export async function placeOrderAction(input: unknown): Promise<ActionResult<Pla
   return run("checkout.place", async () => {
     const user = await assertUser();
     const rl = await rateLimit("checkout", user.id, 10, 300);
-    if (!rl.ok) throw new CheckoutError("Too many attempts. Please wait a few minutes and try again.");
+    if (!rl.ok) throw new RateLimitError("Too many attempts. Please wait a few minutes and try again.", rl.retryAfterSeconds);
     return placeOrder(user, checkoutSchema.parse(input));
   });
 }
@@ -40,7 +40,9 @@ const paymentResult = z.object({
 });
 
 /** Called by the browser after Razorpay Checkout succeeds. The webhook confirms independently. */
-export async function verifyPaymentAction(input: z.input<typeof paymentResult>): Promise<ActionResult<{ orderId: string }>> {
+export async function verifyPaymentAction(
+  input: z.input<typeof paymentResult>,
+): Promise<ActionResult<{ orderId: string; number: string; status: string }>> {
   return run("checkout.verify", async () => {
     const user = await assertUser();
     const p = paymentResult.parse(input);
@@ -50,7 +52,10 @@ export async function verifyPaymentAction(input: z.input<typeof paymentResult>):
     const payment = await db.payment.findUnique({ where: { providerOrderId: p.razorpay_order_id }, include: { order: { select: { userId: true } } } });
     if (!payment || payment.order.userId !== user.id) throw new OrderError("Order not found.");
     const { orderId } = await markRazorpayPaid({ razorpayOrderId: p.razorpay_order_id, razorpayPaymentId: p.razorpay_payment_id });
-    return { orderId };
+    // A payment that arrives after the hold lapsed and the stock is gone is refunded and the order stays
+    // CANCELLED, so callers must use this status rather than treating "verified" as "confirmed".
+    const order = await db.order.findUniqueOrThrow({ where: { id: orderId }, select: { number: true, status: true } });
+    return { orderId, number: order.number, status: order.status };
   });
 }
 

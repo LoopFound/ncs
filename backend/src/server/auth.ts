@@ -27,7 +27,8 @@ function createAuth() {
     appName: "NCS Santhanam",
     baseURL: e.APP_URL,
     secret: e.BETTER_AUTH_SECRET,
-    trustedOrigins: [e.APP_URL],
+    // The storefront proxies /api/auth/* from its own origin (see STOREFRONT_URL).
+    trustedOrigins: [e.APP_URL, ...e.STOREFRONT_URL],
     database: prismaAdapter(db, { provider: "postgresql" }),
 
     // Redis is a shared cache for sessions + rate-limit counters across replicas;

@@ -1,3 +1,6 @@
+import { timingSafeEqual } from "node:crypto";
+import { isIP } from "node:net";
+
 /** Header the app sets itself (overwriting any inbound value) with the resolved client IP. */
 export const CLIENT_IP_HEADER = "x-ncs-client-ip";
 
@@ -25,6 +28,30 @@ export function parseClientIp(forwardedFor: string | null, realIp: string | null
   return realIp?.trim() || "unknown";
 }
 
+/** Headers the storefront's proxy.ts adds to every /api request it forwards (inbound copies are stripped there). */
+export const STOREFRONT_IP_HEADER = "x-ncs-storefront-client-ip";
+export const STOREFRONT_SECRET_HEADER = "x-ncs-storefront-secret";
+
+function secretsMatch(given: string, expected: string): boolean {
+  const a = Buffer.from(given);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+/**
+ * The storefront reaches us through Vercel, a public peer that Caddy does not trust, so X-Forwarded-For
+ * only shows Vercel's egress IP and every shopper would share one rate-limit bucket. The storefront
+ * therefore forwards the platform-verified client IP together with a shared secret; we only believe it
+ * when the secret matches.
+ */
+export function storefrontClientIp(headers: Headers, secret: string | undefined = process.env.STOREFRONT_PROXY_SECRET): string | null {
+  if (!secret) return null;
+  const given = headers.get(STOREFRONT_SECRET_HEADER);
+  if (!given || !secretsMatch(given, secret)) return null;
+  const ip = headers.get(STOREFRONT_IP_HEADER)?.trim();
+  return ip && isIP(ip) ? ip : null;
+}
+
 export function clientIp(headers: Headers): string {
-  return parseClientIp(headers.get("x-forwarded-for"), headers.get("x-real-ip"), trustedProxyHops());
+  return storefrontClientIp(headers) ?? parseClientIp(headers.get("x-forwarded-for"), headers.get("x-real-ip"), trustedProxyHops());
 }

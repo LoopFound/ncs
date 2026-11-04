@@ -7,6 +7,17 @@ export interface RateLimitResult {
   retryAfterSeconds: number;
 }
 
+/** Thrown by actions when a caller exceeds a limit; surfaced as HTTP 429 by the storefront API. */
+export class RateLimitError extends Error {
+  readonly retryAfterSeconds: number | undefined;
+
+  constructor(message: string, retryAfterSeconds?: number) {
+    super(message);
+    this.name = "RateLimitError";
+    this.retryAfterSeconds = retryAfterSeconds;
+  }
+}
+
 /** Buckets that must never be blocked by a Redis outage. */
 const FAIL_OPEN_BUCKETS = new Set(["checkout"]);
 

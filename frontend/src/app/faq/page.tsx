@@ -113,6 +113,7 @@ export default function FAQPage() {
                     >
                       <button
                         onClick={() => toggleItem(itemKey)}
+                        aria-expanded={isOpen}
                         className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-medium text-[var(--navy)] text-base"
                       >
                         <span className="font-serif text-lg">{faq.q}</span>

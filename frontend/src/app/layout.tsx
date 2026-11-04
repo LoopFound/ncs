@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import { CartProvider } from "@/context/CartContext";
+import { SessionProvider } from "@/context/SessionContext";
 import { SITE_URL } from "@/lib/site";
 
 const cormorant = Cormorant_Garamond({
@@ -43,9 +44,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--text-body)] antialiased">
-        <CartProvider>
-          <SiteChrome>{children}</SiteChrome>
-        </CartProvider>
+        <SessionProvider>
+          <CartProvider>
+            <SiteChrome>{children}</SiteChrome>
+          </CartProvider>
+        </SessionProvider>
       </body>
     </html>
   );
