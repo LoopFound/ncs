@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,10 +19,18 @@ const navItems = [
 
 import { useCart } from "@/context/CartContext";
 import SiteSearch from "@/components/SiteSearch";
+import { accountLabel, useSession } from "@/context/SessionContext";
 
 export default function Header() {
     const { cartCount } = useCart();
+    const { status, user, signOut } = useSession();
+    const isSignedIn = status === "signed-in";
+    const router = useRouter();
     const pathname = usePathname();
+
+    const handleSignOut = async () => {
+        if (await signOut() && pathname.startsWith("/account")) router.push("/");
+    };
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -119,15 +127,31 @@ export default function Header() {
                                 </svg>
                             </button>
                             <Link
-                                href="/login"
+                                href={isSignedIn ? "/account" : "/login"}
+                                aria-label={isSignedIn ? "My account" : undefined}
                                 className="flex items-center gap-2 text-xs uppercase tracking-widest font-medium text-[var(--navy)] hover:text-[var(--gold)] transition-colors"
                             >
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                     <circle cx="12" cy="7" r="4" />
                                 </svg>
-                                <span className="hidden 2xl:inline">Log In</span>
+                                <span className="hidden 2xl:inline">{isSignedIn && user ? accountLabel(user) : "Log In"}</span>
                             </Link>
+                            {isSignedIn && (
+                                <button
+                                    type="button"
+                                    onClick={handleSignOut}
+                                    aria-label="Sign out"
+                                    title="Sign out"
+                                    className="flex items-center text-[var(--navy)] hover:text-[var(--gold)] transition-colors"
+                                >
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                        <polyline points="16 17 21 12 16 7" />
+                                        <line x1="21" y1="12" x2="9" y2="12" />
+                                    </svg>
+                                </button>
+                            )}
                             <Link
                                 href="/cart"
                                 className="relative flex items-center gap-2 text-xs uppercase tracking-widest font-medium text-[var(--navy)] hover:text-[var(--gold)] transition-colors"
@@ -218,7 +242,14 @@ export default function Header() {
                                 </motion.div>
                             ))}
                             <div className="flex gap-8 border-t border-white/20 pt-6 mt-2 text-sm uppercase tracking-widest text-white">
-                                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Log In</Link>
+                                {isSignedIn ? (
+                                    <>
+                                        <Link href="/account" onClick={() => setIsMobileMenuOpen(false)}>My Account</Link>
+                                        <button type="button" onClick={() => { setIsMobileMenuOpen(false); void handleSignOut(); }} className="uppercase tracking-widest">Sign Out</button>
+                                    </>
+                                ) : (
+                                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Log In</Link>
+                                )}
                                 <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)}>Cart ({cartCount})</Link>
                             </div>
                         </nav>

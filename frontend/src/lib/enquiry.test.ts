@@ -1,19 +1,24 @@
 import { describe, expect, it } from "vitest";
-import { buildEnquiryMailto, ENQUIRY_EMAIL } from "./enquiry";
+import { validateEnquiry } from "./enquiry";
 
-describe("buildEnquiryMailto", () => {
-    it("carries every field and encodes special characters", () => {
-        const url = new URL(
-            buildEnquiryMailto({
-                name: " Priya ",
-                email: "priya@example.com",
-                subject: "Silk & zari?",
-                message: "Is p1 available?",
-            })
-        );
+const valid = { name: "Priya", email: "priya@example.com", subject: "Silk & zari?", message: "Is p1 available in blue?" };
 
-        expect(url.pathname).toBe(ENQUIRY_EMAIL);
-        expect(url.searchParams.get("subject")).toBe("Silk & zari?");
-        expect(url.searchParams.get("body")).toBe("Is p1 available?\n\nFrom: Priya <priya@example.com>");
+describe("validateEnquiry", () => {
+    it("accepts a complete enquiry", () => {
+        expect(validateEnquiry(valid)).toEqual({});
+    });
+
+    it("applies the contactSchema length limits after trimming", () => {
+        const errors = validateEnquiry({ name: " P ", email: valid.email, subject: "Hi", message: "Too short" });
+        expect(Object.keys(errors).sort()).toEqual(["message", "name", "subject"]);
+    });
+
+    it("rejects over-long fields", () => {
+        const errors = validateEnquiry({ ...valid, name: "x".repeat(81), subject: "x".repeat(151), message: "x".repeat(4001) });
+        expect(errors).toEqual({ name: "Name is too long", subject: "Subject is too long", message: "Message is too long" });
+    });
+
+    it("requires a valid email", () => {
+        expect(validateEnquiry({ ...valid, email: "priya@" }).email).toBe("Enter a valid email");
     });
 });

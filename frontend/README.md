@@ -27,11 +27,22 @@ The online storefront for a Kanchipuram silk boutique, est. 1975.
 
 ## Quick start
 
-You need Node.js 24 (see `.nvmrc`). No environment variables are required.
+You need Node.js 24 (see `.nvmrc` and `engines`). Copy `.env.example` to `.env.local`.
+
+The storefront proxies every `/api/*` request to the backend app (`../backend`), so checkout, sign-in, contact and newsletter need the backend running. The browsing pages work without it.
+
+| Variable | Required | Purpose |
+| :--- | :--- | :--- |
+| `BACKEND_URL` | Yes in Vercel | Backend origin that `/api/*` is proxied to. Defaults to `http://localhost:3000`. |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical URL for metadata, robots and sitemap. Falls back to the Vercel production domain. |
+
+| `STOREFRONT_PROXY_SECRET` | Yes in production | Same value as on the backend. `src/proxy.ts` sends it with the shopper's IP, so backend rate limits are per customer and not per Vercel IP. Server-only; never prefix it with `NEXT_PUBLIC_`. |
+
+The backend must list this storefront's origin in its `STOREFRONT_URL`, or Better Auth and the CSRF guard reject its requests.
 
 ```bash
-npm ci        # install exactly what the lockfile specifies
-npm run dev   # local site at http://localhost:3000
+npm ci                 # install exactly what the lockfile specifies
+npm run dev -- -p 3001 # local site at http://localhost:3001 (the backend uses :3000)
 ```
 
 | Command | What it does |
@@ -43,7 +54,7 @@ npm run dev   # local site at http://localhost:3000
 | `npm run build` | Creates a production build |
 | `npm start` | Serves the production build |
 
-Pull requests that touch `frontend/` run lint, type check, tests and build, plus a production dependency audit, in `.github/workflows/frontend.yml`.
+Pull requests that touch `frontend/`, and pushes to `main`, run a clean `npm ci`, lint, type check, tests, build and a production dependency audit in `.github/workflows/frontend.yml`. Dependabot (`.github/dependabot.yml`) opens grouped minor and patch updates only. Upgrade breaking majors and prereleases deliberately, in their own PR.
 
 ## Pages
 

@@ -1,8 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import type { FormEvent } from "react";
+import { useSession } from "@/context/SessionContext";
+import {
+  requestPasswordReset,
+  resendVerificationEmail,
+  sendPhoneOtp,
+  signInWithEmail,
+  signUpWithEmail,
+  verifyPhoneOtp,
+} from "@/lib/api";
+import { toIndianE164 } from "@/lib/checkout";
+import { safeNext, verifiedLoginPath } from "@/lib/safe-next";
 
 type Mode = "signin" | "signup" | "forgot" | "phone";
 
@@ -11,9 +23,11 @@ const inputClass =
 const labelClass =
   "mb-1 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)]/70";
 const primaryClass =
-  "min-h-12 w-full bg-[var(--navy)] px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white transition-colors hover:bg-[var(--gold)] hover:text-[var(--navy)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--gold)]";
+  "min-h-12 w-full bg-[var(--navy)] px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white transition-colors hover:bg-[var(--gold)] hover:text-[var(--navy)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--gold)] disabled:cursor-wait disabled:opacity-70";
 const textButtonClass =
-  "min-h-11 px-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--gold-text)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--gold)]";
+  "min-h-11 px-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--gold-text)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--gold)] disabled:opacity-60";
+const infoClass = "mb-6 border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900";
+const errorClass = "mb-6 border border-[var(--maroon)]/30 bg-[var(--maroon)]/5 p-3 text-sm text-[var(--maroon)]";
 
 const titles: Record<Mode, [string, string]> = {
   signin: ["Welcome Back", "Sign in to your account"],
@@ -22,10 +36,154 @@ const titles: Record<Mode, [string, string]> = {
   phone: ["Sign in with mobile", "We'll text you a one-time code"],
 };
 
-export default function LoginPage() {
-  const [mode, setMode] = useState<Mode>("signin");
+// Reads ?next= at the moment it is needed, so the page itself can stay statically rendered.
+function nextPath() {
+  return safeNext(new URLSearchParams(window.location.search).get("next"));
+}
 
-  const preventSubmit = (event: FormEvent<HTMLFormElement>) => event.preventDefault();
+function VerifiedNotice() {
+  const verified = useSearchParams().get("verified");
+  if (!verified) return null;
+  return (
+    <p role="status" className={infoClass}>
+      Your email is verified. Please sign in to continue.
+    </p>
+  );
+}
+
+export default function LoginPage() {
+  const router = useRouter();
+  const { refresh } = useSession();
+  const [mode, setModeState] = useState<Mode>("signin");
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpPhone, setOtpPhone] = useState<string | null>(null);
+
+  const setMode = (next: Mode) => {
+    setModeState(next);
+    setError(null);
+    setInfo(null);
+    setUnverifiedEmail(null);
+  };
+
+  const run = async (fn: () => Promise<void>) => {
+    if (pending) return;
+    setPending(true);
+    setError(null);
+    setInfo(null);
+    try {
+      await fn();
+    } finally {
+      setPending(false);
+    }
+  };
+
+  const finishSignIn = async () => {
+    await refresh();
+    router.replace(nextPath());
+  };
+
+  // After verifying, the customer returns here (signed out on this host) and the sanitised ?next=
+  // is carried through, so signing in then continues to where they were going.
+  const verifyCallbackURL = () =>
+    `${window.location.origin}${verifiedLoginPath(new URLSearchParams(window.location.search).get("next"))}`;
+
+  const handleSignIn = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void run(async () => {
+      const result = await signInWithEmail({ email: email.trim(), password });
+      if (result.ok) return finishSignIn();
+      if (result.code === "EMAIL_NOT_VERIFIED") {
+        setUnverifiedEmail(email.trim());
+        setError("Please verify your email first. We sent you a link when you signed up.");
+      } else if (result.status === 401 || result.code === "INVALID_EMAIL_OR_PASSWORD") {
+        setError("That email and password don't match our records.");
+      } else {
+        setError(result.error);
+      }
+    });
+  };
+
+  const handleResend = () =>
+    void run(async () => {
+      if (!unverifiedEmail) return;
+      const result = await resendVerificationEmail({ email: unverifiedEmail, callbackURL: verifyCallbackURL() });
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      setInfo(`A new verification link is on its way to ${unverifiedEmail}.`);
+      setUnverifiedEmail(null);
+    });
+
+  const handleSignUp = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void run(async () => {
+      const address = email.trim();
+      const result = await signUpWithEmail({ name: name.trim(), email: address, password, callbackURL: verifyCallbackURL() });
+      if (!result.ok) {
+        const exists = result.status === 422 || result.code === "USER_ALREADY_EXISTS" || /exist/i.test(result.error);
+        setError(exists ? "An account with this email already exists. Try signing in." : result.error);
+        return;
+      }
+      setPassword("");
+      setModeState("signin");
+      setInfo(`Check your email: we've sent a verification link to ${address}. Open it to activate your account, then sign in.`);
+    });
+  };
+
+  const handleForgot = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void run(async () => {
+      // The reset link in the email opens the backend's /reset-password page.
+      const result = await requestPasswordReset({ email: email.trim(), redirectTo: "/reset-password" });
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      // Same message whether or not the account exists.
+      setInfo("If an account exists for that email, a reset link is on its way.");
+    });
+  };
+
+  const handleSendCode = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const normalized = toIndianE164(phone);
+    if (!normalized) {
+      setError("Enter a valid 10-digit Indian mobile number.");
+      return;
+    }
+    void run(async () => {
+      const result = await sendPhoneOtp(normalized);
+      if (!result.ok) {
+        setError(result.status === 429 ? "Too many codes requested. Please wait a minute and try again." : result.error);
+        return;
+      }
+      setOtp("");
+      setOtpPhone(normalized);
+      setInfo(`We've sent a 6-digit code to ${normalized.replace(/^\+91/, "+91 ")}.`);
+    });
+  };
+
+  const handleVerifyCode = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!otpPhone) return;
+    void run(async () => {
+      const result = await verifyPhoneOtp({ phoneNumber: otpPhone, code: otp.trim() });
+      if (result.ok) return finishSignIn();
+      if (result.status === 403) setError("Too many incorrect attempts. Please request a new code.");
+      else if (result.status === 400 || result.status === 401) setError("That code is incorrect or has expired.");
+      else setError(result.error);
+    });
+  };
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6 md:py-16">
@@ -66,63 +224,108 @@ export default function LoginPage() {
               </p>
             </header>
 
+            <Suspense fallback={null}>
+              <VerifiedNotice />
+            </Suspense>
+
+            {info && (
+              <p role="status" className={infoClass}>
+                {info}
+              </p>
+            )}
+            {error && (
+              <div role="alert" className={errorClass}>
+                <p className="mb-0">{error}</p>
+                {unverifiedEmail && (
+                  <button type="button" onClick={handleResend} disabled={pending} className={`${textButtonClass} -ml-2 mt-1`}>
+                    Resend verification link
+                  </button>
+                )}
+              </div>
+            )}
+
             {mode === "signin" && (
-              <form onSubmit={preventSubmit} className="space-y-5">
+              <form onSubmit={handleSignIn} className="space-y-5">
                 <div>
                   <label htmlFor="login-email" className={labelClass}>Email address</label>
-                  <input id="login-email" type="email" required autoComplete="email" className={inputClass} />
+                  <input id="login-email" name="email" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} />
                 </div>
                 <div>
                   <div className="flex items-center justify-between">
                     <label htmlFor="login-password" className={labelClass}>Password</label>
                     <button type="button" onClick={() => setMode("forgot")} className={textButtonClass}>Forgot?</button>
                   </div>
-                  <input id="login-password" type="password" required autoComplete="current-password" className={inputClass} />
+                  <input id="login-password" name="password" type="password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} className={inputClass} />
                 </div>
-                <button type="submit" className={primaryClass}>Sign In</button>
+                <button type="submit" disabled={pending} className={primaryClass}>{pending ? "Signing In..." : "Sign In"}</button>
               </form>
             )}
 
             {mode === "signup" && (
-              <form onSubmit={preventSubmit} className="space-y-5">
+              <form onSubmit={handleSignUp} className="space-y-5">
                 <div>
                   <label htmlFor="signup-name" className={labelClass}>Full name</label>
-                  <input id="signup-name" required minLength={2} autoComplete="name" className={inputClass} />
+                  <input id="signup-name" name="name" required minLength={2} maxLength={80} autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
                 </div>
                 <div>
                   <label htmlFor="signup-email" className={labelClass}>Email address</label>
-                  <input id="signup-email" type="email" required autoComplete="email" className={inputClass} />
+                  <input id="signup-email" name="email" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} />
                 </div>
                 <div>
                   <label htmlFor="signup-password" className={labelClass}>Password (min. 8 characters)</label>
-                  <input id="signup-password" type="password" required minLength={8} autoComplete="new-password" className={inputClass} />
+                  <input id="signup-password" name="password" type="password" required minLength={8} maxLength={128} autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} className={inputClass} />
                 </div>
-                <button type="submit" className={primaryClass}>Create Account</button>
+                <button type="submit" disabled={pending} className={primaryClass}>{pending ? "Creating Account..." : "Create Account"}</button>
               </form>
             )}
 
             {mode === "forgot" && (
-              <form onSubmit={preventSubmit} className="space-y-5">
+              <form onSubmit={handleForgot} className="space-y-5">
                 <div>
                   <label htmlFor="reset-email" className={labelClass}>Email address</label>
-                  <input id="reset-email" type="email" required autoComplete="email" className={inputClass} />
+                  <input id="reset-email" name="email" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} />
                 </div>
-                <button type="submit" className={primaryClass}>Email me a reset link</button>
+                <button type="submit" disabled={pending} className={primaryClass}>{pending ? "Sending..." : "Email me a reset link"}</button>
                 <button type="button" onClick={() => setMode("signin")} className={`${textButtonClass} w-full`}>Back to sign in</button>
               </form>
             )}
 
-            {mode === "phone" && (
-              <form onSubmit={preventSubmit} className="space-y-5">
+            {mode === "phone" && !otpPhone && (
+              <form onSubmit={handleSendCode} className="space-y-5">
                 <div>
                   <label htmlFor="login-phone" className={labelClass}>Mobile number</label>
                   <div className="flex">
                     <span className="flex min-h-12 items-center border border-r-0 border-[var(--border)] bg-[var(--cream)] px-3 text-base text-[var(--navy)]">+91</span>
-                    <input id="login-phone" type="tel" inputMode="numeric" required autoComplete="tel-national" className={inputClass} />
+                    <input id="login-phone" name="phone" type="tel" inputMode="numeric" required autoComplete="tel-national" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputClass} />
                   </div>
                 </div>
-                <button type="submit" className={primaryClass}>Send code</button>
+                <button type="submit" disabled={pending} className={primaryClass}>{pending ? "Sending Code..." : "Send code"}</button>
                 <button type="button" onClick={() => setMode("signin")} className={`${textButtonClass} w-full`}>Back to sign in</button>
+              </form>
+            )}
+
+            {mode === "phone" && otpPhone && (
+              <form onSubmit={handleVerifyCode} className="space-y-5">
+                <div>
+                  <label htmlFor="login-otp" className={labelClass}>6-digit code</label>
+                  <input
+                    id="login-otp"
+                    name="code"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    required
+                    pattern="\d{6}"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                    className={`${inputClass} tracking-[0.4em]`}
+                  />
+                </div>
+                <button type="submit" disabled={pending} className={primaryClass}>{pending ? "Verifying..." : "Verify & sign in"}</button>
+                <button type="button" onClick={() => { setOtpPhone(null); setOtp(""); setError(null); setInfo(null); }} className={`${textButtonClass} w-full`}>
+                  Change number or resend code
+                </button>
               </form>
             )}
 

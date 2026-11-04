@@ -171,6 +171,88 @@ export async function setQuantity(identity: CartIdentity, variantId: string, qua
   return getCart(identity);
 }
 
+export interface SlugCartItem {
+  slug: string;
+  quantity: number;
+}
+
+export interface SlugCartSync {
+  cart: CartView;
+  /** Requested slugs with no ACTIVE product / active variant. */
+  missing: string[];
+  /** Adjustments made while syncing (out of stock, quantity capped), followed by the cart's own warnings. */
+  warnings: string[];
+}
+
+/**
+ * Replaces the whole cart with the given products (by slug), for a storefront that keeps its own
+ * cart client-side. Each slug maps to the first active variant of an ACTIVE product. Quantities are
+ * capped by stock and maxPerOrder exactly like addItem; out-of-stock products are skipped with a warning.
+ */
+export async function replaceCartBySlug(identity: CartIdentity, items: SlugCartItem[]): Promise<SlugCartSync> {
+  const requested = new Map<string, number>();
+  for (const { slug, quantity } of items) {
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 100) throw new CartError("Invalid quantity.");
+    requested.set(slug, (requested.get(slug) ?? 0) + quantity);
+  }
+
+  const products = requested.size
+    ? await db.product.findMany({
+        where: { slug: { in: [...requested.keys()] }, status: "ACTIVE" },
+        select: {
+          slug: true,
+          name: true,
+          variants: {
+            where: { isActive: true },
+            orderBy: { createdAt: "asc" },
+            take: 1,
+            select: { id: true, stock: true, maxPerOrder: true },
+          },
+        },
+      })
+    : [];
+  const bySlug = new Map(products.map((p) => [p.slug, p]));
+
+  const missing: string[] = [];
+  const warnings: string[] = [];
+  const lines: { variantId: string; quantity: number }[] = [];
+  for (const [slug, wanted] of requested) {
+    const product = bySlug.get(slug);
+    const v = product?.variants[0];
+    if (!product || !v) {
+      missing.push(slug);
+      continue;
+    }
+    if (v.stock < 1) {
+      warnings.push(`${product.name} is out of stock.`);
+      continue;
+    }
+    const limit = Math.max(1, Math.min(v.stock, v.maxPerOrder));
+    if (wanted > limit) {
+      warnings.push(limit === v.stock ? `Only ${v.stock} of ${product.name} available.` : `You can order up to ${limit} of ${product.name}.`);
+    }
+    lines.push({ variantId: v.id, quantity: Math.min(wanted, limit) });
+  }
+
+  const anonymousId = identity.userId ? null : (identity.anonymousId ?? newAnonymousCartId());
+  await db.$transaction(async (tx) => {
+    // Create-or-touch the cart in one statement; the row lock it takes lasts until commit, so
+    // concurrent syncs of the same cart run one after another instead of interleaving.
+    const [{ id: cartId }] = identity.userId
+      ? await tx.$queryRaw<{ id: string }[]>`
+          INSERT INTO carts (id, "userId", "createdAt", "updatedAt") VALUES (${randomUUID()}, ${identity.userId}, now(), now())
+          ON CONFLICT ("userId") DO UPDATE SET "updatedAt" = now() RETURNING id`
+      : await tx.$queryRaw<{ id: string }[]>`
+          INSERT INTO carts (id, "anonymousId", "createdAt", "updatedAt") VALUES (${randomUUID()}, ${anonymousId}, now(), now())
+          ON CONFLICT ("anonymousId") DO UPDATE SET "updatedAt" = now() RETURNING id`;
+    await tx.cartItem.deleteMany({ where: { cartId } });
+    if (lines.length) await tx.cartItem.createMany({ data: lines.map((l) => ({ cartId, ...l })) });
+  });
+
+  const cart = await getCart({ userId: identity.userId, anonymousId });
+  return { cart, missing, warnings: [...new Set([...warnings, ...cart.warnings])] };
+}
+
 export async function clearCart(identity: CartIdentity) {
   const cart = await findCart(identity);
   if (cart) await db.cartItem.deleteMany({ where: { cartId: cart.id } });

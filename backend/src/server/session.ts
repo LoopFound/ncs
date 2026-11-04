@@ -59,9 +59,13 @@ export async function requireStaff(): Promise<SessionUser> {
 }
 
 export class AuthError extends Error {
-  constructor(message = "You need to sign in to do that.") {
+  /** "unauthenticated": nobody is signed in (HTTP 401). "forbidden": signed in but not allowed (HTTP 403). */
+  readonly reason: "unauthenticated" | "forbidden";
+
+  constructor(message = "Please sign in to continue.", reason: AuthError["reason"] = "unauthenticated") {
     super(message);
     this.name = "AuthError";
+    this.reason = reason;
   }
 }
 
@@ -74,6 +78,6 @@ export async function assertUser(): Promise<SessionUser> {
 
 export async function assertStaff(minimum: "staff" | "admin" = "staff"): Promise<SessionUser> {
   const user = await assertUser();
-  if (minimum === "admin" ? user.role !== "admin" : !isStaff(user)) throw new AuthError("Not allowed.");
+  if (minimum === "admin" ? user.role !== "admin" : !isStaff(user)) throw new AuthError("Not allowed.", "forbidden");
   return user;
 }

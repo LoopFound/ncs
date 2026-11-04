@@ -7,20 +7,22 @@ import { contactSchema } from "@/lib/validation";
 import { db } from "../db";
 import { env } from "../env";
 import { enqueue } from "../queue";
-import { rateLimit } from "../rate-limit";
+import { rateLimit, RateLimitError } from "../rate-limit";
 import { clientIp } from "../request";
 import { getCurrentUser } from "../session";
-import { OrderError } from "../services/orders";
 import { run, type ActionResult } from "./result";
 
 async function limitByIp(bucket: string, limit: number, windowSeconds: number) {
   const rl = await rateLimit(bucket, clientIp(await headers()), limit, windowSeconds);
-  if (!rl.ok) throw new OrderError("Too many requests. Please try again a little later.");
+  if (!rl.ok) throw new RateLimitError("Too many requests. Please try again a little later.", rl.retryAfterSeconds);
 }
 
 export async function submitContactAction(input: unknown): Promise<ActionResult> {
   return run("contact.submit", async () => {
     await limitByIp("contact", 5, 3600);
+    // Honeypot filled in: pretend success so bots learn nothing, and store/send nothing.
+    const website = (input as { website?: unknown } | null)?.website;
+    if (typeof website === "string" && website.trim() !== "") return undefined;
     const c = contactSchema.parse(input);
     const user = await getCurrentUser();
     await db.contactMessage.create({

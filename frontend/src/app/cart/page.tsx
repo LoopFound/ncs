@@ -52,6 +52,7 @@ export default function CartPage() {
                                             <div className="flex items-center border border-[var(--border)] rounded-sm">
                                                 <button
                                                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                                    aria-label={`Decrease quantity of ${item.name}`}
                                                     className="px-3 py-1 hover:bg-[var(--cream)] transition-colors"
                                                 >
                                                     -
@@ -59,6 +60,7 @@ export default function CartPage() {
                                                 <span className="px-4 py-1 text-sm border-x border-[var(--border)]">{item.quantity}</span>
                                                 <button
                                                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                    aria-label={`Increase quantity of ${item.name}`}
                                                     className="px-3 py-1 hover:bg-[var(--cream)] transition-colors"
                                                 >
                                                     +

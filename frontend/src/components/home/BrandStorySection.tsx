@@ -83,17 +83,17 @@ export default function BrandStorySection() {
                         </div>
 
                         {/* Stats */}
-                        <div className="grid grid-cols-3 gap-6 mb-10 py-8 border-t border-b border-[var(--border)]">
+                        <div className="grid grid-cols-3 gap-3 sm:gap-6 mb-10 py-8 border-t border-b border-[var(--border)]">
                             <div className="text-center">
-                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.yearsWeaving}</span>
+                                <span className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.yearsWeaving}</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Years</span>
                             </div>
                             <div className="text-center">
-                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.artisans}</span>
+                                <span className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.artisans}</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Artisans</span>
                             </div>
                             <div className="text-center">
-                                <span className="font-serif text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.sareesWoven}</span>
+                                <span className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[var(--navy)] block mb-1">{brandStats.sareesWoven}</span>
                                 <span className="text-xs tracking-wider uppercase text-[var(--text-muted)]">Sarees</span>
                             </div>
                         </div>

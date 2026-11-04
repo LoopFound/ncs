@@ -48,6 +48,31 @@ npm run worker:dev              # second terminal: emails, invoices, order expir
 - **Payments.** Online payment is disabled until you set Razorpay keys; use `rzp_test_…` keys to try it. Cash on delivery works without keys.
 - **Port overrides.** The `NCS_*_PORT` variables move the dev ports if they clash with other projects.
 
+## Storefront API
+
+The customer storefront in `frontend/` is a separate Next.js app (port 3001 in dev, Vercel in production). It never calls this backend cross-origin: its `next.config.ts` rewrites `/api/:path*` to `${BACKEND_URL}/api/:path*`, so the browser talks to the storefront host only, there is no CORS, and the Better Auth cookies (`ncs.*`) are set on the storefront host.
+
+- **`STOREFRONT_URL`**: the storefront's public origin(s), comma-separated (dev: `http://localhost:3001`; production: `https://…`, https only). They are added to Better Auth `trustedOrigins` and allowed by the CSRF check below. Restart the server after changing it (the auth instance is cached for the process).
+- **Auth** uses the existing Better Auth routes at `/api/auth/*` (sign-in/up, password reset, phone OTP, sign-out).
+- **Routes** (`src/app/api/storefront/**`) are thin wrappers over the existing server actions. They return `ActionResult` JSON (`{ ok: true, data? }` or `{ ok: false, error, fields? }`), amounts in paise, `cache-control: private, no-store`.
+
+| Route | Body | `data` |
+|---|---|---|
+| `GET session` | – | `{ user: null \| { id, name, email (null for phone-only accounts), phoneNumber, phoneNumberVerified, emailVerified } }`, always 200 |
+| `POST cart/sync` | `{ items: [{ slug, quantity 1–10 }] }` (≤ 50) | Replaces the signed-in user's server cart: `{ lines: [{ slug, name, quantity, unitPrice, lineTotal, image }], missing, warnings }`. 30/min per user |
+| `POST checkout/quote` | `{ pincode?, couponCode?, paymentMethod? }` | `CheckoutQuote` |
+| `POST checkout/place` | `checkoutSchema` | `PlacedOrder` (Razorpay Checkout options for online payment) |
+| `POST checkout/verify` | `{ razorpay_order_id, razorpay_payment_id, razorpay_signature }` | `{ orderId }` |
+| `GET orders` | – | `{ orders: [{ id, number, status, paymentStatus, paymentMethod, grandTotal, placedAt, items: [{ productName, quantity }] }] }` |
+| `POST contact` | `contactSchema` | – |
+| `POST newsletter` | `{ email }` | – |
+
+Cart sync maps each slug to the first active variant of an `ACTIVE` product, caps quantities by stock and `maxPerOrder`, skips out-of-stock items with a warning, and lists unknown or inactive slugs in `missing`.
+
+Status codes: 200 ok · 400 validation or business error (also bad JSON or a non-object body) · 401 not signed in (`"Please sign in to continue."`) · 403 untrusted `Origin` · 429 rate limited · 500 unexpected. The status comes from the error type (`ActionResult.code`, set by `run()`; it is not sent to clients). Requests with an `Origin` other than `APP_URL` or a `STOREFRONT_URL` origin get 403, and so do POSTs with no `Origin`. Plumbing lives in `src/server/storefront-http.ts`.
+
+**Rate limiting behind Vercel.** Caddy trusts only private ranges, so for requests proxied by Vercel, `X-Forwarded-For` holds Vercel's egress IP and raising `TRUSTED_PROXY_HOPS` does not help. Set the same `STOREFRONT_PROXY_SECRET` (at least 32 characters) on the backend and in the Vercel project. The storefront's `src/proxy.ts` then forwards the shopper's IP (Vercel's `x-real-ip`) in `x-ncs-storefront-client-ip` together with the secret. `clientIp()` in `src/server/request.ts` uses it only when the secret matches, and otherwise falls back to `X-Forwarded-For` with `TRUSTED_PROXY_HOPS`. Without the secret, per-IP limits (sign-in, contact, newsletter) are shared by all storefront users.
+
 ## Tests
 
 ```bash

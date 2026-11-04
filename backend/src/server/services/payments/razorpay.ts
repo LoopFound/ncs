@@ -58,7 +58,9 @@ export function hmacHex(secret: string, payload: string | Buffer): string {
 }
 
 /** Checkout callback signature: HMAC_SHA256(order_id + "|" + payment_id, key_secret). */
-export function verifyPaymentSignature(razorpayOrderId: string, razorpayPaymentId: string, signature: string, secret = env().RAZORPAY_KEY_SECRET!): boolean {
+export function verifyPaymentSignature(razorpayOrderId: string, razorpayPaymentId: string, signature: string, secret = env().RAZORPAY_KEY_SECRET): boolean {
+  // Without a configured secret nothing can be verified; treat it as a failed check, not a server error.
+  if (!secret) return false;
   return safeEqualHex(hmacHex(secret, `${razorpayOrderId}|${razorpayPaymentId}`), signature);
 }
 

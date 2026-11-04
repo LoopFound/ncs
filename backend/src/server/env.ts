@@ -10,10 +10,36 @@ const optional = z
   .optional()
   .transform((v) => (v && v.trim() !== "" ? v.trim() : undefined));
 
+/** Comma-separated list of http(s) URLs, normalised to their origins. Empty / unset → []. */
+const originList = z
+  .string()
+  .optional()
+  .transform((raw, ctx) => {
+    const origins: string[] = [];
+    for (const item of (raw ?? "").split(",").map((s) => s.trim()).filter(Boolean)) {
+      let url: URL | undefined;
+      try {
+        url = new URL(item);
+      } catch {
+        // reported below
+      }
+      if (!url || (url.protocol !== "http:" && url.protocol !== "https:")) {
+        ctx.addIssue({ code: "custom", message: `"${item}" is not a valid http(s) URL` });
+        return z.NEVER;
+      }
+      if (!origins.includes(url.origin)) origins.push(url.origin);
+    }
+    return origins;
+  });
+
 const schema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   APP_URL: z.url(),
+  /** Public origins of the separate storefront app that proxies /api/* here (parsed to a list). */
+  STOREFRONT_URL: originList,
   TRUSTED_PROXY_HOPS: z.coerce.number().int().min(0).max(10).default(1),
+  // Shared with the storefront's proxy.ts so it can pass the real shopper IP through Vercel (see request.ts).
+  STOREFRONT_PROXY_SECRET: z.string().min(32, "STOREFRONT_PROXY_SECRET must be at least 32 characters").optional().or(z.literal("").transform(() => undefined)),
   LOG_LEVEL: z.enum(["trace", "debug", "info", "warn", "error", "fatal", "silent"]).default("info"),
 
   DATABASE_URL: z.string().min(1),
@@ -78,6 +104,10 @@ export function env(): Env {
     }
     if (e.APP_URL.startsWith("http://")) {
       throw new Error("APP_URL must use https in production");
+    }
+    const insecure = e.STOREFRONT_URL.find((o) => o.startsWith("http://"));
+    if (insecure) {
+      throw new Error(`STOREFRONT_URL must use https in production (got ${insecure})`);
     }
   }
   cached = e;
